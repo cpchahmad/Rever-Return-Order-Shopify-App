@@ -140,6 +140,9 @@ Route::group(['middleware'=>['auth.shopify']], function () {
     Route::get('/request/{id}/items/{item_id}/change', [App\Http\Controllers\RequestController::class, 'changeRequestItem'])->name('change.request_item.type');
 
 
+    Route::get('/request/{id}/refund',  [App\Http\Controllers\OrderController::class, 'requestRefund'])->name('request.refund');
+
+
     //Analytics
     Route::get('/analytics', [App\Http\Controllers\OrderController::class, 'Analytics'])->name('analytics');
     Route::get('/analytics/filter',  [App\Http\Controllers\OrderController::class, 'FilterAnalytics'])->name('filter.analytics');

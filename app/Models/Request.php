@@ -48,4 +48,22 @@ class Request extends Model
     public function has_timelines(){
         return $this->hasMany('App\Models\Timeline');
     }
+
+    public function request_refund()
+    {
+        return $this->hasMany(RequestRefund::class,'request_id');
+    }
+
+
+    public function payment_method_products()
+    {
+        $collection=collect([]);
+        foreach (json_decode($this->items_json,true) as $item)
+        {
+            if($item['return_type']=='payment_method')
+                $collection->add($item);
+        }
+        return $collection;
+
+    }
 }

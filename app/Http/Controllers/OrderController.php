@@ -2093,4 +2093,31 @@ class OrderController extends Controller
 
 
     }
+
+
+    public function requestRefund($id)
+    {
+        $request = \App\Models\Request::find($id);
+        $request_products = $request->request_products();
+        if (count($request_products->where('return_type', 'payment_method')->get())) {
+            $amount = 0;
+            $items = json_decode($request->items_json, true);
+            foreach ($items as $it) {
+                if ($it['return_type'] == 'payment_method') {
+                    $amount += floatval($it['price']);
+                }
+            }
+            $label = RequestLabel::where('request_id', $request->id)->first();
+            if ($label && $label->fees_applied == false && isset($label->fees)) {
+//                $amount += floatval($label->fees);
+            }
+            if ($this->Transaction($request->id, $amount)) {
+//                $label->fees_applied = true;
+                $request->refunded=true;
+                $request->save();
+                $label->save();
+            }
+        }
+        return back();
+    }
 }
