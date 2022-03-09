@@ -70,7 +70,7 @@
                                                            <div class="card-header">
                                                                <h5 class="h4 mb-0">Request Created By Customer
                                                                    <label class="custom-toggle float-right">
-                                                                       <input name="request_email" id="request-email" type="checkbox" value="1" @if($settings->request_email==true) checked="checked" @endif>
+                                                                       <input name="request_email" id="request-email" type="checkbox" value="1" @if($r_settings!==null && $settings->request_email==true) checked="checked" @endif>
                                                                        <span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
                                                                    </label>
                                                                </h5>
@@ -88,7 +88,7 @@
                                                            <div class="card-header">
                                                                <h5 class="h4 mb-0">Request  Denied By Admin
                                                                    <label class="custom-toggle float-right">
-                                                                       <input name="deny_email" id="deny-email" type="checkbox" value="1" @if($settings->deny_email==true) checked="checked" @endif>
+                                                                       <input name="deny_email" id="deny-email" type="checkbox" value="1" @if($r_settings!==null && $settings->deny_email==true) checked="checked" @endif>
                                                                        <span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
                                                                    </label>
                                                                </h5>
@@ -127,7 +127,7 @@
                                                             <div class="card-header">
                                                                 <h5 class="h4 mb-0">Manual Approval: Return  Approval
                                                                     <label class="custom-toggle float-right">
-                                                                        <input name="approve_email" id="approve-email" type="checkbox" value="1" @if($settings->approve_email==true) checked="checked" @endif>
+                                                                        <input name="approve_email" id="approve-email" type="checkbox" value="1" @if($r_settings!==null && $settings->approve_email==true) checked="checked" @endif>
                                                                         <span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
                                                                     </label>
                                                                 </h5>
@@ -171,7 +171,7 @@
                                                             <div class="card-header">
                                                                 <h5 class="h4 mb-0">Package Received
                                                                     <label class="custom-toggle float-right">
-                                                                        <input name="received_email" id="received-email" type="checkbox" value="1" @if($settings->received_email==true) checked="checked" @endif>
+                                                                        <input name="received_email" id="received-email" type="checkbox" value="1" @if($r_settings!==null && $settings->received_email==true) checked="checked" @endif>
                                                                         <span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
                                                                     </label>
                                                                 </h5>
@@ -201,7 +201,7 @@
                                                             <div class="card-header">
                                                                 <h5 class="h4 mb-0">Refund Issued
                                                                     <label class="custom-toggle float-right">
-                                                                        <input name="finished_email" id="finished-email" type="checkbox" value="1" @if($settings->finished_email==true) checked="checked" @endif>
+                                                                        <input name="finished_email" id="finished-email" type="checkbox" value="1" @if($r_settings!==null && $settings->finished_email==true) checked="checked" @endif>
                                                                         <span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
                                                                     </label>
                                                                 </h5>
