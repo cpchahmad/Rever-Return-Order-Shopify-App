@@ -66,4 +66,16 @@ class Request extends Model
         return $collection;
 
     }
+
+    public function store_credit_products()
+    {
+        $collection=collect([]);
+        foreach (json_decode($this->items_json,true) as $item)
+        {
+            if($item['return_type']=='store_credit')
+                $collection->add($item);
+        }
+        return $collection;
+
+    }
 }
