@@ -434,6 +434,14 @@
         document.body.removeChild(a);
     })
 
+    $(window).scroll(function(){
+        if ($(this).scrollTop() > 20) {
+            $('#sidenav-main').css('margin-top','0px');
+        } else {
+            $('#sidenav-main').css('margin-top','58px');
+        }
+    });
+
 </script>
 @yield('script')
 <script src="https://unpkg.com/@shopify/app-bridge@1"></script>
