@@ -137,7 +137,10 @@ Route::group(['middleware'=>['auth.shopify']], function () {
     Route::get('/request/{id}/manualexchange',[App\Http\Controllers\EasyPostController::class, 'manualExchange'])->name('request.manualExchange');
 
 
-            //Analytics
+    Route::get('/request/{id}/items/{item_id}/change', [App\Http\Controllers\RequestController::class, 'changeRequestItem'])->name('change.request_item.type');
+
+
+    //Analytics
     Route::get('/analytics', [App\Http\Controllers\OrderController::class, 'Analytics'])->name('analytics');
     Route::get('/analytics/filter',  [App\Http\Controllers\OrderController::class, 'FilterAnalytics'])->name('filter.analytics');
     Route::post('/exports/create',[App\Http\Controllers\OrderController::class, 'createCSV'])->name('create.export');

@@ -210,4 +210,42 @@ class RequestController extends Controller
 
 
     }
+
+
+    public function changeRequestItem($id,$item_id)
+    {
+        $request=\App\Models\Request::find($id);
+        $requestProduct=RequestProducts::where([
+            'request_id'=>$id,
+            'line_item_id'=>$item_id
+        ])->first();
+        if ($request && $requestProduct)
+        {
+            if ($requestProduct->return_type=='payment_method')
+            {
+                $requestProduct->return_type='store_credit';
+            }elseif($requestProduct->return_type=='store_credit')
+            {
+                $requestProduct->return_type='payment_method';
+            }
+            $requestProduct->save();
+            $itemJson=json_decode($request->items_json,true);
+            $itemJs=[];
+            foreach ($itemJson as $item)
+            {
+                if (isset($item['return_type']) && $item['id']==$item_id && $item['return_type']=='payment_method')
+                {
+                    $item['return_type']='store_credit';
+                }elseif(isset($item['return_type']) && $item['id']==$item_id && $item['return_type']=='store_credit')
+                {
+                    $item['return_type']='payment_method';
+                }
+                array_push($itemJs,$item);
+            }
+            $request->items_json=json_encode($itemJs);
+            $request->save();
+        }
+
+        return back();
+    }
 }
