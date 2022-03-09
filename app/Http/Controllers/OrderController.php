@@ -2120,4 +2120,20 @@ class OrderController extends Controller
         }
         return back();
     }
+
+
+    public function markStoreCredit($id)
+    {
+        $request=\App\Models\Request::find($id);
+        $request->store_credited=true;
+        $request->save();
+        $rest=new \App\Models\Request([
+            'message'=>'Gift card issued at '.Carbon::today()->format('Y-m-d H:i:s'),
+            'request_id'=>$id
+        ]);
+        $this->timeline_submit($rest);
+        return back();
+
+//        App\Request::whereHas('request_labels',function($lebel){$lebel->where('status','delivered');})->update(['store_credited'=>true]);
+    }
 }

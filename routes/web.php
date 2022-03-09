@@ -143,6 +143,9 @@ Route::group(['middleware'=>['auth.shopify']], function () {
     Route::get('/request/{id}/refund',  [App\Http\Controllers\OrderController::class, 'requestRefund'])->name('request.refund');
 
 
+    Route::get('/request/{id}/marked',  [App\Http\Controllers\OrderController::class, 'markStoreCredit'])->name('mark.store.credited');
+
+
     //Analytics
     Route::get('/analytics', [App\Http\Controllers\OrderController::class, 'Analytics'])->name('analytics');
     Route::get('/analytics/filter',  [App\Http\Controllers\OrderController::class, 'FilterAnalytics'])->name('filter.analytics');
