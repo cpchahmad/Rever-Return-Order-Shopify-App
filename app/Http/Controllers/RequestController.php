@@ -106,6 +106,7 @@ class RequestController extends Controller
     {
         $r_settings = RequestSetting::where('shop_id', Auth::id())->first();
 
+
         return view('settings.request_policy')->with([
             'r_settings' => $r_settings
         ]);

@@ -121,7 +121,7 @@
                                     <div class="form-group">
                                         <h4>Display non returnable products.</h4>
                                         <label class="custom-toggle ">
-                                            <input name="noreturn_enabled" id="noreturn_enabled-enabled" type="checkbox" value="1" @if($r_settings->display_block_product==true) checked="checked" @endif>
+                                            <input name="noreturn_enabled" id="noreturn_enabled-enabled" type="checkbox" value="1" @if($r_settings!==null && $r_settings->display_block_product==true) checked="checked" @endif>
                                             <span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
                                         </label>
                                     </div>
