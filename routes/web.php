@@ -155,6 +155,10 @@ Route::group(['middleware'=>['auth.shopify']], function () {
 });
 
 
+
+Route::get('/label/request/{request_id}/order/{order_id}/create', [App\Http\Controllers\EasyPostController::class, 'createShipment'])->name('print.label');
+
+
 Route::middleware(['customer'])->group(function (){
 
 
