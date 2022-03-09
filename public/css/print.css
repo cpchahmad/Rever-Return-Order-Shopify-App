@@ -1,0 +1,351 @@
+/*
+* Prefixed by https://autoprefixer.github.io
+* PostCSS: v7.0.29,
+* Autoprefixer: v9.7.6
+* Browsers: last 4 version
+*/
+
+*
+{
+    margin:0;
+    padding: 0;
+    font-family:Arial,Helvetica CY,Nimbus Sans L,sans-serif!important;
+}
+ul
+{
+    list-style-type:none;
+}
+h2
+{
+    font-size:30px;
+}
+.container
+{
+    max-width:1200px;
+    padding: 0px 15px;
+    margin-left:auto;
+    margin-right:auto;
+}
+.img_responsive
+{
+    max-width: 100%;
+    height: auto;
+}
+body
+{
+    /*width: 100%;*/
+    /*background-size: cover;*/
+    /*background-repeat: no-repeat;*/
+    /*position: relative;*/
+    /*background-attachment: fixed;*/
+    /*background-position: center top;*/
+    /*height: 100vh;*/
+    counter-reset: my-sec-counter;
+}
+.banner .header
+{
+    text-align: center;
+    padding: 40px 0px;
+}
+
+.main_products_all_section .heading_section h2 {
+    margin-bottom: 25px;
+    color: #fff;
+    text-align: center;
+}
+.main__print__section
+{
+    max-width: 580px;
+    margin: auto;
+}
+.print_section
+{
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+}
+.print_discription,.first_main_print_section {
+    max-width: 400px;
+    margin: auto;
+}
+.first_main_print_section .return__text_print {
+    margin-bottom: 20px;
+    color: #747474;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.first_main_print_section .print_label__main {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.first_main_print_section .prin__discription {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.first_main_print_section .button__print {
+    max-width: 300px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+.first_main_print_section .button__print button
+{
+    width: 100%;
+    padding: 20px;
+    border-radius: 31px;
+    border: none;
+    background: black;
+    color: #fff;
+    cursor: pointer;
+    font-size: 16px;
+    outline: none;
+}
+.first_main_print_section .button__print button i
+{
+    margin-right: 20px;
+}
+.prin_-one.print_section .print_discription {
+    text-align: center;
+    font-size: 14px;
+    color: #747474;
+    margin-top: 30px;
+}
+.prin_-two.print_section .info__shoping_items_print {
+    max-width: 400px;
+    margin: auto;
+}
+.prin_-two.print_section .info__shoping_items_print .items__title
+{
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.prin_-two.print_section .info__shoping_items_print .listing__pring ul li
+{
+    margin-bottom: 10px;
+    position: relative;
+}
+.prin_-two.print_section .info__shoping_items_print .listing__pring ul li::before
+{
+    counter-increment: my-sec-counter;
+    content: counter(my-sec-counter);
+    left: -40px;
+    position: absolute;
+}
+.product__detail .product___flex_main {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.product__detail .product___flex_main .produc__img_detail {
+    width: 80%;
+}
+.product__img_disc {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.product__img_disc .product_img {
+    max-width: 100px;
+    margin-right: 15px;
+}
+.product__detail_variants {
+    max-width: 70%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+}
+.title___produt {
+    margin-bottom: 10px;
+}
+.title___produt ul li {
+    display: inline-block;
+}
+.title___produt ul li::after {
+    content: ' / ';
+}
+.title___produt ul li:last-child::after {
+    content: '';
+}
+.product__detail .product___flex_main .produt__price {
+    width: 20%;
+    text-align: right;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: end;
+    -ms-flex-pack: end;
+    justify-content: flex-end;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+
+.product_print_header
+{
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.product__detail
+{
+    margin-bottom: 20px;
+}
+.product__detail:last-child
+{
+    margin-bottom: 0px;
+}
+.title___produt span {
+    font-weight: bold;
+}
+.edit_print_info .edit_flex
+{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.edit_title
+{
+    width: 100%;
+}
+.edit_link
+{
+    width: 30%;
+    text-align: right;
+}
+.edit_title h4
+{
+    font-size: 20px;
+}
+.edit_link a
+{
+    color: #000;
+    font-size: 14px;
+}
+.email_print {
+    margin-bottom: 20px;
+}
+
+.email_print h6 {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.email_print span {
+    font-size: 13px;
+    color: #6D7278;
+}
+.Shipping_address_print h6 {
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.Shipping_address_print ul li {color: #6D7278;font-size: 13px;margin-bottom: 7px;}
+.main_print_submit_btn {
+    max-width: 270px;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.print_submit_btn button {
+    width: 100%;
+    padding: 12px;
+    border-radius: 31px;
+    border: none;
+    background: black;
+    color: #fff;
+    font-size: 18px;
+    cursor: pointer;
+    outline: none;
+}
+
+@media screen and (max-width: 550px) {
+    .product_disc
+    {
+        padding-left: 10px;
+    }
+    .main_products_all_section .heading_section h2{
+
+        font-size: 25px;
+    }
+    .main_products_all_section .return_text span.return
+    {
+        font-size: 15px;
+    }
+    .print_label__main h4
+    {
+        font-size: 17px;
+    }
+    .prin__discription p
+    {
+        font-size: 14px;
+    }
+    .print_discription p
+    {
+        font-size: 14px;
+    }
+    .prin_-two.print_section .info__shoping_items_print .items__title
+    {
+        font-size: 17px;
+    }
+    .listing__pring
+    {
+        font-size: 14px;
+    }
+    .product_print_header h4
+
+    {
+        font-size: 17px;
+    }
+    .product__img_disc .product_img
+    {
+        margin-right: 0px;
+        width: 30%;
+    }
+    .product__detail_variants
+    {
+        width: 65%;
+        padding-left: 10px;
+    }
+    .title___produt
+    {
+        font-size: 15px;
+    }
+    .product__variants
+    {
+        font-size: 14px;
+    }
+    .produt__price
+    {
+        font-size: 14px;
+    }
+    .edit_title h4
+    {
+        font-size: 17px;
+    }
+    .print_submit_btn button
+    {
+        font-size: 15px;
+    }
+
+
+
+}

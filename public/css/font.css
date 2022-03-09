@@ -1,0 +1,46 @@
+@font-face {
+    font-family: 'Oakes-Bold-Italic';
+    src: url(//cdn.shopify.com/s/files/1/0073/9065/8618/t/27/assets/Oakes-Grotesk-Bold-Italic.otf?v=8806347111701976824);
+}
+@font-face {
+    font-family: 'Oakes-Bold';
+    src: url(//cdn.shopify.com/s/files/1/0073/9065/8618/t/27/assets/Oakes-Grotesk-Bold.otf?v=1644886801470954747);
+}
+@font-face {
+    font-family: 'Oakes-Italic';
+    src: url(//cdn.shopify.com/s/files/1/0073/9065/8618/t/27/assets/Oakes-Grotesk-Italic.otf?v=10881409961021368069);
+}
+@font-face {
+    font-family: 'Oakes-Light-Italic';
+    src: url(//cdn.shopify.com/s/files/1/0073/9065/8618/t/27/assets/Oakes-Grotesk-Light-Italic.otf?v=6712910400139389477);
+}
+@font-face {
+    font-family: 'Oakes-Light';
+    src: url(//cdn.shopify.com/s/files/1/0073/9065/8618/t/27/assets/Oakes-Grotesk-Light.otf?v=6453418065970727891);
+}
+@font-face {
+    font-family: 'Oakes-Medium-Italic';
+    src: url(//cdn.shopify.com/s/files/1/0073/9065/8618/t/27/assets/Oakes-Grotesk-Medium-Italic.otf?v=3991491236759373085);
+}
+@font-face {
+    font-family: 'Oakes-Medium';
+    src: url(//cdn.shopify.com/s/files/1/0073/9065/8618/t/27/assets/Oakes-Grotesk-Medium.otf?v=17868045624690067981);
+}
+@font-face {
+    font-family: 'Oakes-Regular';
+    src: url(//cdn.shopify.com/s/files/1/0073/9065/8618/t/27/assets/Oakes-Grotesk-Regular.otf?v=15849963721454484312);
+}
+@font-face {
+    font-family: 'Oakes-Semi-Bold-Italic';
+    src: url(//cdn.shopify.com/s/files/1/0073/9065/8618/t/27/assets/Oakes-Grotesk-Semi-Bold-Italic.otf?v=8325031295536572930);
+}
+@font-face {
+    font-family: 'Oakes-Semi-Bold';
+    src: url(//cdn.shopify.com/s/files/1/0073/9065/8618/t/27/assets/Oakes-Grotesk-Semi-Bold.otf?v=2959175117596043585);
+}
+
+
+body *
+{
+    font-family: Oakes-Regular !important;
+}
