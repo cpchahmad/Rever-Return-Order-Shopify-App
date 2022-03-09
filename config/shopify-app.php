@@ -309,18 +309,18 @@ return [
 
         [
             'topic' => 'orders/create',
-            'address' => 'https://your-domain.com/webhook/orders-create'
+            'address' => 'https://phpstack-176572-2488981.cloudwaysapps.com/webhook/orders-create'
         ],
 
         [
             'topic' => 'orders/updated',
-            'address' => 'https://your-domain.com/webhook/orders-update'
+            'address' => 'https://phpstack-176572-2488981.cloudwaysapps.com/webhook/orders-update'
         ],
 
 
         [
             'topic' => 'products/update',
-            'address' => 'https://your-domain.com/webhook/product-update'
+            'address' => 'https://phpstack-176572-2488981.cloudwaysapps.com/webhook/product-update'
         ],
         /*
             [
