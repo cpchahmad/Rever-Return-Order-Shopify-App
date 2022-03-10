@@ -1423,7 +1423,7 @@ class OrderController extends Controller
             return $order;
         } catch (\Exception $exception) {
 //            file_put_contents('Received.txt', json_encode($exception));
-//            flash($exception->getMessage())->error();
+            flash($exception->getMessage())->error();
             return null;
         }
 
