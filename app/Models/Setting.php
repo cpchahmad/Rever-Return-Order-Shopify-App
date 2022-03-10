@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
-    use HasFactory;
+    public function has_shop(){
+        return $this->belongsTo('App\Models\Shop', 'shop_id');
+    }
 }

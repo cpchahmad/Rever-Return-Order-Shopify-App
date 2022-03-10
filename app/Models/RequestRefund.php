@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class RequestRefund extends Model
 {
-    use HasFactory;
+    public function request()
+    {
+        return $this->belongsTo(Request::class,'request_id');
+    }
 }

@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class RequestCategory extends Model
 {
-    use HasFactory;
+    public function reasons()
+    {
+        return $this->hasMany(Reason::class,'category_id')->where('category_id',$this->id);
+    }
 }

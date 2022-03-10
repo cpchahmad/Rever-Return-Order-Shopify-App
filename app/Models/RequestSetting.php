@@ -7,5 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class RequestSetting extends Model
 {
-    use HasFactory;
+    public function setValidReturnDateAttribute($string)
+    {
+        $this->attributes['valid_return_date']=$string;
+    }
 }
