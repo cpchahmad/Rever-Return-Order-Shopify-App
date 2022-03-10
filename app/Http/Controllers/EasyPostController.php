@@ -63,7 +63,10 @@ class EasyPostController extends Controller
     public function sendMail($label,$request)
     {
         $settings = Setting::where('shop_id', $request->shop_id)->first();
-        $order = Order::where('id', $request->order_id)->first();
+        //commented by me
+//        $order = Order::where('id', $request->order_id)->first();
+
+        $order = Order::where('shop_id',$request->shop_id)->where('id', $request->order_id)->first();
         $email=$order->email;
         if ($settings->sender_email !== null && $settings->sender_name) {
 
