@@ -1982,11 +1982,11 @@ class OrderController extends Controller
                 $m->attach($export->file);
                 $m->to($export->send_to)->subject(($settings->export_subject) ? $settings->export_subject : 'Your Export');
             });
-//            flash('Email sent at ' . $export->send_to)->success();
+            flash('Email sent at ' . $export->send_to)->success();
             return back();
         } catch (\Exception $exception) {
-            dd($exception);
-//            flash($exception->getMessage())->error();
+           
+            flash($exception->getMessage())->error();
         }
     }
 
