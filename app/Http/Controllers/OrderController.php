@@ -1985,7 +1985,6 @@ class OrderController extends Controller
             flash('Email sent at ' . $export->send_to)->success();
             return back();
         } catch (\Exception $exception) {
-           
             flash($exception->getMessage())->error();
         }
     }

@@ -55,6 +55,10 @@ class OrdersCreateJob implements ShouldQueue
 
 
         try {
+
+            DB::table('error_logs')->insert([
+                'message' => 'order create complete',
+            ]);
             $order=new OrderController();
             $order->OrdersSyncWebhook($this->data->id,$this->shopDomain);
             return true;
