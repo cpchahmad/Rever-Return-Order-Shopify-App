@@ -72,10 +72,8 @@ Route::group(['middleware'=>['auth.shopify']], function () {
     Route::get('label/test/{type}/send',[App\Http\Controllers\OrderController::class, 'sendTestLabel'])->name('send.test.label');
 
 
-
     Route::get('/email/reminder', [App\Http\Controllers\OrderController::class, 'EmailReminder'])->name('email.reminder');
     Route::post('/email/reminder', [App\Http\Controllers\OrderController::class, 'EmailReminderSave'])->name('email.reminder.save');
-
 
     Route::get('/email/expired', [App\Http\Controllers\OrderController::class, 'EmailExpired'])->name('email.expired');
     Route::post('/email/expired', [App\Http\Controllers\OrderController::class, 'EmailExpiredSave'])->name('email.expired.save');
