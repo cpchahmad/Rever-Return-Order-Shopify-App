@@ -1198,6 +1198,56 @@ class OrderController extends Controller
         return redirect()->back();
     }
 
+    public function Filtration(Request $request)
+    {
+        $shop = Auth::user();
+        $status = $request->input('status');
+
+        if ($request->input('type')) {
+            $type = RefundTypes::where('id', $request->input('type'))->first();
+            $requests = \App\Models\Request::where(['shop_id' => $shop->id, 'status' => $status])->cursor();
+            $requests_data = [];
+            foreach ($requests as $reqt) {
+                $request_products = json_decode($reqt->product);
+                foreach ($request_products as $product) {
+                    if ($product->return_type == $type->return_type) {
+                        if (!in_array($reqt, $requests_data)) {
+                            array_push($requests_data, $reqt);
+                        }
+                    }
+                }
+            }
+        }
+        if ($request->input('method')) {
+            $method = Payment::where('id', $request->input('method'))->first();
+            $requests = \App\Models\Request::where(['shop_id' => $shop->id, 'status' => $status])->cursor();
+            $requests_data = [];
+            foreach ($requests as $reqt) {
+                $payments = json_decode($reqt->payment_id);
+                if ($payments->name == $method->name) {
+                    if (!in_array($reqt, $requests_data)) {
+                        array_push($requests_data, $reqt);
+                    }
+                }
+            }
+        }
+
+
+        $return_type = RefundTypes::where('shop_id', $shop->id)->cursor();
+        $methods = Payment::where('shop_id', $shop->id)->cursor();
+        return view('index')->with([
+            'request_count' => \App\Models\Request::where(['shop_id' => $shop->id, 'status' => 0])->count(),
+            'approved_count' => \App\Models\Request::where(['shop_id' => $shop->id, 'status' => 1])->count(),
+            'received_count' => \App\Models\Request::where(['shop_id' => $shop->id, 'status' => 2])->count(),
+            'refund_count' => \App\Models\Request::where(['shop_id' => $shop->id, 'status' => 3])->count(),
+            'current_status' => $status,
+            'requests' => $requests_data,
+            'return_types' => $return_type,
+            'methods' => $methods
+        ]);
+
+    }
+
     public function RequestStatus($id, Request $r)
     {
         $request = \App\Models\Request::find($id);

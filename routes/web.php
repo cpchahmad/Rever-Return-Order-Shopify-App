@@ -168,6 +168,9 @@ Route::group(['middleware'=>['auth.shopify']], function () {
 //        dd($response);
 //    })->name('getwebbhook');
 
+    Route::get('/admin/filter', [App\Http\Controllers\OrderController::class, 'Filtration'])->name('filtration');
+
+
 });
 
 
