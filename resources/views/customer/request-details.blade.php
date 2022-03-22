@@ -55,15 +55,11 @@
     foreach ($line_items as $it) {
 
 
-
         if ($it['unavailable'] == true) {
             array_push($request_items, $it);
         }
-
-
         if($it['blocked']==true)
             {
-
                 $has_blocked_items=true;
             }
     }
@@ -90,9 +86,7 @@
                 </div>
                 <div class="main_all_products_section">
                     <ul class="all_prodcts_list">
-
                         @if(!$returnable)
-
                             <div class="non-returnAble">
                                 <div class="return_text">
                                     <ul class="non_return">
@@ -137,9 +131,6 @@
                                 </div>
                             </div>
                         @else
-
-
-
                             @foreach($line_items as $line_item)
 
                                 @if($line_item['blocked']==false && $line_item['unavailable']==false)
@@ -411,7 +402,6 @@
                                     <span class="return">Final sale/ non returnable products</span>
                                     <ul class="non_return">
                                         @foreach($line_items as $line_item)
-
                                             @if($line_item['blocked']==true)
                                                 <li class="porduct">
                                                     <a href="">
@@ -456,7 +446,6 @@
                 </div>
             </div>
         </div>
-
 
         <div class="butonContinue">
             <div class="container">

@@ -5,7 +5,7 @@
     <div class="navbar-header">
         <div class="decline-item ">
             <a href="{{route('decline.request')}}">
-                <img class="display-4 mt-3" src="{{asset('public/logos/Logo REVER.png')}}" alt="logo" width="100px">
+                <img class="display-4 mt-3" src="{{asset('logos/Logo REVER.png')}}" alt="logo" width="100px">
             </a>
 
         </div>
@@ -28,7 +28,7 @@
                     {{$data->name}}
                 </button>
                 <div class="dropdown" style="float:right">
-                    <img class="d-none d-lg-inline rounded-circle ml-1 mt-2" width="32px" src="{{asset('public/images/user.png')}}" alt="MA">
+                    <img class="d-none d-lg-inline rounded-circle ml-1 mt-2" width="32px" src="{{asset('images/user.png')}}" alt="MA">
 
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin-left: 70px;">
                         <a class="dropdown-item" href="#">Logout</a>

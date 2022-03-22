@@ -2102,8 +2102,11 @@ class OrderController extends Controller
     public function requestRefund($id)
     {
         $request = \App\Models\Request::find($id);
+
         $request_products = $request->request_products();
+
         if (count($request_products->where('return_type', 'payment_method')->get())) {
+
             $amount = 0;
             $items = json_decode($request->items_json, true);
             foreach ($items as $it) {
@@ -2119,7 +2122,9 @@ class OrderController extends Controller
 //                $label->fees_applied = true;
                 $request->refunded=true;
                 $request->save();
-                $label->save();
+                if($label) {
+                    $label->save();
+                }
             }
         }
         return back();
@@ -2128,6 +2133,7 @@ class OrderController extends Controller
     public function Transaction($request_id, $amount)
     {
         $request = \App\Models\Request::find($request_id);
+
 
         try {
             $shop = Auth::user();
