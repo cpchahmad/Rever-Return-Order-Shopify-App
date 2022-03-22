@@ -55,8 +55,6 @@ class OrdersCreateJob implements ShouldQueue
 
 
         try {
-
-
             $order=new OrderController();
             $order->OrdersSyncWebhook($this->data->id,$this->shopDomain);
             return true;
@@ -66,9 +64,6 @@ class OrdersCreateJob implements ShouldQueue
         }catch (\Exception $exception)
         {
             return ;
-            DB::table('error_logs')->insert([
-                'message' => 'order create complete',
-            ]);
         }
         // Do what you wish with the data
         // Access domain name as $this->shopDomain->toNative()

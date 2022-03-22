@@ -128,7 +128,7 @@
                                 <div class="card-header text-center">
                                     <h3>You can create a label by trying with Easypost</h3>
                                     <form method="GET"
-                                          action="{{route('print.label',[$request->id,$request->order_id])}}">
+                                          action="{{route('print.label',[$request->id,$request->order_id,$shop_id])}}">
                                         <button class="btn btn-primary btn-sm" type="submit">Create Label</button>
                                     </form>
                                 </div>
@@ -151,11 +151,12 @@
                                 <div class="products_list">
                                     @foreach(json_decode($request->items_json,true) as $item_json)
 
+
                                         <div class="row">
 
                                             <div class="col-md-2 align-middle p-0">
                                                 <img style="width: 100%;height: auto;"
-                                                     src="{{$item_json['image']}}">
+                                                     src="@if(isset($item_json['image'])){{$item_json['image']}} @endif">
 
                                             </div>
                                             <div class="col-md-4 align-middle">

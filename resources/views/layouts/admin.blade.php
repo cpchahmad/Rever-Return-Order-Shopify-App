@@ -87,6 +87,12 @@
             border: 2px solid #ccc;
             padding: 10px;
         }
+
+        .navbar-header .main-menu-overall {
+
+
+            width: 85%;
+        }
     </style>
     <script>
         $( document ).ready(function() {
@@ -126,33 +132,81 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light" style="padding: 5px;background: #F6F6F7;">
+{{--<nav class="navbar navbar-expand-lg navbar-light" style="padding: 5px;background: #F6F6F7;">--}}
 
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
+{{--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">--}}
+{{--        <span class="navbar-toggler-icon"></span>--}}
+{{--    </button>--}}
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="{{route('home')}}">Dashboard <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('settings.home')}}">Setting</a>
-            </li>
-
-
-            <li class="nav-item">
-                <a class="nav-link" href="{{route('analytics')}}">Analytics</a>
-            </li>
+{{--    <div class="collapse navbar-collapse" id="navbarSupportedContent">--}}
+{{--        <ul class="navbar-nav mr-auto">--}}
+{{--            <li class="nav-item active">--}}
+{{--                <a class="nav-link" href="{{route('home')}}">Dashboard <span class="sr-only">(current)</span></a>--}}
+{{--            </li>--}}
+{{--            <li class="nav-item">--}}
+{{--                <a class="nav-link" href="{{route('settings.home')}}">Setting</a>--}}
+{{--            </li>--}}
 
 
-        </ul>
+{{--            <li class="nav-item">--}}
+{{--                <a class="nav-link" href="{{route('analytics')}}">Analytics</a>--}}
+{{--            </li>--}}
 
-    </div>
-</nav>
+
+{{--        </ul>--}}
+
+{{--    </div>--}}
+{{--</nav>--}}
+<style>
 
 
+    nav#top_nav_fixed {
+        padding: 0;
+        text-align: center;
+    }
+
+    #top_nav_fixed ul.nav {
+        display: block;
+        text-align: center;
+        width: 100%;
+    }
+
+    #top_nav_fixed li {
+        display: inline-block;
+        margin: 0 15px;
+    }
+
+    #top_nav_fixed .navbar-header {
+        margin: auto;
+    }
+
+    #top_nav_fixed li a {
+        padding: 15px;
+        display: block;
+        color: white;
+    }
+
+    #top_nav_fixed li.active {
+        background: white;
+    }
+
+    #top_nav_fixed li.active a {
+        color: #5e72e4;
+    }
+
+    .card .table td, .card .table th {
+        font-size: 14px;
+    }
+
+    .navbar-top-links{
+
+        margin-top: 8px !important;
+        margin-bottom: 5px !important;
+    }
+</style>
+
+
+@include('layouts.main-navbar')
 @yield('content')
 
 
@@ -294,12 +348,15 @@
     });
 
     $('#search_request').on('change',function () {
+
         var value= $(this).val();
         var shop=$(this).attr('data-shop');
         var data={};
         data.id=value;
+       var a= $(this).attr('href')
         data.shop=shop;
         data.statics=$('.statics').attr('status');
+
         data.criteria=$('#criteria').val();
         // if(value.length >3){
             $.ajax({
@@ -312,7 +369,123 @@
                     // console.log(result);
                 }
 
-            })
+            });
+        // }
+
+
+    });
+
+
+    $('#search_request1').on('change',function () {
+
+        var value= $(this).val();
+        var shop=$(this).attr('data-shop');
+        var data={};
+        data.id=value;
+        var a= $(this).attr('href')
+        data.shop=shop;
+        data.statics=$('.statics').attr('status');
+
+        data.criteria=$('#criteria').val();
+        // if(value.length >3){
+        $.ajax({
+            async: false,
+            type:"GET",
+            url:$(this).attr('href'),
+            data:data,
+            success:function (result) {
+                $('#append1').html(result);
+                // console.log(result);
+            }
+
+        });
+        // }
+
+
+    });
+
+
+    $('#search_request2').on('change',function () {
+
+        var value= $(this).val();
+        var shop=$(this).attr('data-shop');
+        var data={};
+        data.id=value;
+        var a= $(this).attr('href')
+        data.shop=shop;
+        data.statics=$('.statics').attr('status');
+
+        data.criteria=$('#criteria').val();
+        // if(value.length >3){
+        $.ajax({
+            async: false,
+            type:"GET",
+            url:$(this).attr('href'),
+            data:data,
+            success:function (result) {
+                $('#append2').html(result);
+                // console.log(result);
+            }
+
+        });
+        // }
+
+
+    });
+
+
+    $('#search_request3').on('change',function () {
+
+        var value= $(this).val();
+        var shop=$(this).attr('data-shop');
+        var data={};
+        data.id=value;
+        var a= $(this).attr('href')
+        data.shop=shop;
+        data.statics=$('.statics').attr('status');
+
+        data.criteria=$('#criteria').val();
+        // if(value.length >3){
+        $.ajax({
+            async: false,
+            type:"GET",
+            url:$(this).attr('href'),
+            data:data,
+            success:function (result) {
+                $('#append3').html(result);
+                // console.log(result);
+            }
+
+        });
+        // }
+
+
+    });
+
+
+    $('#search_request4').on('change',function () {
+
+        var value= $(this).val();
+        var shop=$(this).attr('data-shop');
+        var data={};
+        data.id=value;
+        var a= $(this).attr('href')
+        data.shop=shop;
+        data.statics=$('.statics').attr('status');
+
+        data.criteria=$('#criteria').val();
+        // if(value.length >3){
+        $.ajax({
+            async: false,
+            type:"GET",
+            url:$(this).attr('href'),
+            data:data,
+            success:function (result) {
+                $('#append4').html(result);
+                // console.log(result);
+            }
+
+        });
         // }
 
 
@@ -434,14 +607,14 @@
         document.body.removeChild(a);
     })
 
+
     $(window).scroll(function(){
-        if ($(this).scrollTop() > 20) {
+        if ($(this).scrollTop() > 0) {
             $('#sidenav-main').css('margin-top','0px');
         } else {
-            $('#sidenav-main').css('margin-top','58px');
+            $('#sidenav-main').css('margin-top','67px');
         }
     });
-
 </script>
 @yield('script')
 <script src="https://unpkg.com/@shopify/app-bridge@1"></script>

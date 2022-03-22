@@ -9,7 +9,6 @@ class Order extends Model
 {
     use HasFactory;
 
-
     public function has_shop(){
         return $this->belongsTo('App\Models\User', 'shop_id');
     }

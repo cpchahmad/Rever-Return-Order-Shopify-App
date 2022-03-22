@@ -67,12 +67,40 @@ class OrderController extends Controller
         }
 
 
-        $requests = \App\Models\Request::with('has_order')
+        $requests1 = \App\Models\Request::with('has_order')
             ->where([
-                'status' => $current_status,
+                'status' => 0,
                 'shop_id' => $shopfy->id,
             ])->orderBy('id', 'DESC')->paginate(30);
-        $requests->appends(['type' => $current]);
+
+        $requests2 = \App\Models\Request::with('has_order')
+            ->where([
+                'status' => 1,
+                'shop_id' => $shopfy->id,
+            ])->orderBy('id', 'DESC')->paginate(30);
+
+
+        $requests3 = \App\Models\Request::with('has_order')
+            ->where([
+                'status' => 2,
+                'shop_id' => $shopfy->id,
+            ])->orderBy('id', 'DESC')->paginate(30);
+
+        $requests4 = \App\Models\Request::with('has_order')
+            ->where([
+                'status' => 3,
+                'shop_id' => $shopfy->id,
+            ])->orderBy('id', 'DESC')->paginate(30);
+
+
+        $requests5 = \App\Models\Request::with('has_order')
+            ->where([
+                'status' => 4,
+                'shop_id' => $shopfy->id,
+            ])->orderBy('id', 'DESC')->paginate(30);
+
+
+//        $requests->appends(['type' => $current]);
 
         $r_settings=RequestSetting::where('shop_id',$shopfy->id)->first();
 //
@@ -84,7 +112,11 @@ class OrderController extends Controller
             'received_count' => \App\Models\Request::where(['shop_id' => $shopfy->id, 'status' => 2])->count(),
             'refund_count' => \App\Models\Request::where(['shop_id' => $shopfy->id, 'status' => 3])->count(),
             'current_status' => $current_status,
-            'requests' => $requests,
+            'requests1' => $requests1,
+            'requests2' => $requests2,
+            'requests3' => $requests3,
+            'requests4' => $requests4,
+            'requests5' => $requests5,
             'return_types' => $return_type,
             'methods' => $methods,
             'r_settings'=>$r_settings
@@ -539,7 +571,7 @@ class OrderController extends Controller
             }
             return true;
         } catch (\Exception $exception) {
-            dd($exception);
+
             flash('Some thing went wrong')->error();
             return false;
         }
@@ -886,46 +918,46 @@ class OrderController extends Controller
 
 
 
-                    $orders = $shopfy->api()->rest('GET', '/admin/orders.json', [
-                        'limit'=>250,
-                        'page_info'=>$next
-                    ]);
+            $orders = $shopfy->api()->rest('GET', '/admin/orders.json', [
+                'limit'=>250,
+                'page_info'=>$next
+            ]);
 
 
 
 
             $test = [];
 
-                if(isset($orders['body']['orders'])) {
-                    $orders = $orders['body']['orders'];
+            if(isset($orders['body']['orders'])) {
+                $orders = $orders['body']['orders'];
 
 
-                    array_push($test, $orders);
+                array_push($test, $orders);
 
 
-                    foreach ($orders as $shop_order) {
+                foreach ($orders as $shop_order) {
 
-                        $order_check = OrderChecks::where('order_id', $shop_order->id)->first();
+                    $order_check = OrderChecks::where('order_id', $shop_order->id)->first();
 
-                        if ($order_check == null) {
-                            $order_Save = new OrderChecks();
-                            $order_Save->order_id = $shop_order->id;
-                            $order_Save->order_name = '#' . $shop_order->order_number;
-                            $order_Save->email = $shop_order->email;
-                            $order_Save->shop_id = $shop->id;
-                            $order_Save->save();
-                        }else
-                        {
-                            continue;
-                        }
-                        $order_in = Order::where('order_id', $shop_order->id)->first();
-                        if ($order_in == null) {
-
-                            $this->OrdersSyncWebhook($shop_order->id, $shopfy->name);
-                        }
-
+                    if ($order_check == null) {
+                        $order_Save = new OrderChecks();
+                        $order_Save->order_id = $shop_order->id;
+                        $order_Save->order_name = '#' . $shop_order->order_number;
+                        $order_Save->email = $shop_order->email;
+                        $order_Save->shop_id = $shop->id;
+                        $order_Save->save();
+                    }else
+                    {
+                        continue;
                     }
+                    $order_in = Order::where('order_id', $shop_order->id)->first();
+                    if ($order_in == null) {
+
+                        $this->OrdersSyncWebhook($shop_order->id, $shopfy->name);
+                    }
+
                 }
+            }
 
 
 
@@ -1116,12 +1148,15 @@ class OrderController extends Controller
         foreach ($all_products['line_items'] as $line_item) {
             $order_line_products[$line_item['id']] = json_decode(OrderLineProduct::where('product_id', $line_item['product_id'])->first()->product_json, true);
         }
+
+
         return view('invoice')->with([
             'request' => $request,
             'selected_products' => json_decode($request->product, true),
             'all_products' => $all_products['line_items'],
             'shop_details' => $shop_detail,
-            'order_line_products' => $order_line_products
+            'order_line_products' => $order_line_products,
+            'shop_id'=>Auth::user()->id
 
         ]);
     }
@@ -1166,6 +1201,7 @@ class OrderController extends Controller
     {
         $request = \App\Models\Request::find($id);
 
+
         $status = $r->input('type');
 
         $r_status = new RequestStatus();
@@ -1174,6 +1210,7 @@ class OrderController extends Controller
             $request->status = 1;
             $r_status->status = 1;
             if ($request->request_labels) {
+
                 if ($request->request_labels->status == "delivered") {
                     goto received;
                 }
@@ -1182,40 +1219,6 @@ class OrderController extends Controller
         if ($status == 'received') {
             received:
             try {
-//                $request_products = $request->request_products();
-//                if (count($request->request_products()->where('return_type', 'exchange')->get())) {
-//
-//                    $request_exchange = $this->create_draft($request->id, $request->order_id, $request->request_products()->where('return_type', 'Exchange')->pluck('line_item_id'), 'Store Credit');
-//
-//                    if ($request_exchange !== null) {
-//                        $exchange = App\RequestExchange::where('request_id', $request->id)->first();
-//                        $request_exchange = $this->complete_draft($exchange->draft_order_id);
-//                    }
-//                }
-//                if (count($request_products->where('return_type', 'payment_method')->get())) {
-//                    $amount = 0;
-//                    $items = json_decode($request->items_json, true);
-//                    foreach ($items as $it) {
-//                        if ($it['return_type'] == 'payment_method') {
-//                            $amount += floatval($it['price'])*$it['quantity'];
-//                        }
-//                    }
-//                    $label = App\RequestLabel::where('request_id', $request->id)->first();
-//                    if ($label && $label->fees_applied == false && isset($label->fees)) {
-//                        $amount += floatval($label->fees);
-//                    }
-//                    if ($this->Transaction($request->id, $amount)) {
-//                        $label->fees_applied = true;
-//                        $label->save();
-//                    }
-//                }
-//                if (App\RequestExchange::where('request_id', $request->id)->first() === null) {
-//                    if (count($request_products->where('return_type', 'exchange')->get())) {
-//                        $exchange = App\RequestExchange::where('request_id', $request->id)->first();
-//                        $request_exchange = $this->complete_draft($exchange->draft_order_id);
-//                    }
-//                }
-
 
                 $request->status = 2;
                 $r_status->status = 2;
@@ -1985,6 +1988,7 @@ class OrderController extends Controller
             flash('Email sent at ' . $export->send_to)->success();
             return back();
         } catch (\Exception $exception) {
+
             flash($exception->getMessage())->error();
         }
     }

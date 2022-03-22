@@ -49,10 +49,12 @@ class Request extends Model
         return $this->hasMany(RequestRefund::class,'request_id');
     }
 
+
     public function request_labels()
     {
         return $this->hasOne(RequestLabel::class,'request_id');
     }
+
 
 
     public function store_credit_products()
@@ -66,6 +68,7 @@ class Request extends Model
         return $collection;
 
     }
+
 
     public function payment_method_products()
     {
@@ -98,9 +101,6 @@ class Request extends Model
     {
         return $this->hasOne(RequestExchange::class,'request_id');
     }
-
-
-
 
 
 }

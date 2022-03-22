@@ -139,11 +139,10 @@ Route::group(['middleware'=>['auth.shopify']], function () {
 
     Route::get('/request/{id}/items/{item_id}/change', [App\Http\Controllers\RequestController::class, 'changeRequestItem'])->name('change.request_item.type');
 
-
     Route::get('/request/{id}/refund',  [App\Http\Controllers\OrderController::class, 'requestRefund'])->name('request.refund');
 
-
     Route::get('/request/{id}/marked',  [App\Http\Controllers\OrderController::class, 'markStoreCredit'])->name('mark.store.credited');
+
 
 
     //Analytics
@@ -155,18 +154,43 @@ Route::group(['middleware'=>['auth.shopify']], function () {
 });
 
 
-
-Route::get('/label/request/{request_id}/order/{order_id}/create', [App\Http\Controllers\EasyPostController::class, 'createShipment'])->name('print.label');
-
-
-Route::middleware(['customer'])->group(function (){
+Route::get('/label/request/{request_id}/order/{order_id}/{shop_id}/create', [App\Http\Controllers\EasyPostController::class, 'createShipment'])->name('print.label');
 
 
-//    Route::get('/',  [App\Http\Controllers\CustomerController::class, 'loginshow'])->name('home');
+
+Route::middleware(['customer'])->prefix('returnorder')->group(function (){
+
+
+    Route::get('/',  [App\Http\Controllers\CustomerController::class, 'loginshow'])->name('home');
 
     Route::get('/customer/login',  [App\Http\Controllers\CustomerController::class, 'login'])->name('customer.login.post');
 
 
+    Route::get('/customer/order/selected/submit', [App\Http\Controllers\CustomerController::class, 'itemsSelectedSubmit'])->name('items.selected');
+
+
+    Route::get('/customer/order/{order_id}/lineItem/{id}/selected', [App\Http\Controllers\CustomerController::class, 'addToSelection'])->name('addTo.selection');
+
+
+
+    Route::get('/customer/{order_id}/item/{id}/remove', [App\Http\Controllers\CustomerController::class, 'removeItem'])->name('remove.item');
+
+
+    Route::post('/customer/order/{order_id}/lineItem/{line_id}/selected/submit', [App\Http\Controllers\CustomerController::class, 'addToSelectionSubmit'])->name('addTo.selection.submit');
+
+    Route::get('/append_refund/method',[App\Http\Controllers\CustomerController::class, 'appendRefund'])->name('add_refund_method');
+
+
+    Route::post('/customer/variant/stock',[App\Http\Controllers\CustomerController::class, 'checkVariantStock'])->name('check.variant.stock');
+
+
+    Route::get('/customer/confirm/request',[App\Http\Controllers\CustomerController::class, 'confirmRequest'])->name('customer.confirmation.request');
+
+
+    Route::get('/customer/request/{id}/labeling',[App\Http\Controllers\CustomerController::class, 'Labeling'])->name('request.labeling');
+
+
+    Route::post('/customer/address/{id}/update',[App\Http\Controllers\CustomerController::class, 'updateAddress'])->name('address.update');
 
 });
 

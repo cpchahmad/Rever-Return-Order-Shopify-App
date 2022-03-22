@@ -106,7 +106,6 @@ class RequestController extends Controller
     {
         $r_settings = RequestSetting::where('shop_id', Auth::id())->first();
 
-
         return view('settings.request_policy')->with([
             'r_settings' => $r_settings
         ]);
@@ -166,6 +165,7 @@ class RequestController extends Controller
     public function SearchRequest(Request $request)
     {
 
+
         $key = strtolower($request->id);
         $key = str_replace('us', '', $key);
         $current_status = $request->input('statics');
@@ -214,11 +214,16 @@ class RequestController extends Controller
 
     public function changeRequestItem($id,$item_id)
     {
+
+
         $request=\App\Models\Request::find($id);
+
         $requestProduct=RequestProducts::where([
             'request_id'=>$id,
             'line_item_id'=>$item_id
         ])->first();
+
+
         if ($request && $requestProduct)
         {
             if ($requestProduct->return_type=='payment_method')
@@ -227,9 +232,11 @@ class RequestController extends Controller
             }elseif($requestProduct->return_type=='store_credit')
             {
                 $requestProduct->return_type='payment_method';
+
             }
             $requestProduct->save();
             $itemJson=json_decode($request->items_json,true);
+
             $itemJs=[];
             foreach ($itemJson as $item)
             {
@@ -238,6 +245,7 @@ class RequestController extends Controller
                     $item['return_type']='store_credit';
                 }elseif(isset($item['return_type']) && $item['id']==$item_id && $item['return_type']=='store_credit')
                 {
+
                     $item['return_type']='payment_method';
                 }
                 array_push($itemJs,$item);

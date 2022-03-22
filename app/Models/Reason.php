@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Reason extends Model
 {
     use HasFactory;
+
+
     protected $fillable = [
         'name', 'category_id', 'shop_id', 'reason_type', 'status',
     ];
@@ -17,7 +19,6 @@ class Reason extends Model
 
         return $this->hasMany('App\Models\RequestProducts','reason','name');
     }
-
     public function category()
     {
         return $this->belongsTo(RequestCategory::class,'category_id');

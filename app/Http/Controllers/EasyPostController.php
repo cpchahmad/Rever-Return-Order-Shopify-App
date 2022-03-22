@@ -6,21 +6,36 @@ use App\Models\EasyPost;
 use App\Models\Order;
 use App\Models\RequestExchange;
 use App\Models\RequestLabel;
-
-use App\Models\Setting;
-use App\Models\Timeline;
-use App\Models\User;
 use EasyPost\Address;
 use EasyPost\CustomsInfo;
 use EasyPost\CustomsItem;
 use EasyPost\Parcel;
 use EasyPost\Shipment;
+use App\Models\Setting;
+use App\Models\Timeline;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 
 class EasyPostController extends Controller
 {
+
+
+    public function __construct()
+    {
+
+//        $easypost = EasyPost::first();
+//
+//
+//        if ($easypost)
+//            \EasyPost\EasyPost::setApiKey($easypost->api_key);
+
+        $this->helper=new HelperController();
+
+    }
+
+
     public function index()
     {
         $shopfy = Auth::user();
@@ -63,9 +78,9 @@ class EasyPostController extends Controller
     public function sendMail($label,$request)
     {
         $settings = Setting::where('shop_id', $request->shop_id)->first();
-        //commented by me
-//        $order = Order::where('id', $request->order_id)->first();
 
+//commented by me
+//        $order = Order::where('id', $request->order_id)->first();
         $order = Order::where('shop_id',$request->shop_id)->where('id', $request->order_id)->first();
         $email=$order->email;
         if ($settings->sender_email !== null && $settings->sender_name) {
@@ -122,21 +137,31 @@ class EasyPostController extends Controller
     }
 
 
-    public function createShipment($request_id,$order_id)
+    public function createShipment($request_id,$order_id,$shop_id)
     {
+        $easypost=$this->helper->getapikey($shop_id);
+
         $order = Order::find($order_id);
         $order = json_decode($order->order_json);
 
         $r_request=\App\Models\Request::find($request_id);
-        $easypost = \EasyPost\EasyPost::where('shop_id',$r_request->shop_id)->first();
+
+        $easypost = EasyPost::where('shop_id',$r_request->shop_id)->first();
+
+
         $shop = User::find($r_request->shop_id);
+
         $shop_prop = $shop->api()->rest('GET', '/admin/shop.json');
+
+
         $shop_prop = json_decode(json_encode($shop_prop['body']['shop'],false));
 
         if($r_request->request_labels!==null)
         {
+
             return redirect()->back();
         }
+
         $to_address = Address::create([
             "name" => $easypost->name.' '.(isset($order->shipping_address->first_name)?$order->shipping_address->first_name . ' ' . $order->shipping_address->last_name:' '),
             "street1" => $easypost->street1,
@@ -145,6 +170,9 @@ class EasyPostController extends Controller
             "zip" => $easypost->zip,
             "phone" => $easypost->phone
         ]);
+
+
+
         $phone = $order->shipping_address->phone;
         $phone = str_replace('(', '', $phone);
         $phone = str_replace(')', '', $phone);
@@ -157,12 +185,17 @@ class EasyPostController extends Controller
             "zip" => $order->shipping_address->zip,
             "phone" => $phone
         ]);
+
+
         $total_weight=0;
         $itemsjson=json_decode($r_request->items_json,true);
         $orderLines=collect(json_decode(json_encode($order->line_items),true));
         foreach ($itemsjson as $itemJson)
         {
+
             $item=$orderLines->where('id',$itemJson['id'])->first();
+
+
             if($item!==null)
             {
                 $total_weight+=$item['grams'];
@@ -172,14 +205,21 @@ class EasyPostController extends Controller
 //            "predefined_package" => "LargeFlatRateBox",
             "weight" => ($total_weight!==0 ? $total_weight * 0.035274 : 1)
         ]);
+
+
+
         $line_items=[];
 
         $line_ids=$r_request->request_products()->pluck('line_item_id')->toArray();
 
+
         if(count($line_ids)===0)
         {
+
             $line_ids=collect(json_decode($r_request->items_json,true))->pluck('id')->toArray();
+
         }
+
 
         foreach ($order->line_items as $line_item)
         {
@@ -194,13 +234,16 @@ class EasyPostController extends Controller
                     'weight'=>floatval($line_item->grams* 0.035274),
                     'origin_country'=>$shop_prop->country
                 ]);
+
                 array_push($line_items,$custom_item);
             }
         }
-        //dd($line_items);
+
         $custom_info=CustomsInfo::create([
             "customs_items"=>$line_items
         ]);
+
+
         $shipment = Shipment::create([
             "to_address" => $to_address,
             "from_address" => $from_address,
@@ -208,8 +251,12 @@ class EasyPostController extends Controller
             "customs_info"=>$custom_info
         ]);
 
+
         try {
+
             $shipment->buy($shipment->lowest_rate());
+
+
             $label=RequestLabel::where('request_id',$request_id)->first();
             if($label==null)
                 $label=new RequestLabel();
@@ -230,6 +277,7 @@ class EasyPostController extends Controller
             return redirect()->back();
         }catch(\Exception $exception)
         {
+            dd($exception);
             return redirect()->back()->withErrors([
                 $exception->getMessage()
             ]);
