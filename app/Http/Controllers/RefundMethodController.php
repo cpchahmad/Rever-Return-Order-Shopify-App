@@ -46,4 +46,11 @@ class RefundMethodController extends Controller
         }
 
     }
+
+    public function has_settings()
+    {
+        $shopfy = Auth::user();
+        $has_settings = Setting::where('shop_id', $shopfy->id)->first();
+        return $has_settings;
+    }
 }

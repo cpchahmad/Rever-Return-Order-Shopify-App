@@ -149,6 +149,19 @@ Route::group(['middleware'=>['auth.shopify']], function () {
     Route::post('/exports/create',[App\Http\Controllers\OrderController::class, 'createCSV'])->name('create.export');
 
 
+
+//    Route::get('/testing', function() {
+//
+//        $shop = \Illuminate\Support\Facades\Auth::user();
+//
+//
+//
+//
+//        $response = $shop->api()->rest('GET', '/admin/webhooks.json');
+//
+//        dd($response);
+//    })->name('getwebbhook');
+
 });
 
 

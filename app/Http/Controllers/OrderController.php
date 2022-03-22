@@ -16,6 +16,7 @@ use App\Models\RequestExchange;
 use App\Models\RequestExport;
 use App\Models\RequestLabel;
 use App\Models\RequestProducts;
+use App\Models\RequestRefund;
 use App\Models\RequestSetting;
 use App\Models\RequestStatus;
 use App\Models\Setting;
@@ -2124,7 +2125,58 @@ class OrderController extends Controller
         return back();
     }
 
+    public function Transaction($request_id, $amount)
+    {
+        $request = \App\Models\Request::find($request_id);
 
+        try {
+            $shop = Auth::user();
+            $items = json_decode($request->items_json, true);
+            $lines = [];
+            foreach ($items as $line) {
+                if ($line['return_type'] == 'payment_method') {
+                    $l['line_item_id'] = $line['id'];
+                    $l['quantity'] = $line['quantity'];
+                    array_push($lines, $l);
+                }
+
+            }
+            $transaction = $shop->api()->rest('GET', '/admin/orders/' . $request->has_order->order_id . '/transactions.json');
+            $transactions = $transaction['body']['transactions'];
+            if (count($transactions)) {
+                $refund = $shop->api()->rest('post', '/admin/orders/' . $request->has_order->order_id . '/refunds.json', [
+                    'refund' => [
+                        "notify" => true,
+                        'refund_line_items' => $lines,
+                        'transactions' => [
+                            [
+                                "parent_id" => $transactions[0]['id'],
+                                "amount" => $amount,
+                                "kind" => "refund",
+                                "gateway" => $transactions[0]['gateway']
+                            ]
+                        ]
+                    ]
+                ]);
+                $refund = json_decode(json_encode($refund), FALSE);
+                $req_refund = new RequestRefund();
+//                $req_refund->line_item_detail=json_encode($refund->refund_line_items);
+//                $req_refund->currency=$refund->currency;
+                $req_refund->order_id = $request->order_id;
+//                $req_refund->parent_id=$transactions[0]['id'];
+                $req_refund->request_id = $request->id;
+                $req_refund->refunded_json = json_encode($refund);
+                $req_refund->save();
+                return $refund;
+            } else {
+                flash('Some Thing Went Wrong With Refund')->error();
+                return redirect()->back();
+            }
+        } catch (\Exception $exception) {
+            flash('Some Thing Went Wrong With Refund')->error();
+            return false;
+        }
+    }
     public function markStoreCredit($id)
     {
         $request=\App\Models\Request::find($id);

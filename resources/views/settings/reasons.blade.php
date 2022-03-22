@@ -80,6 +80,7 @@
                                             <label class="form-control-label" for="category_id">Category</label>
                                             <select class="form-control" id="category_id" name="category_id">
                                                 @foreach($categories as $category)
+
                                                     <option @if($edit_reason != "" && $edit_reason->category_id==$category->id  ){!! 'selected' !!} @endif value="{{$category->id}}">{{$category->name}}</option>
                                                 @endforeach
                                             </select>

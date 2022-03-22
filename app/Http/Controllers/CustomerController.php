@@ -27,6 +27,34 @@ use Illuminate\Support\Facades\Session;
 
 class CustomerController extends Controller
 {
+
+
+    public function __construct()
+    {
+
+        try {
+            $request = \Illuminate\Support\Facades\Request::all();
+            $order_name = '#' . preg_replace("/[^0-9]/", "", $request['order_name']);
+            $order_email = $request['email'];
+
+            $shop_name = $request['shop'];
+            $shop = User::where('name', $shop_name)->first();
+//            $settings = Setting::where('shop_id', $shop->id)->first();
+            // $order = Order::where([
+            //     'order_name' => $order_name,
+            //     'email' => $order_email,
+            //     'shop_id' => $shop->id
+            // ])->first();
+            // if ($order) {
+            //     $session = App\ItemSession::where('order_id', $order->id)->first();
+            //     Session::put('items', collect(json_decode($session->session, true)));
+            // }
+        } catch (\Exception $exception) {
+
+        }
+
+    }
+
     public function create_block()
     {
         $shop = Auth::user();
@@ -120,6 +148,7 @@ class CustomerController extends Controller
             $order_name = '#' . preg_replace("/[^0-9]/", "", $request->input('order_name'));
 
 
+
             $prev=str_replace('#','US',$order_name);
 
             $shop_name = $request->input('shop');
@@ -167,7 +196,6 @@ class CustomerController extends Controller
 
 
             if ($login_check !== null) {
-
 
 
                 if(!in_array(str_replace('#','US',$login_check->order_name),$exchange_orders) && RequestExchange::where('order_id',$login_check->order_id)->exists())
@@ -235,7 +263,10 @@ class CustomerController extends Controller
                             $lineItem['price'] -= floatval($disc->amount);
                         }
                     }
+
+
                     $line_product = OrderLineProduct::where('product_id', $line->product_id)->first();
+
                     if ($line_product === null) {
                         $product_detail = $shop->api()->rest('GET', '/admin/products/' . $lineItem->product_id . '.json')['body']['product'];
                         $product_detail = json_decode(json_encode($product_detail), FALSE);
@@ -264,17 +295,25 @@ class CustomerController extends Controller
                         $line_product = $line_product->body->product;
                     }
 
+                   ;
                     $tags = $line_product->tags;
+
                     $product_tags = explode(',', str_replace(' ', '', $tags));
+
                     $excludes = explode(',', $settings->block_products);
 
+
+
                     foreach ($excludes as $exclude) {
+
                         if (in_array($exclude, $product_tags)) {
+
                             $lineItem['blocked'] = true;
                             goto quit;
                         } else
                             $lineItem['blocked'] = false;
                     }
+
                     quit:
                     if (in_array($line->id, $r_items)) {
                         $lineItem['unavailable'] = true;
@@ -331,6 +370,7 @@ class CustomerController extends Controller
 
 
 
+
                 if ($r_settings !== null && $r_settings->valid_return_date !== null) {
 
 
@@ -342,6 +382,7 @@ class CustomerController extends Controller
 
 
                     $date = $date->addDays(30)->format('Y-m-d');
+
                 }
 //                if()
 
@@ -353,7 +394,6 @@ class CustomerController extends Controller
 
 
                     $returnable = false;
-
 
                 }
 
@@ -368,7 +408,6 @@ class CustomerController extends Controller
 
                     $returnable = false;
                 }
-
 
 
 
@@ -438,6 +477,7 @@ class CustomerController extends Controller
                 'email' => $request->email
             ])->first();
 
+
             if ($this->checkCustomerBlock($order->email, $order->shop_id)) {
                 return view('customer.block')->render();
             }
@@ -449,7 +489,10 @@ class CustomerController extends Controller
 
             $r_details = json_decode($request->input('product'));
 
+
+
             $order_detail = json_decode($order->order_json);
+
             $line_items = $order_detail->line_items;
             $total_amount = 0;
 //        if ($this->checkCustomerBlock($order->email, $shop)) {
@@ -509,11 +552,13 @@ class CustomerController extends Controller
                 }
 
 
+
                 $its['id'] = intval($singleItem['id']);
                 $its['quantity'] = $singleItem['quantity'];
                 $its['reason'] = $singleItem['quantity'];
                 $its['return_type'] = $singleItem['return_type'];
                 $reason = ReasonsDataSet::find($singleItem['return_reason']);
+
 
 
                 if($reason==null)
@@ -522,6 +567,7 @@ class CustomerController extends Controller
 
                 }
                 $its['return_type'] = $reason->name;
+
 
 
 
