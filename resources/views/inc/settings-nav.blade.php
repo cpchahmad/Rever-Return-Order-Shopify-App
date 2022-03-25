@@ -173,7 +173,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('easypost.index')}}">
                             <i class="fa fa-shipping-fast text-primary"></i>
-                            <span class="nav-link-text text-uppercase">Easy Post</span>
+{{--                            <span class="nav-link-text text-uppercase">Easy Post</span>--}}
+                            <span class="nav-link-text text-uppercase">Sendcloud</span>
+
                         </a>
                     </li>
                 </ul>

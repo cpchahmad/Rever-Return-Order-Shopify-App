@@ -14,6 +14,30 @@
         {
             font-weight: bold;
         }
+
+        .LockOn {
+            display: block;
+            visibility: visible;
+            position: fixed;
+            z-index: 999;
+            top: 0px;
+            left: 0px;
+            width: 105%;
+            height: 105%;
+            background-color:white;
+            vertical-align:bottom;
+            padding-top: 20%;
+            filter: alpha(opacity=75);
+            opacity: 0.75;
+            font-size:large;
+            color:blue;
+            font-style:italic;
+            font-weight:400;
+            background-image: url("{{asset('images/loading.gif')}}");
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-position: center;
+        }
     </style>
     <div class="main-content" id="panel">
         <div class="container-fluid">
@@ -129,7 +153,7 @@
                                     <h3>You can create a label by trying with Easypost</h3>
                                     <form method="GET"
                                           action="{{route('print.label',[$request->id,$request->order_id,$shop_id])}}">
-                                        <button class="btn btn-primary btn-sm" type="submit">Create Label</button>
+                                        <button class="btn btn-primary btn-sm loader" type="submit">Create Label</button>
                                     </form>
                                 </div>
                             </div>
@@ -538,5 +562,15 @@
         function change_to_approve() {
             alert('aa');
         }
+
+
+        $(document).ready(function(){
+
+            $('.loader').click(function(){
+
+                $('#panel').append('<div id="coverScreen"  class="LockOn"> </div>');
+            });
+
+        });
     </script>
 @endsection

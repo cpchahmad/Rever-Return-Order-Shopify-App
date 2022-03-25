@@ -306,7 +306,7 @@
 
                                                                     </div>
                                                                     @if($item_json['return_type']=='exchange')
-                                                                        <?php $line_product = \App\OrderLineProduct::where('product_id', $item_json['product_id'])->first();
+                                                                        <?php $line_product = \App\Models\OrderLineProduct::where('product_id', $item_json['product_id'])->first();
                                                                         $line_product = json_decode($line_product->product_json);
 
                                                                         foreach ($line_product->variants as $s_variant) {

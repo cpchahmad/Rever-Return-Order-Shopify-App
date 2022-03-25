@@ -529,6 +529,7 @@ class OrderController extends Controller
             $email = $settings->receiver_email;
 
         }
+
         try {
             if ($type == 'confirm') {
                 Mail::send('emails.label', ['label' => $label, 'settings' => $settings, 'request' => 1, 'name' => str_replace('#', 'US', 1001)], function ($m) use ($label, $settings, $email) {
@@ -572,7 +573,7 @@ class OrderController extends Controller
             }
             return true;
         } catch (\Exception $exception) {
-
+dd($exception);
             flash('Some thing went wrong')->error();
             return false;
         }
@@ -1311,7 +1312,9 @@ class OrderController extends Controller
     public function EmailTemplate($r)
     {
 
+
         $settings = Setting::where('shop_id', $r->shop_id)->first();
+
         $order = Order::where('id', $r->order_id)->first();
         if ($settings->sender_email !== null && $settings->sender_name) {
 
@@ -1473,7 +1476,9 @@ class OrderController extends Controller
 
             }
 //            $label->fees_applied = true;
-            $label->save();
+            if($label) {
+                $label->save();
+            }
             return $order;
         } catch (\Exception $exception) {
 //            file_put_contents('Received.txt', json_encode($exception));

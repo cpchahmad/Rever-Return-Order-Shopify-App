@@ -17,6 +17,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class EasyPostController extends Controller
 {
@@ -55,12 +56,14 @@ class EasyPostController extends Controller
             $easypost = new EasyPost();
         }
         $easypost->name = $request->name;
+        $easypost->country = $request->country;
         $easypost->street1 = $request->street1;
         $easypost->city = $request->city;
         $easypost->state = $request->state;
         $easypost->zip = $request->zip;
         $easypost->phone = $request->phone;
         $easypost->api_key = $request->api_key;
+        $easypost->api_secretkey = $request->api_secretkey;
         $easypost->shop_id=$shopfy->id;
         $easypost->save();
         return redirect()->back();
@@ -137,152 +140,383 @@ class EasyPostController extends Controller
     }
 
 
+//    public function createShipment($request_id,$order_id,$shop_id)
+//    {
+//        $easypost=$this->helper->getapikey($shop_id);
+//
+//        $order = Order::find($order_id);
+//        $order = json_decode($order->order_json);
+//
+//        $r_request=\App\Models\Request::find($request_id);
+//
+//        $easypost = EasyPost::where('shop_id',$r_request->shop_id)->first();
+//
+//
+//
+//        $shop = User::find($r_request->shop_id);
+//
+//        $shop_prop = $shop->api()->rest('GET', '/admin/shop.json');
+//
+//
+//        $shop_prop = json_decode(json_encode($shop_prop['body']['shop'],false));
+//
+//        if($r_request->request_labels!==null)
+//        {
+//
+//            return redirect()->back();
+//        }
+//
+//        $to_address = Address::create([
+//            "name" => $easypost->name.' '.(isset($order->shipping_address->first_name)?$order->shipping_address->first_name . ' ' . $order->shipping_address->last_name:' '),
+//            "street1" => $easypost->street1,
+//            "city" => $easypost->city,
+//            "state" => $easypost->state,
+//            "zip" => $easypost->zip,
+//            "phone" => $easypost->phone
+//        ]);
+//
+//
+//
+//
+//        $phone = $order->shipping_address->phone;
+//        $phone = str_replace('(', '', $phone);
+//        $phone = str_replace(')', '', $phone);
+//        $phone = str_replace(' ', '-', $phone);
+//        $from_address = Address::create([
+//            "name" => $order->shipping_address->first_name . ' ' . $order->shipping_address->last_name,
+//            "street1" => $order->shipping_address->address1,
+//            "city" => $order->shipping_address->city,
+//            "state" => $order->shipping_address->province,
+//            "zip" => $order->shipping_address->zip,
+//            "phone" => $phone
+//        ]);
+//
+//
+//
+//        $total_weight=0;
+//        $itemsjson=json_decode($r_request->items_json,true);
+//        $orderLines=collect(json_decode(json_encode($order->line_items),true));
+//        foreach ($itemsjson as $itemJson)
+//        {
+//
+//            $item=$orderLines->where('id',$itemJson['id'])->first();
+//
+//
+//            if($item!==null)
+//            {
+//                $total_weight+=$item['grams'];
+//            }
+//        }
+//        $parcel = Parcel::create([
+////            "predefined_package" => "LargeFlatRateBox",
+//            "weight" => ($total_weight!==0 ? $total_weight * 0.035274 : 1)
+//        ]);
+//      ;
+//
+//
+//
+//        $line_items=[];
+//
+//        $line_ids=$r_request->request_products()->pluck('line_item_id')->toArray();
+//
+//
+//        if(count($line_ids)===0)
+//        {
+//
+//            $line_ids=collect(json_decode($r_request->items_json,true))->pluck('id')->toArray();
+//
+//        }
+//
+//
+//        foreach ($order->line_items as $line_item)
+//        {
+//            if(in_array($line_item->id,$line_ids))
+//            {
+//                $custom_item=CustomsItem::create([
+//                    'id'=>$line_item->id,
+//                    'object'=>$line_item->title,
+//                    'description'=>$line_item->name,
+//                    'quantity'=>intval($line_item->quantity),
+//                    'value'=>floatval($line_item->price),
+//                    'weight'=>floatval($line_item->grams* 0.035274),
+//                    'origin_country'=>$shop_prop->country
+//                ]);
+//
+//
+//                array_push($line_items,$custom_item);
+//            }
+//        }
+//
+//        $custom_info=CustomsInfo::create([
+//            "customs_items"=>$line_items
+//        ]);
+//
+//
+//
+//        $shipment = Shipment::create([
+//            "to_address" => $to_address,
+//            "from_address" => $from_address,
+//            "parcel" => $parcel,
+//            "customs_info"=>$custom_info
+//        ]);
+//dd($shipment);
+//
+//        try {
+//
+//            $shipment->buy($shipment->lowest_rate());
+//
+//
+//            $label=RequestLabel::where('request_id',$request_id)->first();
+//            if($label==null)
+//                $label=new RequestLabel();
+//            $label->tracking_code=$shipment->tracking_code;
+//            $label->label=$shipment->postage_label->label_url;
+//            $label->carrier=$shipment->rates[0]->carrier;
+//            $fees=0;
+//            foreach ($shipment->fees as $fee)
+//            {
+//                $fees+=$fee->amount;
+//            }
+//            $label->fees=$fees;
+//            $label->request_id=$request_id;
+//            $label->order_id=$order_id;
+//            $label->save();
+//            $this->sendMail($label,$r_request);
+//            $ord=new OrderController();
+//            return redirect()->back();
+//        }catch(\Exception $exception)
+//        {
+//            dd($exception);
+//            return redirect()->back()->withErrors([
+//                $exception->getMessage()
+//            ]);
+//        }
+//
+//
+//    }
+
     public function createShipment($request_id,$order_id,$shop_id)
     {
-        $easypost=$this->helper->getapikey($shop_id);
-
-        $order = Order::find($order_id);
-        $order = json_decode($order->order_json);
 
         $r_request=\App\Models\Request::find($request_id);
 
-        $easypost = EasyPost::where('shop_id',$r_request->shop_id)->first();
+        $shop=Auth::user();
+        $easypost=EasyPost::where('shop_id',$shop->id)->first();
+
+        $connection = new \Picqer\Carriers\SendCloud\Connection($easypost->api_key,$easypost->api_secretkey );
+        $sendcloudClient = new \Picqer\Carriers\SendCloud\SendCloud($connection);
+
+        $et= $sendcloudClient->shippingMethods()->all();
+        $et=$et[0]->id;
 
 
-        $shop = User::find($r_request->shop_id);
-
-        $shop_prop = $shop->api()->rest('GET', '/admin/shop.json');
+        $order = Order::find($order_id);
 
 
-        $shop_prop = json_decode(json_encode($shop_prop['body']['shop'],false));
+        $order = json_decode($order->order_json);
 
-        if($r_request->request_labels!==null)
-        {
-
-            return redirect()->back();
-        }
-
-        $to_address = Address::create([
-            "name" => $easypost->name.' '.(isset($order->shipping_address->first_name)?$order->shipping_address->first_name . ' ' . $order->shipping_address->last_name:' '),
-            "street1" => $easypost->street1,
-            "city" => $easypost->city,
-            "state" => $easypost->state,
-            "zip" => $easypost->zip,
-            "phone" => $easypost->phone
-        ]);
+        $parcel = $sendcloudClient->parcels();
 
 
 
-        $phone = $order->shipping_address->phone;
-        $phone = str_replace('(', '', $phone);
-        $phone = str_replace(')', '', $phone);
-        $phone = str_replace(' ', '-', $phone);
-        $from_address = Address::create([
-            "name" => $order->shipping_address->first_name . ' ' . $order->shipping_address->last_name,
-            "street1" => $order->shipping_address->address1,
-            "city" => $order->shipping_address->city,
-            "state" => $order->shipping_address->province,
-            "zip" => $order->shipping_address->zip,
-            "phone" => $phone
-        ]);
+        $parcel->shipment=$et; // Shipping method, get possibilities from $sendCloud->shippingMethods()->all()
 
+        $parcel->name =$order->shipping_address->first_name . ' ' . $order->shipping_address->last_name;
+        $parcel->company_name = $order->shipping_address->company;
+        $parcel->address =$order->shipping_address->address1;
+        $parcel->city = $order->shipping_address->city;
+        $parcel->postal_code =$order->shipping_address->zip;
+        $parcel->country = $order->shipping_address->country_code;
 
-        $total_weight=0;
-        $itemsjson=json_decode($r_request->items_json,true);
-        $orderLines=collect(json_decode(json_encode($order->line_items),true));
-        foreach ($itemsjson as $itemJson)
-        {
-
-            $item=$orderLines->where('id',$itemJson['id'])->first();
-
-
-            if($item!==null)
-            {
-                $total_weight+=$item['grams'];
-            }
-        }
-        $parcel = Parcel::create([
-//            "predefined_package" => "LargeFlatRateBox",
-            "weight" => ($total_weight!==0 ? $total_weight * 0.035274 : 1)
-        ]);
+        $parcel->order_number = $order->name;
 
 
 
-        $line_items=[];
-
-        $line_ids=$r_request->request_products()->pluck('line_item_id')->toArray();
-
-
-        if(count($line_ids)===0)
-        {
-
-            $line_ids=collect(json_decode($r_request->items_json,true))->pluck('id')->toArray();
-
-        }
-
-
-        foreach ($order->line_items as $line_item)
-        {
-            if(in_array($line_item->id,$line_ids))
-            {
-                $custom_item=CustomsItem::create([
-                    'id'=>$line_item->id,
-                    'object'=>$line_item->title,
-                    'description'=>$line_item->name,
-                    'quantity'=>intval($line_item->quantity),
-                    'value'=>floatval($line_item->price),
-                    'weight'=>floatval($line_item->grams* 0.035274),
-                    'origin_country'=>$shop_prop->country
-                ]);
-
-                array_push($line_items,$custom_item);
-            }
-        }
-
-        $custom_info=CustomsInfo::create([
-            "customs_items"=>$line_items
-        ]);
-
-
-        $shipment = Shipment::create([
-            "to_address" => $to_address,
-            "from_address" => $from_address,
-            "parcel" => $parcel,
-            "customs_info"=>$custom_info
-        ]);
+        $parcel->requestShipment = true; // Specifically needed to create a shipment after adding the parcel
 
 
         try {
-
-            $shipment->buy($shipment->lowest_rate());
-
+            $parcel->save();
 
             $label=RequestLabel::where('request_id',$request_id)->first();
             if($label==null)
                 $label=new RequestLabel();
-            $label->tracking_code=$shipment->tracking_code;
-            $label->label=$shipment->postage_label->label_url;
-            $label->carrier=$shipment->rates[0]->carrier;
-            $fees=0;
-            foreach ($shipment->fees as $fee)
-            {
-                $fees+=$fee->amount;
-            }
-            $label->fees=$fees;
+            $label->tracking_code=$parcel->tracking_number;
+            $label->parcel_id=$parcel->id;
+            $label->destination=$order->shipping_address->country_code;
+            $label->zip=$order->shipping_address->zip;
+            $label->tracking_url=$parcel->tracking_url;
+            $label->carrier=$parcel->carrier['code'];
+//            $fees=0;
+//            foreach ($shipment->fees as $fee)
+//            {
+//                $fees+=$fee->amount;
+//            }
+//            $label->fees=$fees;
             $label->request_id=$request_id;
             $label->order_id=$order_id;
+            $parcel = $sendcloudClient->parcels()->find($parcel->id);
+            $labelUrl = $parcel->getPrimaryLabelUrl();
+            $documentDownloader = new \Picqer\Carriers\SendCloud\DocumentDownloader($connection);
+            $labelContents = $documentDownloader->getDocument($labelUrl, 'pdf');
+            $label_name = time().'_label.pdf';
+            $label->label=asset('label/'.$label_name);
             $label->save();
+            Storage::disk('public')->put('label/'.$label_name,$labelContents);
+
             $this->sendMail($label,$r_request);
-            $ord=new OrderController();
+
             return redirect()->back();
-        }catch(\Exception $exception)
-        {
-            dd($exception);
-            return redirect()->back()->withErrors([
-                $exception->getMessage()
-            ]);
+        } catch (SendCloudApiException $e) {
+            throw new Exception($e->getMessage());
         }
 
 
+//        $easypost=$this->helper->getapikey($shop_id);
+//
+//        $order = Order::find($order_id);
+//        $order = json_decode($order->order_json);
+//
+//        $r_request=\App\Models\Request::find($request_id);
+//
+//        $easypost = EasyPost::where('shop_id',$r_request->shop_id)->first();
+//
+//
+//        $shop = User::find($r_request->shop_id);
+//
+//        $shop_prop = $shop->api()->rest('GET', '/admin/shop.json');
+//
+//
+//        $shop_prop = json_decode(json_encode($shop_prop['body']['shop'],false));
+//
+//        if($r_request->request_labels!==null)
+//        {
+//
+//            return redirect()->back();
+//        }
+//
+//        $to_address = Address::create([
+//            "name" => $easypost->name.' '.(isset($order->shipping_address->first_name)?$order->shipping_address->first_name . ' ' . $order->shipping_address->last_name:' '),
+//            "street1" => $easypost->street1,
+//            "city" => $easypost->city,
+//            "state" => $easypost->state,
+//            "zip" => $easypost->zip,
+//            "phone" => $easypost->phone
+//        ]);
+//
+//
+//
+//        $phone = $order->shipping_address->phone;
+//        $phone = str_replace('(', '', $phone);
+//        $phone = str_replace(')', '', $phone);
+//        $phone = str_replace(' ', '-', $phone);
+//        $from_address = Address::create([
+//            "name" => $order->shipping_address->first_name . ' ' . $order->shipping_address->last_name,
+//            "street1" => $order->shipping_address->address1,
+//            "city" => $order->shipping_address->city,
+//            "state" => $order->shipping_address->province,
+//            "zip" => $order->shipping_address->zip,
+//            "phone" => $phone
+//        ]);
+//
+//
+//        $total_weight=0;
+//        $itemsjson=json_decode($r_request->items_json,true);
+//        $orderLines=collect(json_decode(json_encode($order->line_items),true));
+//        foreach ($itemsjson as $itemJson)
+//        {
+//
+//            $item=$orderLines->where('id',$itemJson['id'])->first();
+//
+//
+//            if($item!==null)
+//            {
+//                $total_weight+=$item['grams'];
+//            }
+//        }
+//        $parcel = Parcel::create([
+////            "predefined_package" => "LargeFlatRateBox",
+//            "weight" => ($total_weight!==0 ? $total_weight * 0.035274 : 1)
+//        ]);
+//
+//
+//
+//        $line_items=[];
+//
+//        $line_ids=$r_request->request_products()->pluck('line_item_id')->toArray();
+//
+//
+//        if(count($line_ids)===0)
+//        {
+//
+//            $line_ids=collect(json_decode($r_request->items_json,true))->pluck('id')->toArray();
+//
+//        }
+//
+//
+//        foreach ($order->line_items as $line_item)
+//        {
+//            if(in_array($line_item->id,$line_ids))
+//            {
+//                $custom_item=CustomsItem::create([
+//                    'id'=>$line_item->id,
+//                    'object'=>$line_item->title,
+//                    'description'=>$line_item->name,
+//                    'quantity'=>intval($line_item->quantity),
+//                    'value'=>floatval($line_item->price),
+//                    'weight'=>floatval($line_item->grams* 0.035274),
+//                    'origin_country'=>$shop_prop->country
+//                ]);
+//
+//                array_push($line_items,$custom_item);
+//            }
+//        }
+//
+//        $custom_info=CustomsInfo::create([
+//            "customs_items"=>$line_items
+//        ]);
+//
+//
+//        $shipment = Shipment::create([
+//            "to_address" => $to_address,
+//            "from_address" => $from_address,
+//            "parcel" => $parcel,
+//            "customs_info"=>$custom_info
+//        ]);
+//
+//
+//        try {
+//
+//            $shipment->buy($shipment->lowest_rate());
+//
+//
+//            $label=RequestLabel::where('request_id',$request_id)->first();
+//            if($label==null)
+//                $label=new RequestLabel();
+//            $label->tracking_code=$shipment->tracking_code;
+//            $label->label=$shipment->postage_label->label_url;
+//            $label->carrier=$shipment->rates[0]->carrier;
+//            $fees=0;
+//            foreach ($shipment->fees as $fee)
+//            {
+//                $fees+=$fee->amount;
+//            }
+//            $label->fees=$fees;
+//            $label->request_id=$request_id;
+//            $label->order_id=$order_id;
+//            $label->save();
+//            $this->sendMail($label,$r_request);
+//            $ord=new OrderController();
+//            return redirect()->back();
+//        }catch(\Exception $exception)
+//        {
+//            dd($exception);
+//            return redirect()->back()->withErrors([
+//                $exception->getMessage()
+//            ]);
+//        }
+
+
     }
+
 }

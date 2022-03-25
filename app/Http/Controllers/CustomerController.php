@@ -92,6 +92,8 @@ class CustomerController extends Controller
 
 //        $domain='centricwear.myshopify.com';
         $domain='teststoreintegrate.myshopify.com';
+
+//        $domain='rever-order.myshopify.com';
         if (Auth::check()) {
             return redirect()->route('analytics');
         }
@@ -1051,6 +1053,8 @@ class CustomerController extends Controller
     public function addToSelectionSubmit($order_id, $line_id, Request $request)
     {
         $order = Order::find($order_id);
+
+
         try {
             if ($this->checkCustomerBlock($order->email, $order->shop_id)) {
                 return view('customer.block')->render();
@@ -1076,8 +1080,13 @@ class CustomerController extends Controller
                             $data['price'] -= floatval($disc->amount);
                         }
                     }
+
+
+
                     if ($request->return_type == 'exchange') {
+
                         $data['exchange_variant_id'] = json_decode(json_encode($this->checkVariantStock($request)), true)['original']['variant_id'];
+
                         if ($request->input('option1'))
                             array_push($data['exchange_options'], $request->option1);
                         if ($request->input('option2'))
@@ -1136,6 +1145,7 @@ class CustomerController extends Controller
             $itemSession->save();
         } catch (\Exception $exception) {
 
+            dd($exception);
             goto redirect;
         }
         redirect:
@@ -1158,13 +1168,20 @@ class CustomerController extends Controller
 
     public function checkVariantStock(Request $request)
     {
+
+
         $option1 = $request->option1;
         $option2 = $request->option2;
         $product_id = $request->product_id;
         $quantity = $request->quantity;
+
         $product = OrderLineProduct::where('product_id', $product_id)->first();
+
+
         $product = json_decode($product->product_json);
+
         foreach ($product->variants as $variant) {
+
             if ($variant->option1 && $variant->option2) {
                 if ($variant->option1 == $option1 && $variant->option2 == $option2) {
                     if ($variant->inventory_quantity >= $quantity) {
@@ -1187,6 +1204,8 @@ class CustomerController extends Controller
                     'variant_id' => $variant->id
                 ]);
             }
+
+
         }
     }
     public function checkCustomerBlock($email, $shop_id)

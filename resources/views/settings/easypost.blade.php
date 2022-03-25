@@ -29,15 +29,15 @@
                     <!-- Pricing -->
                     <div class="card card-pricing border-0 text-center mb-4">
                         <div class="card-body text-left">
-{{--                            <div class="reasons_list">--}}
-{{--                                <p class="card-text mb-2 text-left">--}}
-{{--                                    To protect your Application from shady customers that wants to trick your store, tag--}}
-{{--                                    their emails to block them.--}}
-{{--                                    <br/>--}}
-{{--                                    Customer Email tags(comma separated list) that will mark customer not as eligible for--}}
-{{--                                    return:--}}
-{{--                                </p>--}}
-{{--                            </div>--}}
+                            {{--                            <div class="reasons_list">--}}
+                            {{--                                <p class="card-text mb-2 text-left">--}}
+                            {{--                                    To protect your Application from shady customers that wants to trick your store, tag--}}
+                            {{--                                    their emails to block them.--}}
+                            {{--                                    <br/>--}}
+                            {{--                                    Customer Email tags(comma separated list) that will mark customer not as eligible for--}}
+                            {{--                                    return:--}}
+                            {{--                                </p>--}}
+                            {{--                            </div>--}}
 
 
 
@@ -50,10 +50,24 @@
                                             <input required type="text" @if($easy_post) value="{{$easy_post->api_key}}"  @endif class="form-control"  id="api_key"  name="api_key" >
                                         </div>
                                     </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label  for="name">API Secret Key:</label>
+                                            <input required type="text" @if($easy_post) value="{{$easy_post->api_secretkey}}"  @endif class="form-control"  id="api_key"  name="api_secretkey" >
+                                        </div>
+                                    </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
                                             <label  for="name">Name:</label>
                                             <input required type="text" @if($easy_post) value="{{$easy_post->name}}"  @endif class="form-control"  id="name"  name="name" >
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label  for="name">Country:</label>
+                                            <input required type="text" @if($easy_post) value="{{$easy_post->country}}"  @endif class="form-control"  id="name"  name="country" >
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -65,7 +79,7 @@
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label  for="name">State Code:</label>
+                                            <label  for="name">ISO State Code (2 digit):</label>
                                             <input required type="text" @if($easy_post) value="{{$easy_post->state}}"  @endif class="form-control"  id="state"  name="state" >
                                         </div>
                                     </div>
