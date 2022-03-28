@@ -122,6 +122,7 @@
 
 <body>
 <?php
+$label_link='';
 $label_message=$settings->package_reminder_body;
 $created_at=\Carbon\Carbon::createFromTimeString($data->request_created_at);
 $expire_at=\Carbon\Carbon::today();
@@ -133,7 +134,10 @@ $label_message=str_replace('#{{created_at}}',$created_at,$label_message);
 $label_message=str_replace('#{{expired_at}}',$expire_at,$label_message);
 
 
-$label_link = '<a href="https://www.google.com/search?q=' . $label->tracking_code . '">' . $label->tracking_code . '</a>';
+//$label_link = '<a href="https://www.google.com/search?q=' . $label->tracking_code . '">' . $label->tracking_code . '</a>';
+if(isset($requests)){
+    $label_link = '<a href="https://tracking.sendcloud.sc/forward?carrier=' . $requests->request_labels->carrier . '&code='. $requests->request_labels->tracking_code .'&destination=' . $requests->request_labels->destination .'&lang=en-us&source=' . $easypost->state.'&type=letter&verification=' . $requests->request_labels->zip.'&servicepoint_verification=&created_at=' . Carbon\Carbon::parse($requests->request_labels->created_at)->toDateString().'">' . $label->tracking_code . '</a>';
+}
 $label_print = '<a type="button" class="print_btn" href="'.$label->label.'">Print Return Label</a>';
 $label_message = str_replace("#{{tracking_code}}", $label_link, $label_message);
 $label_message = str_replace("#{{print}}", $label_print, $label_message);

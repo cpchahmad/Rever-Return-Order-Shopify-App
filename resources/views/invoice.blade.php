@@ -389,7 +389,7 @@
 {{--                                            </td>--}}
 
                                             <td colspan="2"><a target="_blank"
-                                                               href="https://tracking.sendcloud.sc/forward?carrier={{$request->request_labels->carrier}}&code={{$request->request_labels->tracking_code}}&destination={{$request->request_labels->destination}}&lang=en-us&source={{$easypost->state}}.&type=letter&verification={{$request->request_labels->zip}}&servicepoint_verification=&created_at={{Carbon\Carbon::parse($request->request_labels->created_at)->toDateString()}}">{{$request->request_labels->tracking_code}}</a>
+                                                               href="https://tracking.sendcloud.sc/forward?carrier={{$request->request_labels->carrier}}&code={{$request->request_labels->tracking_code}}&destination={{$request->request_labels->destination}}&lang=en-us&source={{$easypost->state}}&type=letter&verification={{$request->request_labels->zip}}&servicepoint_verification=&created_at={{Carbon\Carbon::parse($request->request_labels->created_at)->toDateString()}}">{{$request->request_labels->tracking_code}}</a>
                                             </td>
                                         </tr>
                                         </tbody>

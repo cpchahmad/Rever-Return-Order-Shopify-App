@@ -520,9 +520,13 @@ class OrderController extends Controller
     {
 
         $settings = Setting::where('shop_id', Auth::id())->first();
-
+//dd($settings);
         $label = RequestLabel::whereHas('has_request')->first();
 
+
+        $easypost = EasyPost::where('shop_id', Auth::id())->first();
+
+        $requests=\App\Models\Request::where('id',$label->request_id)->where('shop_id',Auth::id())->first();
 
 
         if ($settings->receiver_email == null) {
@@ -534,12 +538,12 @@ class OrderController extends Controller
 
         try {
             if ($type == 'confirm') {
-                Mail::send('emails.label', ['label' => $label, 'settings' => $settings, 'request' => 1, 'name' => str_replace('#', 'US', 1001)], function ($m) use ($label, $settings, $email) {
+                Mail::send('emails.label', ['easypost'=>$easypost,'requests'=>$requests,'label' => $label, 'settings' => $settings, 'request' => 1, 'name' => str_replace('#', 'US', 1001)], function ($m) use ($label, $settings, $email) {
                     $m->from($settings->sender_email, $settings->sender_name);
                     $m->attach($label->label, [
                         'as' => $label->tracking_code
                     ]);
-                    $m->to($email)->subject(($settings->label_subject) ? $settings->label_subject . ' Order US' . str_replace('#', '', 1001) . ' - Request No#1 ' : 'Return Label for Order US' . str_replace('#', '', 1001) . ' - Request No#1');
+                    $m->to('zain.irfan4442@gmail.com')->subject(($settings->label_subject) ? $settings->label_subject . ' Order US' . str_replace('#', '', 1001) . ' - Request No#1 ' : 'Return Label for Order US' . str_replace('#', '', 1001) . ' - Request No#1');
                 });
             } else if ($type == 'expire') {
                 $data = [
@@ -550,12 +554,12 @@ class OrderController extends Controller
                 ];
                 $data = (object)$data;
 
-                Mail::send('emails.label_expired', ['data' => $data, 'label' => $label, 'settings' => $settings, 'request' => 1, 'name' => str_replace('#', 'US', 1001)], function ($m) use ($label, $settings, $email) {
+                Mail::send('emails.label_expired', ['easypost'=>$easypost,'requests'=>$requests,'data' => $data, 'label' => $label, 'settings' => $settings, 'request' => 1, 'name' => str_replace('#', 'US', 1001)], function ($m) use ($label, $settings, $email) {
                     $m->from($settings->sender_email, $settings->sender_name);
                     $m->attach($label->label, [
                         'as' => $label->tracking_code
                     ]);
-                    $m->to($email)->subject(($settings->label_expired_subject) ? $settings->label_expired_subject . ' Order US' . str_replace('#', '', 1001) . ' - Request No#1 ' : 'Return Label for Order US' . str_replace('#', '', 1001) . ' - Request No#1');
+                    $m->to('zain.irfan4442@gmail.com')->subject(($settings->label_expired_subject) ? $settings->label_expired_subject . ' Order US' . str_replace('#', '', 1001) . ' - Request No#1 ' : 'Return Label for Order US' . str_replace('#', '', 1001) . ' - Request No#1');
                 });
             } else if ($type == 'reminder') {
                 $data = [
@@ -565,12 +569,13 @@ class OrderController extends Controller
                     'label'=>$label
                 ];
                 $data = (object)$data;
-                Mail::send('emails.package_remider', ['data' => $data, 'label' => $label, 'settings' => $settings, 'request' => 1, 'name' => str_replace('#', 'US', 1001)], function ($m) use ($label, $settings, $email) {
+
+                Mail::send('emails.package_remider', ['easypost'=>$easypost,'requests'=>$requests,'data' => $data, 'label' => $label, 'settings' => $settings, 'request' => 1, 'name' => str_replace('#', 'US', 1001)], function ($m) use ($label, $settings, $email) {
                     $m->from($settings->sender_email, $settings->sender_name);
                     $m->attach($label->label, [
                         'as' => $label->tracking_code
                     ]);
-                    $m->to($email)->subject(($settings->package_reminder_subject) ? $settings->package_reminder_subject . ' Order US' . str_replace('#', '', 1001) . ' - Request No#1 ' : 'Return Label for Order US' . str_replace('#', '', 1001) . ' - Request No#1');
+                    $m->to("zain.irfan4442@gmail.com")->subject(($settings->package_reminder_subject) ? $settings->package_reminder_subject . ' Order US' . str_replace('#', '', 1001) . ' - Request No#1 ' : 'Return Label for Order US' . str_replace('#', '', 1001) . ' - Request No#1');
                 });
             }
             return true;
