@@ -89,15 +89,14 @@ class EasyPostController extends Controller
     {
         $settings = Setting::where('shop_id', $request->shop_id)->first();
 
-        $requestnew=\App\Models\Request::where('id',$request->id)->where('shop_id',Auth::id())->first();
-        $easypost=EasyPost::where('shop_id',Auth::id())->first();
+
 //commented by me
 //        $order = Order::where('id', $request->order_id)->first();
         $order = Order::where('shop_id',$request->shop_id)->where('id', $request->order_id)->first();
         $email=$order->email;
         if ($settings->sender_email !== null && $settings->sender_name) {
 
-            $mail=Mail::send('emails.label', ['easypost'=>$easypost,'requestnew'=>$requestnew,'label' => $label, 'settings' => $settings, 'request' => $request->id, 'name' => str_replace('#', 'US', $order->order_name)], function ($m) use ($label,$request, $settings, $email,$order) {
+            $mail=Mail::send('emails.label', ['label' => $label, 'settings' => $settings, 'request' => $request->id, 'name' => str_replace('#', 'US', $order->order_name)], function ($m) use ($label,$request, $settings, $email,$order) {
                 $m->from($settings->sender_email, $settings->sender_name);
                 $m->attach($label->label, [
                     'as' => $label->tracking_code
