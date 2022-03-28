@@ -117,7 +117,7 @@
                                                         @endif
                                                     </td>
                                                     <td>@if($request->request_labels)<a target="_blank"
-                                                                                        href="https://tracking.sendcloud.sc/forward?carrier={{$request->request_labels->carrier}}&code={{$request->request_labels->tracking_code}}&destination={{$request->request_labels->destination}}&lang=en-us&source={{$easypost->state}}.&type=letter&verification={{$request->request_labels->zip}}&servicepoint_verification=&created_at={{Carbon\Carbon::parse($request->request_labels->created_at)->toDateString()}}">Status</a> @endif
+                                                                                        href="https://tracking.sendcloud.sc/forward?carrier={{$request->request_labels->carrier}}&code={{$request->request_labels->tracking_code}}&destination={{$request->request_labels->destination}}&lang=en-us&source={{$easypost->state}}&type=letter&verification={{$request->request_labels->zip}}&servicepoint_verification=&created_at={{Carbon\Carbon::parse($request->request_labels->created_at)->toDateString()}}">Status</a> @endif
                                                     </td>
                                                     <td>
                                                         <a href="/requests/{{$request->id}}">Open</a>
@@ -252,7 +252,7 @@
                                                         @endif
                                                     </td>
                                                     <td>@if($request->request_labels)<a target="_blank"
-                                                                                        href="https://tracking.sendcloud.sc/forward?carrier={{$request->request_labels->carrier}}&code={{$request->request_labels->tracking_code}}&destination={{$request->request_labels->destination}}&lang=en-us&source={{$easypost->state}}.&type=letter&verification={{$request->request_labels->zip}}&servicepoint_verification=&created_at={{Carbon\Carbon::parse($request->request_labels->created_at)->toDateString()}}">Status</a> @endif
+                                                                                        href="https://tracking.sendcloud.sc/forward?carrier={{$request->request_labels->carrier}}&code={{$request->request_labels->tracking_code}}&destination={{$request->request_labels->destination}}&lang=en-us&source={{$easypost->state}}&type=letter&verification={{$request->request_labels->zip}}&servicepoint_verification=&created_at={{Carbon\Carbon::parse($request->request_labels->created_at)->toDateString()}}">Status</a> @endif
                                                     </td>
                                                     <td>
                                                         <a href="/requests/{{$request->id}}">Open</a>
@@ -388,7 +388,7 @@
                                                         @endif
                                                     </td>
                                                     <td>@if($request->request_labels)<a target="_blank"
-                                                                                        href="https://tracking.sendcloud.sc/forward?carrier={{$request->request_labels->carrier}}&code={{$request->request_labels->tracking_code}}&destination={{$request->request_labels->destination}}&lang=en-us&source={{$easypost->state}}.&type=letter&verification={{$request->request_labels->zip}}&servicepoint_verification=&created_at={{Carbon\Carbon::parse($request->request_labels->created_at)->toDateString()}}">Status</a> @endif
+                                                                                        href="https://tracking.sendcloud.sc/forward?carrier={{$request->request_labels->carrier}}&code={{$request->request_labels->tracking_code}}&destination={{$request->request_labels->destination}}&lang=en-us&source={{$easypost->state}}&type=letter&verification={{$request->request_labels->zip}}&servicepoint_verification=&created_at={{Carbon\Carbon::parse($request->request_labels->created_at)->toDateString()}}">Status</a> @endif
                                                     </td>
                                                     <td>
                                                         <a href="/requests/{{$request->id}}">Open</a>
@@ -523,7 +523,7 @@
                                                         @endif
                                                     </td>
                                                     <td>@if($request->request_labels)<a target="_blank"
-                                                                                        href="https://tracking.sendcloud.sc/forward?carrier={{$request->request_labels->carrier}}&code={{$request->request_labels->tracking_code}}&destination={{$request->request_labels->destination}}&lang=en-us&source={{$easypost->state}}.&type=letter&verification={{$request->request_labels->zip}}&servicepoint_verification=&created_at={{Carbon\Carbon::parse($request->request_labels->created_at)->toDateString()}}">Status</a> @endif
+                                                                                        href="https://tracking.sendcloud.sc/forward?carrier={{$request->request_labels->carrier}}&code={{$request->request_labels->tracking_code}}&destination={{$request->request_labels->destination}}&lang=en-us&source={{$easypost->state}}&type=letter&verification={{$request->request_labels->zip}}&servicepoint_verification=&created_at={{Carbon\Carbon::parse($request->request_labels->created_at)->toDateString()}}">Status</a> @endif
                                                     </td>
                                                     <td>
                                                         <a href="/requests/{{$request->id}}">Open</a>
@@ -658,7 +658,7 @@
                                                         @endif
                                                     </td>
                                                     <td>@if($request->request_labels)<a target="_blank"
-                                                                                        href="https://tracking.sendcloud.sc/forward?carrier={{$request->request_labels->carrier}}&code={{$request->request_labels->tracking_code}}&destination={{$request->request_labels->destination}}&lang=en-us&source={{$easypost->state}}.&type=letter&verification={{$request->request_labels->zip}}&servicepoint_verification=&created_at={{Carbon\Carbon::parse($request->request_labels->created_at)->toDateString()}}">Status</a> @endif
+                                                                                        href="https://tracking.sendcloud.sc/forward?carrier={{$request->request_labels->carrier}}&code={{$request->request_labels->tracking_code}}&destination={{$request->request_labels->destination}}&lang=en-us&source={{$easypost->state}}&type=letter&verification={{$request->request_labels->zip}}&servicepoint_verification=&created_at={{Carbon\Carbon::parse($request->request_labels->created_at)->toDateString()}}">Status</a> @endif
                                                     </td>
                                                     <td>
                                                         <a href="/requests/{{$request->id}}">Open</a>
