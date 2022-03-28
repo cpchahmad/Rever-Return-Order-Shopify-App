@@ -45,6 +45,7 @@ class OrderController extends Controller
 
 
         $shopfy = Auth::user();
+        $easypost=EasyPost::where('shop_id',$shopfy->id)->first();
         $current_status = 0;
         if ($current) {
             if ($current == 'requested') {
@@ -120,7 +121,8 @@ class OrderController extends Controller
             'requests5' => $requests5,
             'return_types' => $return_type,
             'methods' => $methods,
-            'r_settings'=>$r_settings
+            'r_settings'=>$r_settings,
+            'easypost'=>$easypost
         ]);
     }
 
@@ -1205,7 +1207,7 @@ dd($exception);
     {
         $shop = Auth::user();
         $status = $request->input('status');
-
+        $easypost=EasyPost::where('shop_id',$shop->id)->first();
         if ($request->input('type')) {
             $type = RefundTypes::where('id', $request->input('type'))->first();
             $requests = \App\Models\Request::where(['shop_id' => $shop->id, 'status' => $status])->cursor();
@@ -1246,7 +1248,9 @@ dd($exception);
             'current_status' => $status,
             'requests' => $requests_data,
             'return_types' => $return_type,
-            'methods' => $methods
+            'methods' => $methods,
+            'easypost'=>$easypost
+
         ]);
 
     }
