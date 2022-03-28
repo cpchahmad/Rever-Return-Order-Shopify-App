@@ -158,7 +158,8 @@
 <?php
 
 $label_message = $settings->label_message;
-$label_link = '<a href="https://www.google.com/search?q=' . $label->tracking_code . '">' . $label->tracking_code . '</a>';
+//$label_link = '<a href="https://www.google.com/search?q=' . $label->tracking_code . '">' . $label->tracking_code . '</a>';
+$label_link = '<a href="https://tracking.sendcloud.sc/forward?carrier=' . $requestnew->request_labels->carrier . '&code'. $requestnew->request_labels->tracking_code .'&destination=' . $requestnew->request_labels->destination .'&lang=en-us&source=' . $easypost->state.'&type=letter&verification=' . $requestnew->request_labels->zip.'&servicepoint_verification=&created_at=' . Carbon\Carbon::parse($requestnew->request_labels->created_at)->toDateString().'">' . $label->tracking_code . '</a>';
 $label_print = '<a type="button" class="print_btn" href="'.$label->label.'">Print Return Label</a>';
 $label_message = str_replace("#{{tracking_code}}", $label_link, $label_message);
 $label_message = str_replace("#{{print}}", $label_print, $label_message);
