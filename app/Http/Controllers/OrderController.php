@@ -539,7 +539,7 @@ class OrderController extends Controller
                     $m->attach($label->label, [
                         'as' => $label->tracking_code
                     ]);
-                    $m->to($email)->subject(($settings->label_subject) ? $settings->label_subject . ' Order US' . str_replace('#', '', 1001) . ' - Request No#1 ' : 'Return Label for Order US' . str_replace('#', '', 1001) . ' - Request No#1');
+                    $m->to('zain.irfan4442@gmail.com')->subject(($settings->label_subject) ? $settings->label_subject . ' Order US' . str_replace('#', '', 1001) . ' - Request No#1 ' : 'Return Label for Order US' . str_replace('#', '', 1001) . ' - Request No#1');
                 });
             } else if ($type == 'expire') {
                 $data = [
