@@ -523,7 +523,6 @@ class OrderController extends Controller
 
         $label = RequestLabel::whereHas('has_request')->first();
 
-        $mode_request = \App\Models\Request::where('shop_id',Auth::id())->first();
 
 
         if ($settings->receiver_email == null) {
@@ -535,12 +534,12 @@ class OrderController extends Controller
 
         try {
             if ($type == 'confirm') {
-                Mail::send('emails.label', ['moderequest'=>$mode_request,'label' => $label, 'settings' => $settings, 'request' => 1, 'name' => str_replace('#', 'US', 1001)], function ($m) use ($label, $settings, $email,$mode_request) {
+                Mail::send('emails.label', ['label' => $label, 'settings' => $settings, 'request' => 1, 'name' => str_replace('#', 'US', 1001)], function ($m) use ($label, $settings, $email) {
                     $m->from($settings->sender_email, $settings->sender_name);
                     $m->attach($label->label, [
                         'as' => $label->tracking_code
                     ]);
-                    $m->to('zain.irfan4442@gmail.com')->subject(($settings->label_subject) ? $settings->label_subject . ' Order US' . str_replace('#', '', 1001) . ' - Request No#1 ' : 'Return Label for Order US' . str_replace('#', '', 1001) . ' - Request No#1');
+                    $m->to($email)->subject(($settings->label_subject) ? $settings->label_subject . ' Order US' . str_replace('#', '', 1001) . ' - Request No#1 ' : 'Return Label for Order US' . str_replace('#', '', 1001) . ' - Request No#1');
                 });
             } else if ($type == 'expire') {
                 $data = [
