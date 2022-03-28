@@ -72,8 +72,11 @@ class EasyPostController extends Controller
     public function resendLabel($id)
     {
 
+
         $request=\App\Models\Request::find($id);
+
         $label=RequestLabel::where('request_id',$id)->orderBy('created_at','desc')->first();
+
         $this->sendMail($label,$request);
         return back();
     }
@@ -99,6 +102,7 @@ class EasyPostController extends Controller
             $l->email_sent=true;
             $l->save();
         } else {
+
             flash('Email Credentials Not Found!')->error();
         }
     }
@@ -300,8 +304,9 @@ class EasyPostController extends Controller
 
         $r_request=\App\Models\Request::find($request_id);
 
-        $shop=Auth::user();
-        $easypost=EasyPost::where('shop_id',$shop->id)->first();
+
+//        $shop=Auth::user();
+        $easypost=EasyPost::where('shop_id',$r_request->shop_id)->first();
 
         $connection = new \Picqer\Carriers\SendCloud\Connection($easypost->api_key,$easypost->api_secretkey );
         $sendcloudClient = new \Picqer\Carriers\SendCloud\SendCloud($connection);

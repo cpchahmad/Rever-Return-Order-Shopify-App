@@ -31,7 +31,7 @@
                     <img class="d-none d-lg-inline rounded-circle ml-1 mt-2" width="32px" src="{{asset('images/user.png')}}" alt="MA">
 
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="margin-left: 70px;">
-                        <a class="dropdown-item" href="#">Logout</a>
+                        <a class="dropdown-item" href="{{route('logout')}}">Logout</a>
 
                     </div>
                 </div>

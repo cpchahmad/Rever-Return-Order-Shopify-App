@@ -256,4 +256,24 @@ class RequestController extends Controller
 
         return back();
     }
+
+    public function login(Request $request){
+        $url=$request->shopurl;
+        $shopurl=$url;
+        $disallowed = array('http://', 'https://');
+        foreach($disallowed as $d) {
+            if(strpos($url, $d) === 0) {
+                $shopurl= str_replace($d, '', $url);
+            }
+        }
+        $shopurl=explode('/',$shopurl);
+
+        return redirect('/authenticate?shop='.$shopurl[0]);
+
+    }
+
+    public function logout(Request $request) {
+        Auth::logout();
+        return redirect('/shop-login');
+    }
 }

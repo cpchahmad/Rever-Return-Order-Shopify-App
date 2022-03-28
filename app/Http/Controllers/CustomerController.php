@@ -91,9 +91,9 @@ class CustomerController extends Controller
 
 
 //        $domain='centricwear.myshopify.com';
-        $domain='teststoreintegrate.myshopify.com';
+//        $domain='teststoreintegrate.myshopify.com';
 
-//        $domain='rever-order.myshopify.com';
+        $domain='rever-order.myshopify.com';
         if (Auth::check()) {
             return redirect()->route('analytics');
         }
@@ -711,14 +711,21 @@ class CustomerController extends Controller
                 }
             }
 
+
             $order_ = new OrderController();
             $order_->EmailTemplate($r_request);
+
             $easy = new EasyPostController();
-            $easy->createShipment($r_request->id, $order->id);
+            $easy->createShipment($r_request->id, $order->id,"");
+
             return redirect(proxy(route('request.labeling', $r_request->id)));
         } catch (\Exception $exception) {
+
             return redirect(proxy(route('request.labeling', $r_request->id)));
-        } finally {
+        }
+
+ finally {
+
             return redirect(proxy(route('request.labeling', $r_request->id)));
         }
     }
@@ -1085,6 +1092,8 @@ class CustomerController extends Controller
 
                     if ($request->return_type == 'exchange') {
 
+
+//                        dd($this->checkVariantStock($request));
                         $data['exchange_variant_id'] = json_decode(json_encode($this->checkVariantStock($request)), true)['original']['variant_id'];
 
                         if ($request->input('option1'))
@@ -1170,6 +1179,8 @@ class CustomerController extends Controller
     {
 
 
+
+
         $option1 = $request->option1;
         $option2 = $request->option2;
         $product_id = $request->product_id;
@@ -1178,12 +1189,15 @@ class CustomerController extends Controller
         $product = OrderLineProduct::where('product_id', $product_id)->first();
 
 
+
         $product = json_decode($product->product_json);
 
         foreach ($product->variants as $variant) {
-
+//dd($variant);
             if ($variant->option1 && $variant->option2) {
                 if ($variant->option1 == $option1 && $variant->option2 == $option2) {
+//                    dd($variant);
+
                     if ($variant->inventory_quantity >= $quantity) {
                         return response()->json([
                             'stat' => 'found',
@@ -1197,6 +1211,12 @@ class CustomerController extends Controller
                             'stock' => $variant->inventory_quantity
                         ]);
                     }
+                }
+                else {
+                    return response()->json([
+                        'stat' => 'not found1',
+                        'variant_id' => $variant->id
+                    ]);
                 }
             } else {
                 return response()->json([

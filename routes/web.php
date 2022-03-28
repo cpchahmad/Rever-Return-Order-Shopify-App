@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Auth;
 
 Route::group(['middleware'=>['auth.shopify']], function () {
 
-    Route::get('/', [App\Http\Controllers\OrderController::class, 'Dashboard'])->name('home');
+    Route::get('/shop-home', [App\Http\Controllers\OrderController::class, 'Dashboard'])->name('home');
     Route::get('/dashboard', [App\Http\Controllers\OrderController::class, 'Dashboard'])->name('dashboard');
     Route::get('/settings',  [App\Http\Controllers\OrderController::class, 'Settings'])->name('settings.home');
 
@@ -214,5 +214,14 @@ Route::middleware(['customer'])->prefix('returnorder')->group(function (){
 
 });
 
+
+Route::get('/shop-login', function () {
+    return view('mainpage');
+});
+
+Route::post('/login',[App\Http\Controllers\RequestController::class, 'login'])->name('login');
+
+
+Route::get('/logout',[App\Http\Controllers\RequestController::class, 'logout'])->name('logout');
 
 

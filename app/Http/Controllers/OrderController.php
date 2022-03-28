@@ -1127,6 +1127,7 @@ dd($exception);
         $shopfy = Auth::user();
         $request = \App\Models\Request::where(['shop_id' => $shopfy->id, 'id' => $id])->first();
         $shop_detail = User::where('id', $shopfy->id)->first();
+        $easypost=EasyPost::where('shop_id',$shopfy->id)->first();
 
         $exchange=RequestExchange::where('request_id',$id)->first();
         if($exchange!==null && $exchange->order_id!==null)
@@ -1158,7 +1159,8 @@ dd($exception);
             'all_products' => $all_products['line_items'],
             'shop_details' => $shop_detail,
             'order_line_products' => $order_line_products,
-            'shop_id'=>Auth::user()->id
+            'shop_id'=>Auth::user()->id,
+            'easypost'=>$easypost
 
         ]);
     }
@@ -1315,6 +1317,7 @@ dd($exception);
 
         $settings = Setting::where('shop_id', $r->shop_id)->first();
 
+
         $order = Order::where('id', $r->order_id)->first();
         if ($settings->sender_email !== null && $settings->sender_name) {
 
@@ -1337,8 +1340,10 @@ dd($exception);
                     }
                 });
             }catch (\Exception $exception) {
+                dd($exception);
 
             } finally {
+
                 return true;
             }
         } else {
