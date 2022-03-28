@@ -178,10 +178,10 @@ Route::get('/label/request/{request_id}/order/{order_id}/{shop_id}/create', [App
 
 
 
-Route::middleware(['customer'])->prefix('returnorder')->group(function (){
+Route::middleware(['customer'])->group(function (){
 
 
-    Route::get('/',  [App\Http\Controllers\CustomerController::class, 'loginshow'])->name('home');
+    Route::get('/',  [App\Http\Controllers\CustomerController::class, 'loginshow'])->name('c.home');
 
     Route::get('/customer/login',  [App\Http\Controllers\CustomerController::class, 'login'])->name('customer.login.post');
 

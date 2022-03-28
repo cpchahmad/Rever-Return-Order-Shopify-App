@@ -6,7 +6,7 @@
     <div class="row" style="margin-right: 0px;margin-left: 0px;">
         <div class="col">
             <div class="tabs_wrapper mt-4">
-                <div class="tabs_nav">
+                <div class="tabs_nav" style="text-align: center">
                     <li class="active" data-tab="tab1">Requested</li>
                     <li data-tab="tab2">Approved</li>
                     <li data-tab="tab3">Received</li>
