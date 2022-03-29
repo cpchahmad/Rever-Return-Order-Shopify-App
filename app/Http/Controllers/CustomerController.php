@@ -93,7 +93,8 @@ class CustomerController extends Controller
 //        $domain='centricwear.myshopify.com';
 //        $domain='teststoreintegrate.myshopify.com';
 
-        $domain='rever-order.myshopify.com';
+        $domain = $request['shop'];
+//        $domain='rever-order.myshopify.com';
         if (Auth::check()) {
             return redirect()->route('analytics');
         }
@@ -121,7 +122,7 @@ class CustomerController extends Controller
 
 
 
-        return view('customer.login')->with([
+        $html= view('customer.login')->with([
             'domain' => $shop->name,
             'settings' => $has_settings,
             'content' => $content,
@@ -145,7 +146,7 @@ class CustomerController extends Controller
     public function login(Request $request)
     {
 
-
+dd($request->all());
         try {
             $order_name = '#' . preg_replace("/[^0-9]/", "", $request->input('order_name'));
 
@@ -161,7 +162,9 @@ class CustomerController extends Controller
 
             if ($prev!==null)
             {
-                return view('customer.request_block')->render();
+                $html= view('customer.request_block')->render();
+                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+
             }
 
             $order_email = $request->input('email');
@@ -173,7 +176,9 @@ class CustomerController extends Controller
             if ($this->checkCustomerBlock($order_email, $shop->id)) {
 
 
-                return view('customer.block')->render();
+                $html= view('customer.block')->render();
+                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+
             }
 
             $settings = Setting::where('shop_id', $shop->id)->first();
@@ -204,7 +209,9 @@ class CustomerController extends Controller
                 {
 
 
-                    return view('customer.no-exchange')->render();
+                    $html= view('customer.no-exchange')->render();
+                    return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+
                 }
 
 
@@ -364,7 +371,8 @@ class CustomerController extends Controller
                             'email' => $order->email
                         ))
                     ])->render();
-                    return $html;
+//                    return $html;
+                    return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
                 }
                 $date = Carbon::createFromDate($order_json->created_at);
@@ -445,7 +453,10 @@ class CustomerController extends Controller
 
 
 
-                return $html;
+//                return $html;
+//                return response($html);
+                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+
                 $result = [];
                 $result['code'] = '200';
                 $result['data'] = $html;
@@ -455,7 +466,7 @@ class CustomerController extends Controller
             } else {
 
 
-                return redirect(proxy(route('home',['error'=>'incorrect'])));
+                return redirect((route('c.home',['error'=>'incorrect'])));
             }
 
 

@@ -53,7 +53,17 @@
             }
         </style>
     @endif
-
+<style>
+    div#shopify-section-announcement-bar {
+        display: none;
+    }
+    sticky-header.header-wrapper.color-background-1.gradient.header-wrapper--border-bottom {
+        display: none;
+    }
+    footer.footer.color-background-1.gradient.section-footer-padding {
+        display: none;
+    }
+</style>
     @yield('css')
 
     <title>Centric Return</title>

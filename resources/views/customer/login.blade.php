@@ -20,11 +20,17 @@
 
     <div class="container">
         <div class="header">
-            <a href="https://us.centricwear.com" id="policy">
-                <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+            <a href="https://{{$domain}}" id="policy">
+                @if($settings)
+                <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px" alt="logo">
+
+                    @else
+                                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+
+                @endif
             </a>
         </div>
-        <form role="form" action="{{proxy(route('customer.login.post'))}}?shop={{$domain}}" method="get" id="loginform">
+        <form role="form" action="{{(route('customer.login.post'))}}?shop={{$domain}}" method="get" id="loginform">
             <input type="hidden" name="shop" value="{{$domain}}">
             <div class="main_section_login">
                 <div class="login_section">
@@ -46,7 +52,7 @@
                         <input type="text" name="email" class="input_field" placeholder="Email">
                     </div>
                     <div class="field_parent">
-                        <input type="submit" class="input_field" value="START RETURN" placeholder="Order Number">
+                        <input type="button" class="input_field formsubmit" id="formsubmit" value="START RETURN" placeholder="Order Number">
                     </div>
                     @if(isset($msg))
                         <div class="field_parent msg_class">
@@ -54,7 +60,7 @@
                         </div>
                     @endif
                     <div class="field_policy">
-                        <a href="https://us.centricwear.com/pages/return-policy">View Policy</a>
+{{--                        <a href="https://us.centricwear.com/pages/return-policy">View Policy</a>--}}
                     </div>
                 </div>
             </div>
@@ -66,6 +72,26 @@
 @section('script')
     <script>
     $(document).ready(function(){
+
+        $('body').on('click','#formsubmit',function(e){
+
+            e.preventDefault();
+
+
+
+            $.ajax({
+                url: "{{ route('customer.login.post') }}",
+                method: "POST",
+                data: $('#loginform').serialize() ,
+
+                success: function(data)
+                {
+console.log(data);
+                }
+            });
+
+
+        });
         if($('.msg_class').length)
         {
             setTimeout(function(){
@@ -86,6 +112,10 @@
                 $('.policy_section').slideDown(500);
             }
         });
+
+
+
+
 
     });
     </script>
