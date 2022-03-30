@@ -25,13 +25,20 @@
     $merge_array = [];
     ?>
     <form class="container" id="selection_form"
-          action="{{proxy(route('addTo.selection.submit',['order_id'=>$order->id,'line_id'=>$line_item['id']]))}}"
+{{--          action="{{(route('addTo.selection.submit',['order_id'=>$order->id,'line_id'=>$line_item['id']]))}}"--}}
+          action="https://{{$shop->name}}/a/return/customer/order/{{$order->id}}/lineItem/{{$line_item['id']}}/selected/submit"
           method="POST">
 
         @csrf
         <div class="header">
-            <a href="https://us.centricwear.com">
-                <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+            <a href="https://{{$shop->name}}">
+                @if($settings)
+                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px" alt="logo">
+
+                @else
+                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+
+                @endif
             </a>
         </div>
         <div class="main_section_popup main_section">
@@ -45,7 +52,8 @@
 
                                 </div>
                                 <div class="cross">
-                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>$order_name,'email'=>$order->email]))}}">
+{{--                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>$order_name,'email'=>$order->email]))}}">--}}
+                                    <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
                                         <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
                                         </button>
                                     </a>
@@ -64,7 +72,9 @@
 
                                 </div>
                                 <div class="cross">
-                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>$order_name,'email'=>$order->email]))}}">
+{{--                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>$order_name,'email'=>$order->email]))}}">--}}
+                                        <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
+
                                         <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
                                         </button>
                                     </a>
@@ -129,7 +139,9 @@
                                                                             alt=""></button>
                                 </div>
                                 <div class="cross">
-                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>$order_name,'email'=>$order->email]))}}">
+{{--                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>$order_name,'email'=>$order->email]))}}">--}}
+                                        <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
+
                                         <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
                                         </button>
                                     </a>
@@ -225,7 +237,9 @@
                                                                             alt=""></button>
                                 </div>
                                 <div class="cross">
-                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>null,'email'=>$order->email]))}}">
+{{--                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>null,'email'=>$order->email]))}}">--}}
+                                        <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
+
                                         <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
                                         </button>
                                     </a>
@@ -272,8 +286,11 @@
 
                                 </div>
                                 <div class="cross">
-                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>$order_name,'email'=>$order->email]))}}">
-                                        <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
+{{--                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>$order_name,'email'=>$order->email]))}}">--}}
+                                    <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
+
+                                    <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
+
                                         </button>
                                     </a>
                                 </div>
@@ -342,7 +359,7 @@
                 $(this).prev('input').attr('checked', true);
                 $.ajax({
                     method: "GET",
-                    url: "{{proxy(route('add_refund_method'))}}?amount={{$line_item['price']}}",
+                    url: "{{(route('add_refund_method'))}}?amount={{$line_item['price']}}",
                     data:{
                         allow_methods:allowed_methods
                     },
@@ -398,7 +415,7 @@
                 });
                 $.ajax({
                     method: "POST",
-                    url: "{{proxy(route('check.variant.stock'))}}",
+                    url: "{{(route('check.variant.stock'))}}",
                     data: {
                         'option1': $('input[name=option1]:checked').val(),
                         'option2': $('input[name=option2]:checked').val(),
@@ -415,11 +432,16 @@
                             $('#after_btn_checked').html('Out of Stock');
                             return false;
                         }
-                        $('#after_btn_checked').html('Continue');
+                        //commentted by me
+                        // $('#after_btn_checked').html('Continue');
+                        $('#after_btn_checked').html('Not Available');
                     },
                     error:function(response)
                     {
-                        $('#after_btn_checked').html('Continue');
+                        //commentted by me
+                        // $('#after_btn_checked').html('Continue');
+                        $('#after_btn_checked').html('Not Available1');
+
                     }
                 });
 

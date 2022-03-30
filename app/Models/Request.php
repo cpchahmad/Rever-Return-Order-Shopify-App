@@ -84,6 +84,7 @@ class Request extends Model
     public function returnMethods()
     {
         $items=json_decode($this->items_json,true);
+
         $methods=[];
         foreach ($items as $item)
         {

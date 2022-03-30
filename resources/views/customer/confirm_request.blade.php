@@ -75,8 +75,14 @@
 @section('content')
     <div class="container">
         <div class="header">
-            <a href="https://us.centricwear.com">
-                <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+            <a href="https://{{$domain}}">
+                @if($settings)
+                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px;margin-left: 160%" alt="logo">
+
+                @else
+                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+
+                @endif
             </a>
         </div>
         <div class="main_products_all_section">
@@ -218,7 +224,8 @@
                     </div>
                 @endif
 
-                <form id="address_update" method="POST" action="{{proxy(route('address.update',$request->shipping_address->id))}}">
+{{--                <form id="address_update" method="POST" action="{{proxy(route('address.update',$request->shipping_address->id))}}">--}}
+                <form id="address_update" method="POST" action="https://{{$domain}}/a/return/customer/address/{{$request->shipping_address->id}}/update">
                     <div class="prin_-five print_section">
                         <div class="edit_print_info">
                             <div class="edit_flex">

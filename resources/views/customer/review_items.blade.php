@@ -8,8 +8,15 @@
 @section('content')
     <div class="container">
         <div class="header">
-            <a href="https://us.centricwear.com">
-                <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+{{--            <a href="https://us.centricwear.com">--}}
+            <a href="https://{{$shop}}">
+                @if($settings)
+                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px;margin-left: 160%" alt="logo">
+
+                @else
+                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+
+                @endif
             </a>
         </div>
         <div class="main_products_all_section">
@@ -231,10 +238,12 @@
                         ?>
                         <div class="producct__second_div">
                             <div class="btn_product_main btn_product_main_two">
-                                <form id="submitForm" method="GET" action="{{proxy(route('customer.confirmation.request'))}}">
+{{--                                <form id="submitForm" method="GET" action="{{proxy(route('customer.confirmation.request'))}}">--}}
+                                <form id="submitForm" method="GET" action="https://{{$shop}}/a/return/customer/confirm/request">
                                     <input type="hidden" name="shop" value="{{\App\Models\User::find($order->shop_id)->name}}">
                                     <input type="hidden" name="order_name" value="{{$order_name}}">
                                     <input type="hidden" name="email" value="{{$order->email}}">
+                                    <input type="hidden" name="sessiondata" value="{{json_encode($customsession)}}">
                                     <button type="submit">
                                         @if($r_sum==0 && $s_sum==0 && $ex_sum>0)
                                             Submit Exchange

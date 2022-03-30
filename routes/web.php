@@ -178,7 +178,8 @@ Route::get('/label/request/{request_id}/order/{order_id}/{shop_id}/create', [App
 
 
 
-Route::middleware(['customer','custom'])->prefix('return')->group(function (){
+//Route::middleware(['customer','custom'])->prefix('return')->group(function (){
+Route::middleware(['customer'])->prefix('return')->group(function (){
 
 
     Route::get('/order',  [App\Http\Controllers\CustomerController::class, 'loginshow'])->name('c.home');

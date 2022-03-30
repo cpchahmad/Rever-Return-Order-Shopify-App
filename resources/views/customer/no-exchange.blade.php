@@ -34,8 +34,14 @@
 @section('content')
     <div class="container">
         <div class="header">
-            <a href="">
-                <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+            <a href="https://{{$shop}}">
+                @if($settings)
+                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px" alt="logo">
+
+                @else
+                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+
+                @endif
             </a>
         </div>
         <div class="main_products_all_section">
@@ -46,7 +52,7 @@
                 <div class="prin_-two print_section py-5">
                     <div class="info__shoping_items_print">
                         <h3 ><i class="far fa-frown"></i> Return cannot be placed!</h3>
-                        <h4>We apologize but an exchange order cannot be returned again.<br/>Email support@centricwear.com for questions. Thank you!</h4>
+                        <h4>We apologize but an exchange order cannot be returned again.<br/>Email info@tetralogicx.com for questions. Thank you!</h4>
                     </div>
                 </div>
             </div>
