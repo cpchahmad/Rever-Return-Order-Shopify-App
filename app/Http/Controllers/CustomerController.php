@@ -493,8 +493,9 @@ class CustomerController extends Controller
             }
             else {
 
+                return redirect('https://'.$request->shop.'/a/return/order');
 
-                return redirect((route('c.home',['error'=>'incorrect'])));
+//                return redirect((route('c.home',['error'=>'incorrect'])));
             }
 
 
@@ -911,9 +912,12 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
     public function addToSelection($order_id, $line_id, Request $request)
     {
-        try {
-            $order = Order::find($order_id);
 
+
+
+        try {
+
+            $order = Order::find($order_id);
             $settings2=Setting::where('shop_id',$order->shop_id)->first();
             if ($this->checkCustomerBlock($order->email, $order->shop_id)) {
 //                $html= view('customer.block')->render();
@@ -1116,7 +1120,13 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
             return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
         } catch (\Exception $exception) {
-            return redirect()->back();
+
+
+            return redirect('https://'.$request->shop.'/a/return/order');
+
+//            return redirect('https://'.$request->shop.'/a/return/customer/login?shop='.$request->shop.'&order_name='.$order->order_name.'&email='.$order->email);
+
+//            return redirect()->back();
         }
 
     }

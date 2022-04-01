@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aab2af4e1ba9dd8028f80fb6883f268e",
+    "content-hash": "03258735b7e802e8cfb1d546dce2ccdf",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2203,6 +2203,67 @@
             "time": "2022-01-10T08:52:49+00:00"
         },
         {
+            "name": "laravel/ui",
+            "version": "v3.4.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/ui.git",
+                "reference": "f11d295de1508c5bb56206a620b00b6616de414c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/f11d295de1508c5bb56206a620b00b6616de414c",
+                "reference": "f11d295de1508c5bb56206a620b00b6616de414c",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^8.42|^9.0",
+                "illuminate/filesystem": "^8.42|^9.0",
+                "illuminate/support": "^8.82|^9.0",
+                "illuminate/validation": "^8.42|^9.0",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.23|^7.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Ui\\UiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Ui\\": "src/",
+                    "Illuminate\\Foundation\\Auth\\": "auth-backend/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel UI utilities and presets.",
+            "keywords": [
+                "laravel",
+                "ui"
+            ],
+            "support": {
+                "source": "https://github.com/laravel/ui/tree/v3.4.5"
+            },
+            "time": "2022-02-21T14:59:16+00:00"
+        },
+        {
             "name": "league/commonmark",
             "version": "1.6.7",
             "source": {
@@ -3022,6 +3083,57 @@
                 }
             ],
             "time": "2021-12-04T23:24:31+00:00"
+        },
+        {
+            "name": "picqer/sendcloud-php-client",
+            "version": "v2.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/picqer/sendcloud-php-client.git",
+                "reference": "94a34c3a223a60c76887c7864f8116803511eb5a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/picqer/sendcloud-php-client/zipball/94a34c3a223a60c76887c7864f8116803511eb5a",
+                "reference": "94a34c3a223a60c76887c7864f8116803511eb5a",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "guzzlehttp/guzzle": "~6.0|~7.0",
+                "php": ">=7.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Picqer\\Carriers\\SendCloud\\": "src/Picqer/Carriers/SendCloud"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephan Groen",
+                    "email": "info@picqer.com"
+                }
+            ],
+            "description": "A PHP Client for the SendCloud API",
+            "homepage": "http://github.com/picqer/sendcloud-php-client",
+            "keywords": [
+                "api",
+                "client",
+                "parcels",
+                "php",
+                "sendcloud",
+                "shipments"
+            ],
+            "support": {
+                "issues": "https://github.com/picqer/sendcloud-php-client/issues",
+                "source": "https://github.com/picqer/sendcloud-php-client/tree/v2.6.0"
+            },
+            "time": "2020-10-08T09:35:38+00:00"
         },
         {
             "name": "psr/container",

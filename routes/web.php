@@ -220,9 +220,21 @@ Route::get('/shop-login', function () {
     return view('mainpage');
 });
 
-Route::post('/login',[App\Http\Controllers\RequestController::class, 'login'])->name('login');
+Route::post('/customer-login',[App\Http\Controllers\RequestController::class, 'customerlogin'])->name('customerlogin');
 
 
-Route::get('/logout',[App\Http\Controllers\RequestController::class, 'logout'])->name('logout');
+Route::get('/customer-logout',[App\Http\Controllers\RequestController::class, 'customerlogout'])->name('customerlogout');
 
 
+
+Auth::routes();
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::prefix('/admin')->middleware(['auth','superadmin'])->name('admin.')->group(function(){
+
+    Route::get('/',[App\Http\Controllers\SuperAdminController::class, 'index'])->name('index');
+
+    Route::get('/logout',[App\Http\Controllers\SuperAdminController::class, 'logout'])->name('logout');
+
+});

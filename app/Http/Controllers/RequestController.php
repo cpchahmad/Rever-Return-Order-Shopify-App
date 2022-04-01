@@ -257,7 +257,7 @@ class RequestController extends Controller
         return back();
     }
 
-    public function login(Request $request){
+    public function customerlogin(Request $request){
         $url=$request->shopurl;
         $shopurl=$url;
         $disallowed = array('http://', 'https://');
@@ -272,7 +272,7 @@ class RequestController extends Controller
 
     }
 
-    public function logout(Request $request) {
+    public function customerlogout(Request $request) {
         Auth::logout();
         return redirect('/shop-login');
     }
