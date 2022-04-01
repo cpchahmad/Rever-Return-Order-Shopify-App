@@ -26,8 +26,24 @@ class VerificationController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+//    protected $redirectTo = RouteServiceProvider::HOME;
 
+
+    protected function redirectTo(){
+
+
+
+        if (auth()->user()->is_admin== "1") {
+
+            return '/admin';
+        }
+        elseif (auth()->user()->is_admin=="0") {
+            return '/customer-login';
+        }
+
+        return redirect()->back()->withError('whoops! You are not authorized to visit this link.');
+
+    }
     /**
      * Create a new controller instance.
      *
