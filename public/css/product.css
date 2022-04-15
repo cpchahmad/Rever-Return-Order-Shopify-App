@@ -333,6 +333,10 @@ ul li.active .product_container .icons_images {
     position: relative;
     pointer-events: none;
 }
+.non-fulfillment {
+
+    pointer-events: none;
+}
 
 .non-fulfillment .product_container::before {
     content: '';
