@@ -331,6 +331,7 @@ ul li.active .product_container .icons_images {
 
 .non-fulfillment .product_container {
     position: relative;
+    pointer-events: none;
 }
 
 .non-fulfillment .product_container::before {
