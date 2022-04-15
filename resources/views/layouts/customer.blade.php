@@ -39,6 +39,98 @@
                     font-size: 14px;
                 }
             }
+
+            /*@media only screen and (max-width: 360px) and (min-width: 320px)  {*/
+
+
+            /*    .logo-img{*/
+
+            /*        margin-left: 50px !important;*/
+            /*    }*/
+            /*}*/
+
+            /*@media only screen and (max-width: 370px) and (min-width: 360px)  {*/
+
+
+            /*    .logo-img{*/
+
+            /*        margin-left: 60px !important;*/
+            /*    }*/
+            /*}*/
+
+            /*@media only screen and (max-width: 380px) and (min-width: 370px)  {*/
+
+
+            /*    .logo-img{*/
+
+            /*        margin-left: 65px !important;*/
+            /*    }*/
+            /*}*/
+
+            /*@media only screen and (max-width: 390px) and (min-width: 380px)  {*/
+
+
+            /*    .logo-img{*/
+
+            /*        margin-left: 70px !important;*/
+            /*    }*/
+            /*}*/
+
+            /*@media only screen and (max-width: 400px) and (min-width: 390px)  {*/
+
+
+            /*    .logo-img{*/
+
+            /*        margin-left: 75px !important;*/
+            /*    }*/
+            /*}*/
+
+            /*@media only screen and (max-width: 430px) and (min-width: 400px)  {*/
+
+
+            /*    .logo-img{*/
+
+            /*        margin-left: 80px !important;*/
+            /*    }*/
+            /*}*/
+
+            @media only screen and (max-width: 500px) and (min-width: 320px)  {
+                .logo-img{
+
+                            width: 50% !important;
+                        }
+
+            }
+
+            @media only screen and (max-width: 600px) and (min-width: 500px)  {
+                .logo-img{
+
+                    width: 45% !important;
+                }
+
+            }
+
+            @media only screen and (max-width: 600px) and (min-width: 500px)  {
+                .logo-img{
+
+                    width: 45% !important;
+                }
+
+            }
+
+            @media only screen and (max-width: 700px) and (min-width: 600px)  {
+                .logo-img{
+
+                    width: 35% !important;
+                }
+
+            }
+
+            .header{
+                margin-top: 45px;
+            }
+
+
         </style>
     @else
         <style>

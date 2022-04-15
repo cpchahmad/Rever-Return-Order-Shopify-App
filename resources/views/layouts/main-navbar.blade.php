@@ -4,7 +4,8 @@
 <nav class="navbar navbar-default bg-primary" id="top_nav_fixed">
     <div class="navbar-header">
         <div class="decline-item ">
-            <a href="{{route('home')}}">
+{{--            <a href="{{route('home')}}">--}}
+            <a href="{{url('testing')}}">
                 <img class="display-4 mt-3" src="{{asset('logos/Logo REVER.png')}}" alt="logo" width="100px">
             </a>
 

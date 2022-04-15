@@ -156,17 +156,17 @@ Route::group(['middleware'=>['auth.shopify']], function () {
 
 
 
-//    Route::get('/testing', function() {
-//
-//        $shop = \Illuminate\Support\Facades\Auth::user();
-//
-//
-//
-//
-//        $response = $shop->api()->rest('GET', '/admin/webhooks.json');
-//
-//        dd($response);
-//    })->name('getwebbhook');
+    Route::get('/testing', function() {
+
+        $shop = \Illuminate\Support\Facades\Auth::user();
+
+
+
+
+        $response = $shop->api()->rest('GET', '/admin/webhooks.json');
+
+        dd($response);
+    })->name('getwebbhook');
 
     Route::get('/admin/filter', [App\Http\Controllers\OrderController::class, 'Filtration'])->name('filtration');
 

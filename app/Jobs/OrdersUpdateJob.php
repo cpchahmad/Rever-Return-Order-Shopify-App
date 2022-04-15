@@ -6,6 +6,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 use Osiset\ShopifyApp\Objects\Values\ShopDomain;
 use stdClass;
 
@@ -49,15 +50,30 @@ class OrdersUpdateJob implements ShouldQueue
     public function handle()
     {
         // Convert domain
-//        $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
-
+        $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
+//            DB::table('error_logs')->insert([
+//
+//                'message' => 'order update webhook'. $this->shopDomain->toNative(),
+//
+//            ]);
         try {
             $order = new OrderController();
             $order->UpdateOrder($this->data->id, $this->shopDomain->toNative());
+
+
+
             return true;
         } catch (\Exception $exception) {
+
+            DB::table('error_logs')->insert([
+
+                'message' => 'order update catch webhook'.$exception->getMessage(),
+
+            ]);
             return;
         }
+
+
         // Do what you wish with the data
         // Access domain name as $this->shopDomain->toNative()
     }

@@ -280,12 +280,15 @@ class CustomerController extends Controller
                 //dd($req_items);
 
                 $lines = json_decode($order->order_json);
+//                dd($lines);
                 $order_json = $lines;
                 $lines = $lines->line_items;
                 $line_items = [];
 
                 foreach ($lines as $key => $line) {
+//                    return  ($line);
                     $lineItem['id'] = $line->id;
+                    $lineItem['fulfillment_status']=$line->fulfillment_status;
                     $lineItem['variant_id'] = $line->variant_id;
                     $lineItem['title'] = $line->title;
                     $lineItem['quantity'] = $line->quantity;
@@ -302,6 +305,7 @@ class CustomerController extends Controller
 
                     if ($line_product === null) {
                         $product_detail = $shop->api()->rest('GET', '/admin/products/' . $lineItem->product_id . '.json')['body']['product'];
+
                         $product_detail = json_decode(json_encode($product_detail), FALSE);
                         $order_line_product = OrderLineProduct::where('product_id', $lineItem['product_id'])->first();
                         if ($order_line_product === null) {

@@ -54,7 +54,7 @@
                                                             @if(count($methods)>0)
                                                                 @foreach($methods as $method)
                                                                     <a class="dropdown-item"
-                                                                       href="{{route('filtration').'?method='.$method->id.'&status='.$current_status}}"> {{$method->name}}</a>
+                                                                           href="{{route('filtration').'?method='.$method->id.'&status='.$current_status}}"> {{$method->name}}</a>
 
                                                                 @endforeach
                                                             @endif

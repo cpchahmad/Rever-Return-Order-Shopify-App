@@ -22,7 +22,10 @@
         .delete_item {
             z-index: 1;
         }
+        body {
+            background-image: url('{{asset('logos/'.$settings->background)}}') !important;
 
+        }
     </style>
 @endsection
 
@@ -87,16 +90,31 @@
         <input type="hidden" name="sessiondata" value="{{json_encode($customsession)}}">
 
         <div class="container">
+{{--            <div class="header">--}}
+{{--                <a href="https://{{$domain}}">--}}
+{{--                    @if($settings)--}}
+{{--                        <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px;margin-left: 160%" alt="logo">--}}
+
+{{--                    @else--}}
+{{--                        <img src="{{asset('images/Group 26.svg')}}" alt="logo">--}}
+
+{{--                    @endif--}}
+{{--                </a>--}}
+{{--            </div>--}}
+
+
             <div class="header">
+                <div id="over" style="position:absolute; ">
                 <a href="https://{{$domain}}">
                     @if($settings)
-                        <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px;margin-left: 160%" alt="logo">
+                        <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
 
                     @else
                         <img src="{{asset('images/Group 26.svg')}}" alt="logo">
 
                     @endif
                 </a>
+            </div>
             </div>
             <div class="main_products_all_section">
                 <div class="heading_section">
@@ -115,7 +133,7 @@
                                     <ul class="non_return">
                                         @foreach($line_items as $line_item)
 
-                                            <li class="porduct">
+                                            <li class="porduct non-fulfillment">
                                                 <a href="">
                                                     <div class="product_container">
                                                         <div class="product_parent">
@@ -421,6 +439,9 @@
                                 </div>
                             </div>
                         @endif
+
+
+
 
 
 

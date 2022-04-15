@@ -68,22 +68,42 @@
             font-size: 15px;
         }
 
+        body {
+            background-image: url('{{asset('logos/'.$settings->background)}}') !important;
+
+        }
+
     </style>
 @endsection
 
 
 @section('content')
     <div class="container">
+{{--        <div class="header">--}}
+{{--            <a href="https://{{$domain}}">--}}
+{{--                @if($settings)--}}
+{{--                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px;margin-left: 160%" alt="logo">--}}
+
+{{--                @else--}}
+{{--                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">--}}
+
+{{--                @endif--}}
+{{--            </a>--}}
+{{--        </div>--}}
+
         <div class="header">
+
+            <div id="over" style="position:absolute; ">
             <a href="https://{{$domain}}">
                 @if($settings)
-                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px;margin-left: 160%" alt="logo">
+                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
 
                 @else
                     <img src="{{asset('images/Group 26.svg')}}" alt="logo">
 
                 @endif
             </a>
+        </div>
         </div>
         <div class="main_products_all_section">
             <div class="heading_section">

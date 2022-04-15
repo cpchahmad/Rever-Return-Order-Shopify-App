@@ -13,16 +13,41 @@
             text-align: center;
             margin-bottom: 10px
         }
+
+        body {
+            background-image: url('{{asset('logos/'.$settings->background)}}') !important;
+
+        }
+
+
+
     </style>
 @endsection
 
 @section('content')
 
     <div class="container">
+{{--        <div class="header">--}}
+
+
+
+{{--            <a href="https://{{$domain}}" id="policy">--}}
+{{--                @if($settings)--}}
+{{--                <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width: 200px;margin-left: 160%" alt="logo">--}}
+
+{{--                    @else--}}
+{{--                                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">--}}
+
+{{--                @endif--}}
+{{--            </a>--}}
+{{--        </div>   --}}
         <div class="header">
+
+
+            <div id="over" style="position:absolute; ">
             <a href="https://{{$domain}}" id="policy">
                 @if($settings)
-                <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px;margin-left: 160%" alt="logo">
+                <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
 
                     @else
                                     <img src="{{asset('images/Group 26.svg')}}" alt="logo">
@@ -30,6 +55,7 @@
                 @endif
             </a>
         </div>
+    </div>
 
 {{--        <form role="form" action="{{route('customer.login.post')}}?shop={{$domain}}" method="get" id="loginform">--}}
         <form role="form" action="https://{{(($domain.'/a/return/customer/login'))}}?shop={{$domain}}" method="get" id="loginform">

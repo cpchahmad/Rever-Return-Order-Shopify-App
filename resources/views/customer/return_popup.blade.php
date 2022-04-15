@@ -15,6 +15,11 @@
             background-size: cover !important;
             background-position: center !important;
         }
+
+            body {
+            background-image: url('{{asset('logos/'.$settings->background)}}') !important;
+
+        }
     </style>
 @endsection
 
@@ -30,16 +35,31 @@
           method="POST">
 
         @csrf
+{{--        <div class="header">--}}
+{{--            <a href="https://{{$shop->name}}">--}}
+{{--                @if($settings)--}}
+{{--                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px" alt="logo">--}}
+
+{{--                @else--}}
+{{--                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">--}}
+
+{{--                @endif--}}
+{{--            </a>--}}
+{{--        </div>--}}
+
+
         <div class="header">
+            <div id="over" style="position:absolute; ">
             <a href="https://{{$shop->name}}">
                 @if($settings)
-                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px" alt="logo">
+                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
 
                 @else
                     <img src="{{asset('images/Group 26.svg')}}" alt="logo">
 
                 @endif
             </a>
+        </div>
         </div>
         <div class="main_section_popup main_section">
             <div class="overlay_section"></div>
