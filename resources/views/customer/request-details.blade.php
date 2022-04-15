@@ -133,7 +133,7 @@
                                     <ul class="non_return">
                                         @foreach($line_items as $line_item)
 
-                                            <li class="porduct non-fulfillment">
+                                            <li class="porduct ">
                                                 <a href="">
                                                     <div class="product_container">
                                                         <div class="product_parent">
@@ -175,7 +175,7 @@
                             @foreach($line_items as $line_item)
 
                                 @if($line_item['blocked']==false && $line_item['unavailable']==false)
-                                    <li class="porduct @if(in_array($line_item['id'],$active_items)) active @endif ">
+                                    <li class="porduct non-fulfillment @if(in_array($line_item['id'],$active_items)) active @endif ">
                                         @if(!in_array($line_item['id'],$active_items))<a
 {{--                                            href="{{(route('addTo.selection',[$order->id,$line_item['id']]))}}">--}}
                                             href="https://{{$domain}}/a/return/customer/order/{{$order->id}}/lineItem/{{$line_item['id']}}/selected">

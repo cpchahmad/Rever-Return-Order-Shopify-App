@@ -345,6 +345,18 @@ ul li.active .product_container .icons_images {
     z-index: 99;
 }
 
+.non-fulfillment .product_container::after {
+    content: 'Not Fulfilled yet';
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    z-index: 999;
+}
 .already-Requested li .product_container::before {
     content: '';
     width: 100%;
