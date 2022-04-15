@@ -51,6 +51,7 @@ class ProductUpdateJob implements ShouldQueue
     {
         // Convert domain
 //        $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
+        $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
 
 
         try {
