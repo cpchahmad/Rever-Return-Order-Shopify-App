@@ -27,12 +27,7 @@
 
         }
 
-        @media only screen and (max-width: 906px) and (min-width: 501px){
-            .popup_img {
 
-margin: auto !important;
-            }
-        }
 
     </style>
 @endsection
@@ -46,16 +41,7 @@ margin: auto !important;
     <?php
 
     $active_items = [];
-//    if (\Illuminate\Support\Facades\Session::has('items')) {
-//
-//
-//        foreach (\Illuminate\Support\Facades\Session::get('items') as $items) {
-//            array_push($active_items, $items['id']);
-//        }
-//        $session_items = \Illuminate\Support\Facades\Session::get('items');
-//
-//
-//    }
+
     if ($customsession) {
 
 
@@ -88,7 +74,7 @@ margin: auto !important;
 
 
 
-{{--    <form method="GET" action="{{proxy(route('items.selected'))}}">--}}
+
 
 
     <form method="GET" action="https://{{$domain}}/a/return/customer/order/selected/submit">
@@ -98,24 +84,14 @@ margin: auto !important;
         <input type="hidden" name="sessiondata" value="{{json_encode($customsession)}}">
 
         <div class="container">
-{{--            <div class="header">--}}
-{{--                <a href="https://{{$domain}}">--}}
-{{--                    @if($settings)--}}
-{{--                        <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px;margin-left: 160%" alt="logo">--}}
 
-{{--                    @else--}}
-{{--                        <img src="{{asset('images/Group 26.svg')}}" alt="logo">--}}
-
-{{--                    @endif--}}
-{{--                </a>--}}
-{{--            </div>--}}
 
 
             <div class="header">
-                <div id="over" style="position:absolute; ">
+                <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">
                 <a href="https://{{$domain}}"  style="text-decoration: none;">
                     @if($settings)
-                        <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
+                        <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">
                         <h5 style="color: white">Powered by Rever</h5>
                     @else
                         <img src="{{asset('images/Group 26.svg')}}" alt="logo">
@@ -185,15 +161,14 @@ margin: auto !important;
                                 @if($line_item['blocked']==false && $line_item['unavailable']==false)
                                     <li class="porduct @if($line_item['fulfillment_status']==null) non-fulfillment @endif @if(in_array($line_item['id'],$active_items)) active @endif ">
                                         @if(!in_array($line_item['id'],$active_items))<a
-{{--                                            href="{{(route('addTo.selection',[$order->id,$line_item['id']]))}}">--}}
+
                                             href="https://{{$domain}}/a/return/customer/order/{{$order->id}}/lineItem/{{$line_item['id']}}/selected">
                                             @endif
                                             <div class="product_container">
                                                 <div class="icons_images"
                                                      >
                                                     <div class="img_background delete_item"
-{{--                                                         data-href="{{(route('remove.item',[$order->id,$line_item['id']]))}}">--}}
-{{--                                                         data-href="https://{{$domain}}/a/return/customer/order/{{$order->id}}/item/{{$line_item['id']}}/remove">--}}
+
                                                          data-href="https://{{$domain}}/a/return/customer/{{$order->id}}/item/{{$line_item['id']}}/remove?customsession={{json_encode($customsession)}}&line_item_id={{$line_item['id']}}">
                                                         <img src="{{asset('images/true.svg')}}" alt="tick" id="tick">
                                                         <img src="{{asset('images/x.svg')}}"
@@ -336,9 +311,7 @@ margin: auto !important;
                                                                         <b> {{$item_json['title'].'-'.implode(' / ',array_filter($item_json['options']))}} </b>
                                                                         x {{$item_json['quantity']}}
                                                                         <div class="row">
-                                                                            {{--                                                    <div class="col-md-12 mt-2">--}}
-                                                                            {{--                                                        SKU: {{$a_product['sku']}}--}}
-                                                                            {{--                                                    </div>--}}
+
                                                                             <div
                                                                                 class="col-md-12 mt-2 font-weight-bold">
                                                                                 Price:
@@ -388,9 +361,7 @@ margin: auto !important;
                                                                             <b> {{$item_json['title'].'-'.$sel_variant->title}}</b>
                                                                             x {{$item_json['quantity']}}
                                                                             <div class="row">
-                                                                                {{--                                                        <div class="col-md-12 mt-2">--}}
-                                                                                {{--                                                            SKU: {{$sel_variant['sku']}}--}}
-                                                                                {{--                                                        </div>--}}
+
                                                                                 <div class="col-md-12 mt-2">
                                                                                     Price:
                                                                                     {{'$'.$item_json['price']}}
@@ -508,13 +479,7 @@ margin: auto !important;
             <div class="container">
                 <div class="main_btn_section">
                     <div class="small_section">
-{{--                        @if(\Illuminate\Support\Facades\Session::has('items'))--}}
-{{--                            @if(count(\Illuminate\Support\Facades\Session::get('items'))>1)--}}
-{{--                                <span>{{count(\Illuminate\Support\Facades\Session::get('items'))}} items selected</span>--}}
-{{--                            @elseif(count(\Illuminate\Support\Facades\Session::get('items')))--}}
-{{--                                <span>{{count(\Illuminate\Support\Facades\Session::get('items'))}} item selected</span>--}}
-{{--                            @endif--}}
-{{--                        @else   --}}
+
                             @if($customsession)
                             @if(count($customsession)>1)
                                 <span>{{count($customsession)}} items selected</span>

@@ -44,7 +44,7 @@
             @media only screen and (max-width: 500px) and (min-width: 320px)  {
                 .logo-img{
 
-                            width: 50% !important;
+                            width: 135px !important;
                         }
 
                 .main_products_all_section{
@@ -57,7 +57,7 @@
             @media only screen and (max-width: 600px) and (min-width: 500px)  {
                 .logo-img{
 
-                    width: 45% !important;
+                    width: 135px !important;
                 }
 
                 .main_products_all_section{
@@ -71,7 +71,7 @@
             @media only screen and (max-width: 700px) and (min-width: 600px)  {
                 .logo-img{
 
-                    width: 35% !important;
+                    width: 135px !important;
                 }
 
             }

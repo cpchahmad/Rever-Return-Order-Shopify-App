@@ -8,18 +8,15 @@
     <link rel="canonical" href="https://www.creative-tim.com/product/argon-dashboard-pro" />
 
 
-
-    {{--    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">--}}
-
     <link rel="stylesheet" href="{{asset('argon/vendor/nucleo/css/nucleo.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('argon/vendor/%40fortawesome/fontawesome-free/css/all.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('argon/vendor/quill/dist/quill.core.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('argon/css/argon.mine209.css?v=1.0.0')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('argon/css/colorpicker.css')}}" type="text/css">
-    {{--    <link rel="stylesheet" href="https://unpkg.com/@shopify/polaris@4.13.1/styles.min.css"/>--}}
+
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-{{--    <link rel="stylesheet" href="{{asset('css/tagsinput/bootstrap-tagsinput.css')}}"/>--}}
+
 
 
     <script src="{{asset('argon/vendor/jquery/dist/jquery.min.js')}}"></script>
@@ -223,11 +220,11 @@
     $('#flash-overlay-modal').modal();
 
 </script>
-{{--<script src="{{asset('argon/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>--}}
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.17.0/ui/trumbowyg.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.17.0/trumbowyg.min.js"></script>
 
-{{--<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>--}}
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="{{asset('argon/js/colorpicker.js')}}"></script>

@@ -27,27 +27,14 @@
 @section('content')
 
     <div class="container">
-{{--        <div class="header">--}}
 
-
-
-{{--            <a href="https://{{$domain}}" id="policy">--}}
-{{--                @if($settings)--}}
-{{--                <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width: 200px;margin-left: 160%" alt="logo">--}}
-
-{{--                    @else--}}
-{{--                                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">--}}
-
-{{--                @endif--}}
-{{--            </a>--}}
-{{--        </div>   --}}
         <div class="header">
 
 
-            <div id="over" style="position:absolute; ">
+            <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">
             <a href="https://{{$domain}}" id="policy" style="text-decoration: none;">
                 @if($settings)
-                <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
+                <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">
 
                     <h5 style="color: white">Powered by Rever</h5>
                     @else
@@ -58,7 +45,7 @@
         </div>
     </div>
 
-{{--        <form role="form" action="{{route('customer.login.post')}}?shop={{$domain}}" method="get" id="loginform">--}}
+
         <form role="form" action="https://{{(($domain.'/a/return/customer/login'))}}?shop={{$domain}}" method="get" id="loginform">
             <input type="hidden" name="shop" value="{{$domain}}">
             <div class="main_section_login">
@@ -81,14 +68,12 @@
 
                     @if(isset($error))
 
-{{--                    @if (url()->current() == "{{$domain}}/a/return/order?error")--}}
+
 
                         <h4 class="incorrect">{{$error}}</h4>
                     @endif
 
                     @if(isset($error1))
-
-                        {{--                    @if (url()->current() == "{{$domain}}/a/return/order?error")--}}
 
                         <h4 class="incorrect">{{$error1}}</h4>
                     @endif
@@ -107,7 +92,7 @@
                         </div>
                     @endif
                     <div class="field_policy">
-{{--                        <a href="https://us.centricwear.com/pages/return-policy">View Policy</a>--}}
+
                     </div>
                 </div>
             </div>
@@ -120,30 +105,6 @@
     <script>
     $(document).ready(function(){
 
-        {{--$('body').on('click','#formsubmit',function(e){--}}
-
-        {{--    e.preventDefault();--}}
-
-
-
-        {{--    $.ajax({--}}
-        {{--        url: "{{ route('customer.login.post') }}",--}}
-        {{--        method: "GET",--}}
-        {{--        data: $('#loginform').serialize() ,--}}
-
-        {{--        success: function(data)--}}
-        {{--        {--}}
-
-
-        {{--            $('#append_data').empty();--}}
-        {{--            $('#append_data').append(data);--}}
-
-
-        {{--        }--}}
-        {{--    });--}}
-
-
-        {{--});--}}
         if($('.msg_class').length)
         {
             setTimeout(function(){
@@ -164,10 +125,6 @@
                 $('.policy_section').slideDown(500);
             }
         });
-
-
-
-
 
     });
     </script>

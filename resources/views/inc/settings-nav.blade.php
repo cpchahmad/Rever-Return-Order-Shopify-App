@@ -15,9 +15,7 @@
                                 <li class="nav-item {{ (request()->is('request/settings'))  ? 'active' : '' }}">
                                     <a href="{{route('request.decline.setting')}}" class="nav-link">Request Settings</a>
                                 </li>
-                                {{--                                <li class="nav-item">--}}
-                                {{--                                    <a href="{{route('theme.install')}}" class="nav-link">Theme Installation</a>--}}
-                                {{--                                </li>--}}
+
                                 <li class="nav-item {{ (request()->is('product/exclusions'))  ? 'active' : '' }}">
                                     <a href="{{route('block.tags')}}" class="nav-link">Product Exclusions</a>
                                 </li>
@@ -48,9 +46,7 @@
                                 <li class="nav-item {{ (request()->is('settings/portal-text')) ? 'active' : '' }}">
                                     <a href="{{route('settings.portal-text')}}" class="nav-link">Text</a>
                                 </li>
-                                {{--                                <li class="nav-item">--}}
-                                {{--                                    <a href="{{route('portal.content')}}" class="nav-link">Content</a>--}}
-                                {{--                                </li>--}}
+
                             </ul>
                         </div>
                     </li>
@@ -71,48 +67,11 @@
                                 <li class="nav-item {{ (request()->is('orders/custom/text')) ? 'active' : '' }}">
                                     <a href="{{route('order.custom.text')}}" class="nav-link">Custom Exchange Text</a>
                                 </li>
-                                {{--                                <li class="nav-item">--}}
-                                {{--                                    <a href="{{route('order.sku.setting')}}" class="nav-link">Others</a>--}}
-                                {{--                                </li>--}}
+
                             </ul>
                         </div>
                     </li>
-                    {{--                    <li class="nav-item">--}}
-                    {{--                        <a class="nav-link" href="#customization" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-email">--}}
-                    {{--                            <i class="fa fa-file text-primary" aria-hidden="true"></i>--}}
-                    {{--                            <span class="nav-link-text text-uppercase">Customizer File Upload</span>--}}
-                    {{--                        </a>--}}
-                    {{--                        <div class="collapse " id="customization">--}}
-                    {{--                            <ul class="nav nav-sm flex-column">--}}
-                    {{--                                <li class="nav-item">--}}
-                    {{--                                    <a href="{{route('design.file.settings')}}" class="nav-link">Design</a>--}}
-                    {{--                                </li>--}}
-                    {{--                                <li class="nav-item">--}}
-                    {{--                                    <a href="{{route('upload.setting')}}" class="nav-link">Custom Title</a>--}}
-                    {{--                                </li>--}}
-                    {{--                                <li class="nav-item">--}}
-                    {{--                                    <a href="{{route('header.settings')}}" class="nav-link">Header Message</a>--}}
-                    {{--                                </li>--}}
-                    {{--                            </ul>--}}
-                    {{--                        </div>--}}
-                    {{--                    </li>--}}
-                    {{--                    <li class="nav-item">--}}
-                    {{--                        <a class="nav-link" href="#return_method" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="navbar-email">--}}
-                    {{--                            <i class="fa fa-undo text-primary" aria-hidden="true"></i>--}}
-                    {{--                            <span class="nav-link-text text-uppercase">Return Method</span>--}}
-                    {{--                        </a>--}}
-                    {{--                        <div class="collapse " id="return_method">--}}
-                    {{--                            <ul class="nav nav-sm flex-column">--}}
-                    {{--                                <li class="nav-item">--}}
-                    {{--                                    <a href="{{route('design.return.methods')}}" class="nav-link">Design</a>--}}
-                    {{--                                </li>--}}
-                    {{--                                <li class="nav-item">--}}
-                    {{--                                    <a href="{{route('orders.refund.list')}}" class="nav-link">Custom Methods</a>--}}
-                    {{--                                </li>--}}
 
-                    {{--                            </ul>--}}
-                    {{--                        </div>--}}
-                    {{--                    </li>--}}
                     <li class="nav-item">
                         <a class="nav-link {{ (request()->is('order/confirmation/settings')) || (request()->is('email/reminder')) || (request()->is('email/expired')) ? 'active' : '' }}" href="#confirmation" data-toggle="collapse" role="button"
                            aria-expanded="true" aria-controls="navbar-email">
@@ -121,9 +80,7 @@
                         </a>
                         <div class="collapse {{ (request()->is('order/confirmation/settings')) || (request()->is('email/reminder')) || (request()->is('email/expired')) ? 'show' : '' }} " id="confirmation">
                             <ul class="nav nav-sm flex-column">
-                                {{--                                <li class="nav-item">--}}
-                                {{--                                    <a href="{{route('design.confirmation')}}" class="nav-link">Design</a>--}}
-                                {{--                                </li>--}}
+
                                 <li class="nav-item {{ (request()->is('order/confirmation/settings')) ? 'active' : '' }}">
                                     <a href="{{route('return.confirmation')}}" class="nav-link">Mail</a>
                                 </li>
@@ -173,7 +130,7 @@
                     <li class="nav-item">
                         <a class="nav-link {{ (request()->is('settings/easypost/integration')) ? 'active' : '' }}" href="{{route('easypost.index')}}">
                             <i class="fa fa-shipping-fast text-primary"></i>
-                            {{--                            <span class="nav-link-text text-uppercase">Easy Post</span>--}}
+
                             <span class="nav-link-text text-uppercase">Logistics Integration</span>
                         </a>
                     </li>

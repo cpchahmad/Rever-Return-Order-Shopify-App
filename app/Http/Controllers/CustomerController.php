@@ -731,6 +731,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
     //Function used when customer select items
     public function addToSelection($order_id, $line_id, Request $request)
     {
+
         try {
 
             $order = Order::find($order_id);

@@ -79,24 +79,14 @@
 
 @section('content')
     <div class="container">
-{{--        <div class="header">--}}
-{{--            <a href="https://{{$domain}}">--}}
-{{--                @if($settings)--}}
-{{--                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px;margin-left: 160%" alt="logo">--}}
 
-{{--                @else--}}
-{{--                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">--}}
-
-{{--                @endif--}}
-{{--            </a>--}}
-{{--        </div>--}}
 
         <div class="header">
 
-            <div id="over" style="position:absolute; ">
+            <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">
             <a href="https://{{$domain}}" style="text-decoration: none;">
                 @if($settings)
-                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
+                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">
                     <h5 style="color: white">Powered by Rever</h5>
                 @else
                     <img src="{{asset('images/Group 26.svg')}}" alt="logo">
@@ -111,14 +101,14 @@
             </div>
             <div class="main__print__section">
                 <div class="prin_-one print_section">
-                    {{--                    <form method="GET" action="{{proxy(route('print.label',['request_id'=>$request->id,'order_id'=>$request->order_id]))}}">--}}
+
                     <input type="hidden" name="shop_id" value="{{$request->shop_id}}">
                     <div class="first_main_print_section">
                         <div class="return__text_print">
                             <span>Return {{$request->id}}</span>
                         </div>
 
-                        {{--                            @if($request->request_labels==null)--}}
+
                         <div class="print_label__main">
                             <h4>Your label is ready to print</h4>
                         </div>
@@ -135,21 +125,9 @@
                                 </button>
                             </a>
                         </div>
-                        {{--                            @else--}}
-                        {{--                                <div class="print_label__main">--}}
-                        {{--                                    <h4>Your label is Printed</h4>--}}
-                        {{--                                </div>--}}
-                        {{--                                <div class="prin__discription">--}}
-                        {{--                                    <p>Use the link below to print your label and attach it to the top of the package,then drop it off at any USPS Location by 21 OCT 2020.</p>--}}
-                        {{--                                </div>--}}
-                        {{--                                <div class="button__print">--}}
-                        {{--                                    <button type="button" class="print_btn" onclick="download_label('{{$request->request_labels->tracking_code}}','{{$request->request_labels->label}}')">--}}
-                        {{--                                        <i class="fa fa-download" aria-hidden="true"></i> Download Return Label--}}
-                        {{--                                    </button>--}}
-                        {{--                                </div>--}}
-                        {{--                            @endif--}}
+
                     </div>
-                    {{--                    </form>--}}
+
                     <div class="print_discription">
                         <span>A link to your shipping information have been emailed to {{$order->email}}</span>
                     </div>
@@ -244,7 +222,7 @@
                     </div>
                 @endif
 
-{{--                <form id="address_update" method="POST" action="{{proxy(route('address.update',$request->shipping_address->id))}}">--}}
+
                 <form id="address_update" method="POST" action="https://{{$domain}}/a/return/customer/address/{{$request->shipping_address->id}}/update">
                     <div class="prin_-five print_section">
                         <div class="edit_print_info">
@@ -336,7 +314,7 @@
                     <div class="main_print_submit_btn">
                         <div class="print_submit_btn">
                             <button
-{{--                                onclick="window.location.href='https://us.centricwear.com/a/return'" --}}
+
                                     type="submit">
                                 Done
                             </button>
@@ -351,12 +329,7 @@
 @section('script')
     <script>
 
-        // function download_label(label)
-        // {
-        //     console.log(encodeURIComponent(label));
-        //
-        //     console.log(label);
-        // }
+
         $(document).ready(function () {
             $('.edit_link a').on('click',function(event){
                 event.preventDefault();
@@ -422,7 +395,7 @@
 
         function go_back() {
             window.history.back();
-            {{--window.location.href="{{proxy(route('customer.login.post',['shop'=>$shop,'order_name'=>$order_name,'email'=>$order->email]))}}"--}}
+
         }
     </script>
 @endsection

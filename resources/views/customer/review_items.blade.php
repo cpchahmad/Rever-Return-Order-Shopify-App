@@ -15,26 +15,15 @@
 
 @section('content')
     <div class="container">
-{{--        <div class="header">--}}
-{{--            <a href="https://us.centricwear.com">--}}
-{{--            <a href="https://{{$shop}}">--}}
-{{--                @if($settings)--}}
-{{--                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px;margin-left: 160%" alt="logo">--}}
 
-{{--                @else--}}
-{{--                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">--}}
-
-{{--                @endif--}}
-{{--            </a>--}}
-{{--        </div>--}}
 
         <div class="header">
 
-            <div id="over" style="position:absolute; ">
-            {{--            <a href="https://us.centricwear.com">--}}
+            <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">
+
             <a href="https://{{$shop}}" style="text-decoration: none">
                 @if($settings)
-                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
+                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">
                     <h5 style="color: white">Powered by Rever</h5>
                 @else
                     <img src="{{asset('images/Group 26.svg')}}" alt="logo">
@@ -203,23 +192,7 @@
 
                     </ul>
                 </div>
-{{--                @if($sum>0)--}}
-{{--                    <div class="product_price_detail new_items">--}}
-{{--                        <ul>--}}
-{{--                            <li>--}}
-{{--                                <div class="product_detail_summry_flex">--}}
-{{--                                    <div class="return_name">--}}
-{{--                                        <span>Total Return Credit</span>--}}
-{{--                                    </div>--}}
-{{--                                    <div class="return_price">--}}
 
-{{--                                        <span>${{number_format($sum,2)}}</span>--}}
-{{--                                    </div>--}}
-{{--                                </div>--}}
-{{--                            </li>--}}
-{{--                        </ul>--}}
-{{--                    </div>--}}
-{{--                @endif--}}
                 <div class="product__button_two">
                     @if(($sum-$ex_sum)>=0)
                         <div class="product__button_flex product__button_flex_second">
@@ -245,7 +218,7 @@
                                 TOTAL PAYABLE AMOUNT
                             </div>
                             <div class="producct__second_div text-rightt">
-                                {{--                                @dd($sum,$ex_sum)--}}
+
                                 <span>${{number_format(abs($sum-$ex_sum),2)}}</span>
                             </div>
                         </div>
@@ -262,7 +235,7 @@
                         ?>
                         <div class="producct__second_div">
                             <div class="btn_product_main btn_product_main_two">
-{{--                                <form id="submitForm" method="GET" action="{{proxy(route('customer.confirmation.request'))}}">--}}
+
                                 <form id="submitForm" method="GET" action="https://{{$shop}}/a/return/customer/confirm/request">
                                     <input type="hidden" name="shop" value="{{\App\Models\User::find($order->shop_id)->name}}">
                                     <input type="hidden" name="order_name" value="{{$order_name}}">
@@ -296,15 +269,10 @@
         $(document).on('submit','#submitForm',function(){
             $(this).find('button[type=submit]').attr('disabled','disabled');
         })
-        // $(document).ready(function(){
-        //     $('button[type=submit]').on('click',function(){
-        //        $(this).attr('disabled','disabled');
-        //     });
-        // });
+
 
         function go_back() {
             window.history.back();
-            {{--window.location.href="{{proxy(route('customer.login.post',['shop'=>$shop,'order_name'=>$order_name,'email'=>$order->email]))}}"--}}
         }
     </script>
 @endsection

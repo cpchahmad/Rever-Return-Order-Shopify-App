@@ -20,6 +20,13 @@
             background-image: url('{{asset('logos/'.$settings->background)}}') !important;
 
         }
+
+        @media only screen and (max-width: 906px) and (min-width: 501px){
+            .popup_img {
+
+                margin: auto !important;
+            }
+        }
     </style>
 @endsection
 
@@ -30,29 +37,19 @@
     $merge_array = [];
     ?>
     <form class="container" id="selection_form"
-{{--          action="{{(route('addTo.selection.submit',['order_id'=>$order->id,'line_id'=>$line_item['id']]))}}"--}}
+
           action="https://{{$shop->name}}/a/return/customer/order/{{$order->id}}/lineItem/{{$line_item['id']}}/selected/submit"
           method="POST">
 
         @csrf
-{{--        <div class="header">--}}
-{{--            <a href="https://{{$shop->name}}">--}}
-{{--                @if($settings)--}}
-{{--                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px" alt="logo">--}}
 
-{{--                @else--}}
-{{--                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">--}}
-
-{{--                @endif--}}
-{{--            </a>--}}
-{{--        </div>--}}
 
 
         <div class="header">
-            <div id="over" style="position:absolute; ">
+            <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">
             <a href="https://{{$shop->name}}" style="text-decoration: none">
                 @if($settings)
-                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
+                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">
                     <h5 style="color: white">Powered by Rever</h5>
                 @else
                     <img src="{{asset('images/Group 26.svg')}}" alt="logo">
@@ -72,7 +69,7 @@
 
                                 </div>
                                 <div class="cross">
-{{--                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>$order_name,'email'=>$order->email]))}}">--}}
+
                                     <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
                                         <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
                                         </button>
@@ -81,7 +78,7 @@
                             </div>
                             <input type="hidden" id="image_value" value="@if(isset($line_item['image'])){{$line_item['image']}}@endif">
                             <input type="hidden" name="product_id" value="{{$line_item['product_id']}}">
-                            {{--                            <img src="{{$line_item['image']}}" alt="" class="img_responsive">--}}
+
                         </div>
 
                         <!-- popup first section text -->
@@ -92,7 +89,7 @@
 
                                 </div>
                                 <div class="cross">
-{{--                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>$order_name,'email'=>$order->email]))}}">--}}
+
                                         <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
 
                                         <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
@@ -159,7 +156,7 @@
                                                                             alt=""></button>
                                 </div>
                                 <div class="cross">
-{{--                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>$order_name,'email'=>$order->email]))}}">--}}
+
                                         <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
 
                                         <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
@@ -257,7 +254,7 @@
                                                                             alt=""></button>
                                 </div>
                                 <div class="cross">
-{{--                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>null,'email'=>$order->email]))}}">--}}
+
                                         <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
 
                                         <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
@@ -306,7 +303,7 @@
 
                                 </div>
                                 <div class="cross">
-{{--                                    <a href="{{proxy(route('customer.login.post',['shop'=>$shop->name,'order_name'=>$order_name,'email'=>$order->email]))}}">--}}
+
                                     <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
 
                                     <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">

@@ -24,22 +24,7 @@
                 <div class="header-body">
                     <div class="row align-items-center py-3">
                     </div>
-                    {{--                    <div class="row justify-content-end" >--}}
-                    {{--                        <div class="col-xl-3 col-md-3" >--}}
-                    {{--                            <div class="card  bg-primary">--}}
-                    {{--                                <input class="datespicker form-control pull-right" href="{{route('filter.analytics')}}" shop="{{ShopifyApp::shop()->shopify_domain}}">--}}
 
-                    {{--                            </div>--}}
-
-                    {{--                            <div class="form-group">--}}
-                    {{--                                <label for="starting_date">Ending Date</label>--}}
-                    {{--                                <input class="datepicker ">--}}
-                    {{--                            </div>--}}
-                    {{--                            <button class="btn btn-light filter"> Filter</button>--}}
-
-                    {{--                        </div>--}}
-
-                    {{--                    </div>--}}
                     <div class="row">
                         <div class="col-xl-12 col-md-12">
                             <div class="card card-stats">
@@ -63,24 +48,13 @@
 
 
                                                     <div id="myDropdown" class="dropdown-content p-2">
-                                                        {{--                                                        <input class=" form-control pull-center " id="range_input"--}}
-                                                        {{--                                                               value="{{date('Y-m-d')}}"--}}
-                                                        {{--                                                               href="{{route('filter.analytics')}}">--}}
-                                                        {{--                                                        <input class=" form-control pull-center datespicker"--}}
-                                                        {{--                                                               style="display: none" id="range_input_custom"--}}
-                                                        {{--                                                               href="{{route('filter.analytics')}}">--}}
+
 
                                                         <div class="form-group mt-3">
                                                             <label for="date_range"> Date Range</label>
                                                             <select class="form-control" id="date_range">
                                                                 <option value="-2"> Select Range</option>
-                                                                {{--                                                                <option value="0">Custom</option>--}}
-                                                                <option value="1">Today</option>
-                                                                <option value="-1"> Yesterday</option>
-                                                                <option value="7">Last 7 Days</option>
-                                                                <option value="30">Last 30 Days</option>
-                                                                <option value="90">Last 90 Days</option>
-                                                                {{--                                                                <option value="m">Last Month</option>--}}
+
                                                                 <option value="y">Last Year</option>
 
                                                             </select>
@@ -90,8 +64,7 @@
                                                 </div>
                                                 <form method="get" action="{{route('filter.analytics')}}"
                                                       id="filter_analytics">
-                                                    {{--                                                    @csrf--}}
-                                                    {{--                                                           value="{{\Illuminate\Support\Facades\Auth::user()->name}}">--}}
+
                                                     <input type="hidden" name="type" class="filter_type">
                                                     <input type="hidden" name="values" class="filter_value">
 
@@ -108,7 +81,7 @@
 
                                         <div class="col-2 border-right">
                                             <div class="text-center">
-{{--                                                <h4> Request</h4>--}}
+
                                                 <h4>Number of Requests</h4>
                                                 <h4>
                                                     {{array_sum($datasets['exchange'])+array_sum($datasets['payment_method'])+array_sum($datasets['store_credit'])}}
@@ -116,39 +89,25 @@
 
                                             </div>
                                         </div>
-                                        {{--                                        <div class="col-2 border-right">--}}
-                                        {{--                                            <div class="text-center">--}}
-                                        {{--                                                <h4> Returns Percentage</h4>--}}
-                                        {{--                                                <h4>2.2%</h4>--}}
-                                        {{--                                            </div>--}}
-                                        {{--                                        </div>--}}
 
-{{--                                        <div class="col-2 border-right">--}}
-{{--                                            <div class="text-center">--}}
-{{--                                                <h4> Value Requested</h4>--}}
-{{--                                                <h4>--}}
-{{--                                                    {{array_sum($datasets['exchange'])+array_sum($datasets['payment_method'])+array_sum($datasets['store_credit'])}}--}}
-{{--                                                </h4>--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
 
                                         <div class="col-2 border-right">
                                             <div class="text-center">
-{{--                                                <h4>Exchange</h4>--}}
+
                                                 <h4>Number of Exchanges</h4>
                                                 <h4>{{array_sum($datasets['exchange'])}}</h4>
                                             </div>
                                         </div>
                                         <div class="col-2 border-right">
                                             <div class="text-center">
-{{--                                                <h4>Payment Method</h4>--}}
+
                                                 <h4>Number of Refunds</h4>
                                                 <h4>{{array_sum($datasets['payment_method'])}}</h4>
                                             </div>
                                         </div>
                                         <div class="col-3 ">
                                             <div class="text-center">
-{{--                                                <h4>Store Credit </h4>--}}
+
                                                 <h4>Number of Vouchers</h4>
                                                 <h4>{{array_sum($datasets['store_credit'])}}</h4>
                                             </div>
@@ -159,13 +118,7 @@
                                 </div>
                             </div>
                             <div class="row text-center">
-                                {{--                                <div class="col-md-12">--}}
-                                {{--                                    <select id="interval" class="form-control float-right mb-1" name="interval">--}}
-                                {{--                                        <option value="today">Today</option>--}}
-                                {{--                                        <option value="week">This Week</option>--}}
-                                {{--                                        <option value="month">This Month</option>--}}
-                                {{--                                    </select>--}}
-                                {{--                                </div>--}}
+
                                 <div class="col-md-6">
                                     <canvas id="exchange" style="width: 100%"></canvas>
                                 </div>

@@ -38,23 +38,11 @@
 @endsection
 @section('content')
     <div class="container">
-{{--        <div class="header">--}}
-{{--            <a href="https://{{$shop}}">--}}
-{{--                @if($settings)--}}
-{{--                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 200px" alt="logo">--}}
-
-{{--                @else--}}
-{{--                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">--}}
-
-{{--                @endif--}}
-{{--            </a>--}}
-{{--        </div>--}}
-
         <div class="header">
-            <div id="over" style="position:absolute; ">
+            <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">
             <a href="https://{{$shop}}" style="text-decoration: none">
                 @if($settings)
-                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
+                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">
                     <h5 style="color: white">Powered by Rever</h5>
                 @else
                     <img src="{{asset('images/Group 26.svg')}}" alt="logo">
@@ -65,7 +53,7 @@
         </div>
         <div class="main_products_all_section">
             <div class="heading_section">
-{{--                <h2>You are not allowed to Use the Process!</h2>--}}
+
             </div>
             <div class="main__print__section">
                 <div class="prin_-two print_section py-5">
