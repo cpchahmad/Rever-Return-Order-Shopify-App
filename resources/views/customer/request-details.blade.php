@@ -26,6 +26,8 @@
             background-image: url('{{asset('logos/'.$settings->background)}}') !important;
 
         }
+
+
     </style>
 @endsection
 

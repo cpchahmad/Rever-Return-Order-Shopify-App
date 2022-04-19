@@ -15,7 +15,7 @@
 
         .popupBody{
 
-            margin-top: 130px !important;
+            margin-top: 230px !important;
         }
     }
 
@@ -25,7 +25,7 @@
 
         .popupBody{
 
-            margin-top: 70px !important;
+            margin-top: 150px !important;
         }
     }
 </style>
