@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Auth;
 
 class ReasonsController extends Controller
 {
+
+    //function used to show Settings/Order Detail/ Return reasons page
     public function settings_reasons(){
         $shopfy = Auth::user();
         return view('settings.reasons')->with([
@@ -24,7 +26,7 @@ class ReasonsController extends Controller
         ]);
     }
 
-
+//Save Reason
     public function addCustomReason(Request $request)
     {
         $status=$request->input('status');
@@ -52,9 +54,9 @@ class ReasonsController extends Controller
 
     }
 
-    //edit reason
+    //Edit Reason
     public function settings_reasons_edit($id){
-//        dd($id);
+
         $shopfy = Auth::user();
 
         $edit_reason= Reason::where([
@@ -72,10 +74,9 @@ class ReasonsController extends Controller
         ]);
     }
 
-
+//Delete Reason
     public function settings_reasons_delete($id){
         $shopfy = Auth::user();
-
         $delete_resson=Reason::where('shop_id',$shopfy->id)
             ->where('id',$id)
             ->delete();

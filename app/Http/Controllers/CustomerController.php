@@ -29,10 +29,9 @@ use Illuminate\Support\Facades\Session;
 class CustomerController extends Controller
 {
 
-
+//General Function
     public function __construct()
     {
-
         try {
             $request = \Illuminate\Support\Facades\Request::all();
             $order_name = '#' . preg_replace("/[^0-9]/", "", $request['order_name']);
@@ -56,6 +55,7 @@ class CustomerController extends Controller
 
     }
 
+    //Function for showing Settings/Customer/Customer block page
     public function create_block()
     {
         $shop = Auth::user();
@@ -65,10 +65,10 @@ class CustomerController extends Controller
         ]);
     }
 
+    //Function for blocking customer by email on customer block page
     public function update_block(Request $request)
     {
         $shop = Auth::user();
-
         $has_settings = Setting::where('shop_id', $shop->id)->first();
         if ($has_settings == null) {
             $settings_save = new Setting();
@@ -76,7 +76,6 @@ class CustomerController extends Controller
             $settings_save->block_customers = $request->input('block_tags');
             $settings_save->save();
             return back();
-
 
         } else {
 
@@ -86,21 +85,13 @@ class CustomerController extends Controller
         }
     }
 
-
+//Function used for showing customer side login page
     public function loginshow(Request $request)
     {
-
-//dd($request->all());
-//        $domain='centricwear.myshopify.com';
-//        $domain='teststoreintegrate.myshopify.com';
-
-//       $error= $request->input('error');
         $domain = $request['shop'];
-//        $domain='rever-order.myshopify.com';
         if (Auth::check()) {
             return redirect()->route('analytics');
         }
-
         if ($domain != null) {
 
             $shop = User::where('name', $domain)->first();
@@ -113,7 +104,6 @@ class CustomerController extends Controller
             return view('errors.404');
 
         }
-
 
         $content = PortalContent::where('shop_id', $shop->id)
             ->orderby('id', 'desc')
@@ -132,32 +122,15 @@ class CustomerController extends Controller
             'error'=>$request->input('error'),
             'error1'=>$request->input('error1')
         ])->render();
-//        }
 
-        // return view('customer.login')->with([
-        //          'domain' => $shop->shopify_domain,
-        //          'settings' => $has_settings,
-        //          'content'=>$content,
-        //          'design'=>$design
-        //      ]);
         return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
-
-
     }
 
-
+//Function when customer login for return
     public function login(Request $request)
     {
-
-
-
-//        return response($request)->withHeaders(['Content-Type' => 'application/liquid']);
-
         try {
             $order_name = '#' . preg_replace("/[^0-9]/", "", $request->input('order_name'));
-
-
-
 
             $prev=str_replace('#','US',$order_name);
 
@@ -178,15 +151,11 @@ class CustomerController extends Controller
                     'shop' => $shop_name,
 
                 ]);
-//                $html= view('customer.request_block')->render();
-                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
+                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
             }
 
             $order_email = $request->input('email');
-
-
-
 
             if ($this->checkCustomerBlock($order_email, $shop->id)) {
 
@@ -196,16 +165,12 @@ class CustomerController extends Controller
                     'shop' => $shop_name,
 
                 ]);
-//                $html= view('customer.block')->render();
-                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
+                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
             }
 
             $settings = Setting::where('shop_id', $shop->id)->first();
-
-
             $r_settings = RequestSetting::where('shop_id', $shop->id)->first();
-
 
             $login_check = Order::where([
                 'order_name' => $order_name,
@@ -213,18 +178,11 @@ class CustomerController extends Controller
                 'shop_id' => $shop->id
             ])->first();
 
-
-
-
             $special_orders=explode(',',$r_settings->special_orders);
             $exclude_orders=explode(',',$r_settings->exclude_orders);
             $exchange_orders=explode(',',$r_settings->exchange_orders);
 
-
-
-
             if ($login_check !== null) {
-
 
                 if(!in_array(str_replace('#','US',$login_check->order_name),$exchange_orders) && RequestExchange::where('order_id',$login_check->order_id)->exists())
                 {
@@ -235,38 +193,28 @@ class CustomerController extends Controller
 
 
                     ])->render();
-//                    $html= view('customer.no-exchange')->render();
                     return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
                 }
 
-
                 $login_check_json = json_decode($login_check->order_json);
 
 
-
-
-//                if ($r_settings->exclude_non_us_order == true && $login_check_json->shipping_address->country_code !== 'US') {
                 if ($r_settings->exclude_non_us_order == true && $login_check_json->shipping_address->country_code !== 'US') {
 
                     $message="Non US Orders are not eligible for return";
 
                     return redirect('https://'.$request->shop.'/a/return/order?error1='.$message);
-//                    return back();
-                }
 
+                }
 
                 $design = PortalDesign::where('shop_id', $shop->id)
                     ->first();
-
-
 
                 $order = Order::where([
                     'order_name' => $order_name,
                     'shop_id' => $shop->id
                 ])->first();
-
-
 
                 $r_items = [];
                 $request_ids = [];
@@ -282,16 +230,14 @@ class CustomerController extends Controller
 
                 }
 
-                //dd($req_items);
-
                 $lines = json_decode($order->order_json);
-//                dd($lines);
+
                 $order_json = $lines;
                 $lines = $lines->line_items;
                 $line_items = [];
 
                 foreach ($lines as $key => $line) {
-//                    return  ($line);
+
                     $lineItem['id'] = $line->id;
                     $lineItem['fulfillment_status']=$line->fulfillment_status;
                     $lineItem['variant_id'] = $line->variant_id;
@@ -304,7 +250,6 @@ class CustomerController extends Controller
                             $lineItem['price'] -= floatval($disc->amount);
                         }
                     }
-
 
                     $line_product = OrderLineProduct::where('product_id', $line->product_id)->first();
 
@@ -325,7 +270,6 @@ class CustomerController extends Controller
                     }
                     $line_product = OrderLineProduct::where('product_id', $line->product_id)->first();
                     $line_product = json_decode($line_product->product_json);
-//                dd($line_product);
 
                     foreach (json_decode($order->line_images, true) as $im) {
                         if ($im['line_id'] == $line->id) {
@@ -343,8 +287,6 @@ class CustomerController extends Controller
                     $product_tags = explode(',', str_replace(' ', '', $tags));
 
                     $excludes = explode(',', $settings->block_products);
-
-
 
                     foreach ($excludes as $exclude) {
 
@@ -377,16 +319,10 @@ class CustomerController extends Controller
                     array_push($line_items, $lineItem);
                 }
 
-
-
-
                 $requests = \App\Models\Request::where([
                     'shop_id' => $shop->id,
                     'order_id' => $order->id
                 ])->where('status', '!=', 4)->orderBy('id', 'DESC')->cursor();
-
-
-
 
 
                 $back["shop_domain"] = $shop->shopify_domain;
@@ -405,31 +341,18 @@ class CustomerController extends Controller
                             'email' => $order->email
                         ))
                     ])->render();
-//                    return $html;
                     return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
                 }
                 $date = Carbon::createFromDate($order_json->created_at);
-
-
-
-
-
                 if ($r_settings !== null && $r_settings->valid_return_date !== null) {
-
 
                     $date = $date->addDays($r_settings->valid_return_date);
 
-
-
                 } else {
-
-
                     $date = $date->addDays(30)->format('Y-m-d');
 
                 }
-//                if()
-
 
                 $returnable = true;
 
@@ -453,18 +376,7 @@ class CustomerController extends Controller
                     $returnable = false;
                 }
 
-
-
-
-
-
-
-                //dd(Session::get('items'));
                 $date = $date->englishMonth . ' ' . $date->day . ', ' . $date->year;
-
-
-
-
 
                 $html = view('customer.request-details')->with([
                     'order' => $order,
@@ -487,10 +399,6 @@ class CustomerController extends Controller
 
                 ])->render();
 
-
-
-//                return $html;
-//                return response($html);
                 return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
                 $result = [];
@@ -504,32 +412,23 @@ class CustomerController extends Controller
 
                 $message="Incorrect Order Number or Email";
                 return redirect('https://'.$request->shop.'/a/return/order?error='.$message);
-//                return redirect('https://'.$request->shop.'/a/return/order'.$request->input('error'));
-
-//                return redirect((route('c.home',['error'=>'incorrect'])));
             }
 
 
         } catch (\Exception $exception) {
-
             dd($exception);
             return back();
         }
     }
 
-
+//Function when customer confirm for requested of item
     public function confirmRequest(Request $request)
     {
-
-
-
         $r_request=null;
 
         $items = json_decode(json_decode($request->sessiondata,'false'),'false');
 
-
         try {
-
 
             $order = Order::where([
                 'order_name' => '#' . str_replace('US', '', $request->order_name),
@@ -541,7 +440,6 @@ class CustomerController extends Controller
             $settings = Setting::where('shop_id', $shop)->first();
 
             if ($this->checkCustomerBlock($order->email, $order->shop_id)) {
-//                $html= view('customer.block')->render();
                 $html= view('customer.block')->with([
                     'settings' => $settings,
                     'shop' => $request->shop,
@@ -552,58 +450,21 @@ class CustomerController extends Controller
             }
             $lines = collect(json_decode($order->order_json)->line_items);
 
-
-
             $request_settings = RequestSetting::where('shop_id', $shop)->first();
 
             $r_details = json_decode($request->input('product'));
-
-
 
             $order_detail = json_decode($order->order_json);
 
 
             $line_items = $order_detail->line_items;
             $total_amount = 0;
-//        if ($this->checkCustomerBlock($order->email, $shop)) {
-//            return view('customer.block')->with([
-//                'order' => $order,
-//                'design' => $design,
-//                'settings' => $settings,
-//                'back' => null,
-//                'new_request' => http_build_query(array(
-//                    'shop' => $shop,
-//                    'order' => $order->order_name,
-//                    'email' => $order->email
-//                ))
-//            ])->render();
-////            return response()->json($html);
-//        }
-            $return_product_amount = [];
-//        dd(Session::all());
-//        foreach ($r_details as $r_product) {
-//
-//            foreach ($line_items as $item) {
-//                if ($r_product->id == $item->id) {
-//                    $item_price = $item->price;
-//                    $r_quantity = (int)$r_product->quantity;
-//                    $return_product_amount[$item->id] = $item_price * $r_quantity;
-//                    $total_amount += $return_product_amount[$item->id];
-//                }
-//            }
-//        }
-//        $amount_json = json_encode($return_product_amount);
+
             $exchange_items = [];
             $products = [];
             $its=[];
 
-//            foreach (Session::get('items') as $singleItem) {
-
-
-
             foreach ($items as $singleItem) {
-
-
 
                 if ($singleItem['return_type'] === 'exchange') {
 
@@ -629,20 +490,13 @@ class CustomerController extends Controller
                 } else {
                     $total_amount += floatval($singleItem['price']);
 
-
-
                 }
-
-
 
                 $its['id'] = intval($singleItem['id']);
                 $its['quantity'] = $singleItem['quantity'];
                 $its['reason'] = $singleItem['quantity'];
                 $its['return_type'] = $singleItem['return_type'];
                 $reason = ReasonsDataSet::find($singleItem['return_reason']);
-
-
-
 
                 if($reason==null)
                 {
@@ -651,10 +505,6 @@ class CustomerController extends Controller
                 }
                 $its['return_type'] = $reason->name;
 
-
-
-
-
                 if (isset($singleItem['exchange_variant_id']) && $singleItem['exchange_variant_id']) {
                     $its['exchange_item'] = $singleItem['exchange_variant_id'];
                 }
@@ -662,10 +512,6 @@ class CustomerController extends Controller
                 array_push($products, $its);
                 $product_price[intval($singleItem['id'])] = floatval($singleItem['price']);
             }
-
-
-
-
 
             $r_request = new \App\Models\Request();
             $r_request->shop_id = $shop;
@@ -676,11 +522,7 @@ class CustomerController extends Controller
                 $r_request->status = 0;
             }
 
-
             $r_request->product = json_encode($products);
-
-
-//        $r_request->addition_information = $request->input('additional_information');
             $r_request->product_prices = json_encode($product_price);
             $r_request->request_amount = $total_amount;
             $payment_ids = Payment::first();
@@ -688,8 +530,6 @@ class CustomerController extends Controller
             $r_request->return_product_image = $request->input('image');
             $r_request->items_json = json_encode($items);
             $r_request->save();
-
-
 
             $status = new RequestStatus();
             $status->request_id = $r_request->id;
@@ -703,39 +543,16 @@ class CustomerController extends Controller
             }
 
 
-//        app('app\Http\Controllers\OrdersController')->EmailTemplate();
-
             $rq_order = new OrderController();
-//            $rq_order->EmailTemplate($r_request);
+
             $order_product_image_data = json_decode($order->products_json);
 
-
-
-
-//            $qr_code_path = QrCode::format('png')
-//                ->size(150)
-//                ->generate("$r_request->id-$order->order_name", public_path() . "/qrcodes/$r_request->id-" . str_replace("#", '', $order->order_name) . ".png");
-//            $r_request->qr_code = "/qrcodes/$r_request->id-" . str_replace("#", '', $order->order_name) . ".png";
             $r_request->save();
-
-            // Save Pdf
 
             $shop_detail = User::where('id', $shop)->first();
 
 
-//            $pdf = $pdf->loadView('pdf', [
-//                "settings" => $settings,
-//                "order" => $order,
-//                "request" => $r_request,
-//                'shop_details' => $shop_detail
-//
-//            ])->save(public_path() . '/request_pdf/' . str_replace("#", '', $order->order_name) . '_' . $r_request->id . '_file.pdf');
-//            $r_request->request_pdf = '/request_pdf/' . str_replace("#", '', $order->order_name) . '_' . $r_request->id . '_file.pdf';
-//            $r_request->save();
-
             //Save Request Products
-
-
             if ($order_detail->shipping_address !== null) {
                 $shipping_address = $order_detail->shipping_address;
                 $ship=RequestShippingAddress::where('request_id',$r_request->id)->first();
@@ -757,7 +574,7 @@ class CustomerController extends Controller
             }
 
 
-//            foreach (Session::get('items') as $r_items) {
+
             foreach ($items as $r_items) {
                 $request_product = new RequestProducts();
                 $item_price = $r_items['price'];
@@ -797,9 +614,8 @@ class CustomerController extends Controller
             }
 
 
-//            if (Session::has('items')) {
+
             if ($items) {
-//                Session::forget('items');
                 $session = ItemSession::where('order_id', $order->id)->first();
                 if ($session) {
                     $session->delete();
@@ -815,30 +631,16 @@ class CustomerController extends Controller
 
             $easy = new EasyPostController();
             $easy->createShipment($r_request->id, $order->id,"");
-
-//            return redirect(proxy(route('request.labeling', $r_request->id)));
-//            return (route('request.labeling', $r_request->id,'false'));
             return redirect('https://'.$request->shop.'/a/return/customer/request/'.$r_request->id.'/labeling');
         } catch (\Exception $exception) {
 
-
-//            return $exception->getMessage();
-//            return redirect(proxy(route('request.labeling', $r_request->id)));
-//            return redirect(proxy(route('request.labeling', $r_request->id)));
             return redirect('https://'.$request->shop.'/a/return/customer/request/'.$r_request->id.'/labeling');
 
         }
 
-// finally {
-//
-//            return $r_request->id;
-////            return redirect(proxy(route('request.labeling', $r_request->id)));
-//     return redirect('https://'.$request->shop.'/a/return/customer/request/'.$r_request->id.'/labeling');
-//
-// }
     }
 
-
+//Function for update address
     public function updateAddress($id,Request $request)
     {
         $ship=RequestShippingAddress::find($id);
@@ -857,8 +659,6 @@ class CustomerController extends Controller
 
     public function Labeling($request_id)
     {
-
-
         $r_request = \App\Models\Request::find($request_id);
         $shop=User::where('id',$r_request->shop_id)->first();
 
@@ -892,15 +692,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                         array_push($it['options'], $variant->option1);
                         array_push($it['options'], $variant->option2);
                         array_push($it['options'], $variant->option3);
-//                        if ($variant->option1) {
-//                            array_push($it['options'], $variant->option1);
-//                        }
-//                        if ($variant->option2) {
-//                            array_push($it['options'], $variant->option2);
-//                        }
-//                        if ($variant->option3) {
-//                            array_push($it['options'], $variant->option3);
-//                        }
+
                         foreach ($product->images as $image) {
                             if ($image->id == $variant->image_id)
                                 $it['image'] = $image->src;
@@ -921,7 +713,6 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
             $label_date = Carbon::createFromTimeString($label_date->created_at)->addDays(30)->toFormattedDateString();
         }
 
-//        dd($label_date);
         $html= view('customer.confirm_request')->with([
             'items' => $items,
             'exchange_items' => $exchange_items,
@@ -937,17 +728,15 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
     }
 
+    //Function used when customer select items
     public function addToSelection($order_id, $line_id, Request $request)
     {
-
-
-
         try {
 
             $order = Order::find($order_id);
             $settings2=Setting::where('shop_id',$order->shop_id)->first();
             if ($this->checkCustomerBlock($order->email, $order->shop_id)) {
-//                $html= view('customer.block')->render();
+
 
                 $html= view('customer.block')->with([
                     'settings' => $settings2,
@@ -989,10 +778,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                     $exchange_product_tags = explode(',', $r_settings->exchange_product_tags);
                     $payment_product_tags = explode(',', $r_settings->payment_product_tags);
                     $store_product_tags = explode(',', $r_settings->store_product_tags);
-//                    foreach (explode($product_tags,',') as $tag) {
-//                        if()
-//                    }
-//                    dd($exchange_product_tags);
+
                     if (count(array_intersect($exchange_product_tags, $product_tags))) {
                         array_push($allow_methods, 'exchange');
                     }
@@ -1078,40 +864,6 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                 }
             }
 
-
-//        if ($request->session()->has('items')) {
-//            $cart = $request->session()->get('items', collect([]));
-//            foreach ($cart as $item)
-//            {
-//                if ($item['id']==$line_id)
-//                {
-////                    return redirect()->back();
-//                    return view('customer.return_popup')->with([
-//                        'shop'=>$order->has_shop,
-//                        'order'=>$order,
-//                        'line_item'=>$data
-//                    ]);
-//                }
-//            }
-//            $cart->push($data);
-//        } else {
-//            $cart = collect([$data]);
-//            $request->session()->put('items', $cart);
-//        }
-
-//        $new_col=[];
-
-//        foreach ($color_variants as $color_variant)
-//        {
-//            foreach ($color_variants as $key=>$col_)
-//            {
-//                if($col_['color']==$color_variant['color'])
-//                {
-//                    unset($color_variants[$key]);
-//                }
-//            }
-//        }
-
             $color_variants = array_unique($color_variants, SORT_REGULAR);
 
             label:
@@ -1131,8 +883,6 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
             $exchange_reasons = RequestCategory::where('name', 'Exchange')->first();
             $refund_reasons = RequestCategory::where('name', 'Refund')->first();
 
-
-
             $html= view('customer.return_popup')->with([
                 'shop' => $order->has_shop,
                 'order' => $order,
@@ -1151,30 +901,18 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
             return redirect('https://'.$request->shop.'/a/return/order');
 
-//            return redirect('https://'.$request->shop.'/a/return/customer/login?shop='.$request->shop.'&order_name='.$order->order_name.'&email='.$order->email);
-
-//            return redirect()->back();
         }
 
     }
 
-
+//Function used when customer remove items
     public function removeItem($order_id, $id,Request $request)
     {
-
-
-
-//        $items = Session::get('items');
         $items = json_decode($request->customsession,'false');
 
         $order=Order::find($order_id);
-
-//        return $order;
-
-
         try {
 
-//            Session::forget('items');
             if ($items == null) {
                 $sess = ItemSession::where('order_id', $order_id)->first();
                 $items = json_decode($sess->session, true);
@@ -1185,7 +923,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                     array_push($its, $item);
                 }
             }
-//            Session::put('items', collect($its));
+
 
             $customsession=collect($its);
 
@@ -1196,7 +934,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
             }
             $itemSession->session = json_encode(collect($its));
             $itemSession->save();
-//            return redirect()->back();
+
             $request->merge([
                 'shop'=>$request->shop,
                 'order_name'=>$order->order_name,
@@ -1213,15 +951,13 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                 'customsession'=>$request->customsession
             ]);
             return     $this->login($request);
-//            return redirect()->back();
+
         }
     }
 
-
+//Function used for after customer select the items are stored
     public function addToSelectionSubmit($order_id, $line_id, Request $request)
     {
-
-
         $order = Order::find($order_id);
         $shop_name = $request->input('shop');
 
@@ -1229,11 +965,10 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
         try {
             if ($this->checkCustomerBlock($order->email, $order->shop_id)) {
-//                $html= view('customer.block')->render();
+
                 $html= view('customer.block')->with([
                     'settings' => $settings3,
                     'shop' => $shop_name,
-
                 ]);
                 return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
@@ -1260,12 +995,8 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                         }
                     }
 
-
-
                     if ($request->return_type == 'exchange') {
 
-
-//                        dd($this->checkVariantStock($request));
                         $data['exchange_variant_id'] = json_decode(json_encode($this->checkVariantStock($request)), true)['original']['variant_id'];
 
                         if ($request->input('option1'))
@@ -1295,19 +1026,14 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                         }
 
                     }
-
-//                dd($line_product);
-
                 }
             }
             $session = ItemSession::where('order_id', $order->id)->first();
-//            return response($session)->withHeaders(['Content-Type' => 'application/liquid']);
 
             if ($session) {
                 Session::put('items', collect(json_decode($session->session, true)));
 
             }
-
 
             if ($request->session()->has('items') && count($request->session()->get('items'))) {
                 $cart = $request->session()->get('items', collect([]));
@@ -1341,39 +1067,22 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
 
         redirect:
-//        return response($customsession)->withHeaders(['Content-Type' => 'application/liquid']);
 
         $user = User::find($order->shop_id);
         $order_name = str_replace('#', '', $order->order_name);
-//        $request_session=[
-//            'shop'=>$user->name,
-//            'order_name'=>$order_name,
-//            'email'=>$order->email,
-//            'session'=>$customsession
-//        ];
 
-//        $request=new Request();
-//        $request->shop=$user->name;
-//        $request->order_name=$order_name;
-//          $request->email=$order->email;
-//          $request->sessionget=$customsession;
-$request->merge([
-    'shop'=>$user->name,
-    'order_name'=>$order_name,
-    'email'=>$order->email,
-    'customsession'=>$customsession
-]);
+        $request->merge([
+     'shop'=>$user->name,
+        'order_name'=>$order_name,
+     'email'=>$order->email,
+        'customsession'=>$customsession
+     ]);
 
-//        return response($request)->withHeaders(['Content-Type' => 'application/liquid']);
+   return   $this->login($request);
 
-   return     $this->login($request);
-
-//        $this->login($request_session);
-//        return redirect('https://'.$user->name.'/a/return/customer/login?shop='.$user->name.'&order_name='.$order_name.'&email='. $order->email);
-//        return redirect(proxy(route('customer.login.post', ['shop' => $user->name, 'order_name' => $order_name, 'email' => $order->email])));
     }
 
-
+//Function for Refund type view
     public function appendRefund(Request $request)
     {
         $amount = $request->amount;
@@ -1382,34 +1091,24 @@ $request->merge([
             'amount' => $amount,
             'allowed_methods' => $allowed_methods
         ])->render();
-
         return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
-
     }
 
-
+//Function to check if the stock is available for the product
     public function checkVariantStock(Request $request)
     {
-
-
-
-
         $option1 = $request->option1;
         $option2 = $request->option2;
         $product_id = $request->product_id;
         $quantity = $request->quantity;
 
         $product = OrderLineProduct::where('product_id', $product_id)->first();
-
-
-
         $product = json_decode($product->product_json);
 
         foreach ($product->variants as $variant) {
-//dd($variant);
+
             if ($variant->option1 && $variant->option2) {
                 if ($variant->option1 == $option1 && $variant->option2 == $option2) {
-//                    dd($variant);
 
                     if ($variant->inventory_quantity >= $quantity) {
                         return response()->json([
@@ -1437,13 +1136,12 @@ $request->merge([
                     'variant_id' => $variant->id
                 ]);
             }
-
-
         }
     }
+
+    //Function to check if admin block the customer or not
     public function checkCustomerBlock($email, $shop_id)
     {
-//        dd($email,$shop_id);
         $has_settings = Setting::where('shop_id', $shop_id)->first();
 
         if ($has_settings != null) {
@@ -1458,11 +1156,9 @@ $request->merge([
             return false;
     }
 
-
+//After selection the selected items are submit
     public function itemsSelectedSubmit(Request $request)
     {
-
-//dd($request->all());
         $order = Order::where([
             'order_name' => '#' . str_replace('US', '', $request->order_name),
             'email' => $request->email
@@ -1472,7 +1168,6 @@ $request->merge([
 
         try {
             if ($this->checkCustomerBlock($order->email, $order->shop_id)) {
-//                $html= view('customer.block')->render();
 
                 $html= view('customer.block')->with([
                     'settings' => $settings,
@@ -1482,15 +1177,11 @@ $request->merge([
                 return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
             }
 
-//return $request->sessiondata;
-//            $items = Session::get('items');
             $items = json_decode($request->sessiondata,'false');
 
 
             $exchange_items = [];
             $lines = collect(json_decode($order->order_json)->line_items);
-
-
 
             foreach ($items as $item) {
 
@@ -1505,7 +1196,6 @@ $request->merge([
                             $t_disc += floatval($disc->amount);
                         }
                     }
-//                    $line_discount
                     foreach ($product->variants as $variant) {
                         if ($variant->id == $item['exchange_variant_id']) {
                             $it['title'] = $item['title'];
@@ -1534,8 +1224,6 @@ $request->merge([
                 }
             }
 
-
-
             if (count($items) == 0)
                 return back();
             $html= view('customer.review_items')->with([
@@ -1551,11 +1239,11 @@ $request->merge([
             return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
         } catch (\Exception $exception) {
 
-//            return $exception->getMessage();
+
 
             $user = User::find($order->shop_id);
             $order_name = str_replace('#', '', $order->order_name);
-//            return redirect(proxy(route('customer.login.post', ['shop' => $user->name, 'order_name' => $order_name, 'email' => $order->email])));
+
                     return redirect('https://'.$user->name.'/a/return/customer/login?shop='.$user->name.'&order_name='.$order_name.'&email='. $order->email);
 
         }

@@ -12,12 +12,12 @@ use Illuminate\Support\Facades\Auth;
 
 class RequestController extends Controller
 {
+
     public function DeclineRequestDeletion()
     {
         $shop = Auth::user();
 
         $request_setting = RequestSetting::where('shop_id', $shop->id)->first();
-
         return view('settings.request-decline')->with([
             'r_settings' => $request_setting,
             'title' => 'General',
@@ -102,6 +102,7 @@ class RequestController extends Controller
     }
 
 
+    //function used to show Settings/General/ Request Policy page
     public function RequestPolicy()
     {
         $r_settings = RequestSetting::where('shop_id', Auth::id())->first();
@@ -111,6 +112,7 @@ class RequestController extends Controller
         ]);
     }
 
+    //function used to save Request Policy page data
     public function RequestPolicyUpdate(Request $request)
     {
         $r_settings = RequestSetting::where('shop_id', Auth::id())->first();
@@ -146,10 +148,9 @@ class RequestController extends Controller
     }
 
 
-
+    //function used to show decline request
     public function DeclineRequests()
     {
-
         $shop = Auth::user();
 
         $decline_request = \App\Models\Request::where('shop_id', $shop->id)
@@ -189,10 +190,9 @@ class RequestController extends Controller
         ])->render();
     }
 
-
+//Delete Decine request
     public function DeclineRequestDelete($id)
     {
-
         $shop = Auth::user();
 
 
@@ -207,22 +207,17 @@ class RequestController extends Controller
         }
         return redirect()->route('dashboard');
 
-
-
     }
 
-
+//Change Request Item Status
     public function changeRequestItem($id,$item_id)
     {
-
-
         $request=\App\Models\Request::find($id);
 
         $requestProduct=RequestProducts::where([
             'request_id'=>$id,
             'line_item_id'=>$item_id
         ])->first();
-
 
         if ($request && $requestProduct)
         {
@@ -257,6 +252,9 @@ class RequestController extends Controller
         return back();
     }
 
+
+
+//Customer login check
     public function customerlogin(Request $request){
         $url=$request->shopurl;
         $shopurl=$url;
@@ -272,6 +270,8 @@ class RequestController extends Controller
 
     }
 
+
+    //Customer logout
     public function customerlogout(Request $request) {
         Auth::logout();
         return redirect('/shop-login');

@@ -339,40 +339,8 @@ class OrderController extends Controller
     }
 
     //This function is used for saving return Type
-//    public function BuiltRefundTypeSave(Request $request)
-//    {
-//        $shop = Auth::user();
-//        $return_type = $request->input('built_type');
-//        $update_check = RefundTypes::where('shop_id', $shop->id)
-//            ->where('return_assigning', '!=', null)
-//            ->delete();
-//
-//        if ($return_type != null) {
-//            foreach ($return_type as $r_type) {
-//
-//                $built_type = RefundTypes::where('id', $r_type)->first();
-//                $assign_check = RefundTypes::where('shop_id', $shop->id)
-//                    ->where('return_assigning', $built_type->id)
-//                    ->first();
-//
-//                if ($assign_check == null) {
-//                    $custom_assign = new RefundTypes();
-//                    $custom_assign->shop_id = $shop->id;
-//                    $custom_assign->return_type = $built_type->return_type;
-//                    $custom_assign->return_assigning = $built_type->id;
-//                    $custom_assign->save();
-//                }
-//            }
-//        }
-//        return back();
-//    }
-
-
-
-
     public function OrderRefundTypesave(Request $request)
     {
-
         $shop = Auth::user();
         if ($request->input('type') != null) {
             $custom_type = new RefundTypes();
@@ -380,11 +348,10 @@ class OrderController extends Controller
             $custom_type->return_type = $request->input('type');
             $custom_type->save();
         }
-
         return back();
-
     }
 
+    //This function is used for showing edit page of return Type
     public function OrderReturnTypeEdit($id)
     {
         $shop = Auth::user();
@@ -393,45 +360,40 @@ class OrderController extends Controller
 
         return view('settings.refund-type')->with([
             'edit_type' => $return_type
-
         ]);
-
     }
 
+
+    //This function is used for update return Type
     public function OrderReturnTypeEdited(Request $request)
     {
-
         $return_type = RefundTypes::where('id', $request->input('type_id'))
             ->update([
                 'return_type' => $request->input('type')
             ]);
         return redirect()->route('orders.return.type');
-
     }
 
+    //This function is used for delete return Type
     public function OrderReturnTypeDelete($id)
     {
-
         $return_type = RefundTypes::where('id', $id)
             ->delete();
         return back();
-
     }
 
+    //General function used to get current login shop
     public function has_settings()
     {
         $shopfy = Auth::user();
-
         $has_settings = Setting::where('shop_id', $shopfy->id)->first();
-
         return $has_settings;
     }
 
+    //This function is used for showing settings/Order Detail/Custom Exchange page
     public function AddCustomationText()
     {
-
         $settings = $this->has_settings();
-
         return view('settings.custom-text')->with([
             'settings' => $settings,
             'title' => "Order",
@@ -439,18 +401,17 @@ class OrderController extends Controller
         ]);
     }
 
+    //This function is used for saving Custom Exchange text
     public function AddCustomationTextSave(Request $request)
     {
         $shop = Auth::user();
         $settings = $this->has_Settings();
-
         if ($settings == null) {
             $save_settings = new Setting();
             $save_settings->shop_id = $shop->id;
             $save_settings->exchange_text = $request->input('custom_text');
             $save_settings->save();
             return back();
-
         } else {
             $settings->exchange_text = $request->input('custom_text');
             $settings->save();
@@ -458,27 +419,19 @@ class OrderController extends Controller
         }
     }
 
-
+//Function used for sending test-email on the receiver email (for testing) of Return Label tab
     public function sendTestLabel($type)
     {
-
         $settings = Setting::where('shop_id', Auth::id())->first();
-//dd($settings);
         $label = RequestLabel::whereHas('has_request')->first();
-
-
         $easypost = EasyPost::where('shop_id', Auth::id())->first();
-
         $requests=\App\Models\Request::where('id',$label->request_id)->where('shop_id',Auth::id())->first();
-
 
         if ($settings->receiver_email == null) {
             $email = $settings->sender_email;
         } else {
             $email = $settings->receiver_email;
-
         }
-
         try {
             if ($type == 'confirm') {
                 Mail::send('emails.label', ['easypost'=>$easypost,'requests'=>$requests,'label' => $label, 'settings' => $settings, 'request' => 1, 'name' => str_replace('#', 'US', 1001)], function ($m) use ($label, $settings, $email) {
@@ -523,13 +476,14 @@ class OrderController extends Controller
             }
             return true;
         } catch (\Exception $exception) {
-dd($exception);
+                dd($exception);
             flash('Some thing went wrong')->error();
             return false;
         }
 
     }
 
+    //This function is used for showing settings/Return Label/Reminder page
     public function EmailReminder()
     {
         return view('settings.email-reminder')->with([
@@ -539,6 +493,7 @@ dd($exception);
         ]);
     }
 
+    //This function is used for saving content of reminder page
     public function EmailReminderSave(Request $request)
     {
         $settings = Setting::where('shop_id', Auth::id())->first();
@@ -553,6 +508,7 @@ dd($exception);
         return back();
     }
 
+    //This function is used for showing settings/Return Label/Expired page
     public function EmailExpired()
     {
         return view('settings.email-expired')->with([
@@ -562,6 +518,7 @@ dd($exception);
         ]);
     }
 
+    //This function is used for saving content of expired page
     public function EmailExpiredSave(Request $request)
     {
         $settings = Setting::where('shop_id', Auth::id())->first();
@@ -570,13 +527,12 @@ dd($exception);
             $settings->shop_id = Auth::id();
         }
         $settings->label_expired_subject = $request->subject;
-//        $settings->reminder_after=$request->reminder_after;
         $settings->label_expired_body = $request->body;
         $settings->save();
         return back();
     }
 
-
+    //This function is used for showing settings/Email/General page
     public function EmailGeneral()
     {
         $shopfy = Auth::user();
@@ -588,6 +544,7 @@ dd($exception);
     }
 
 
+    //This function is used for saving content of general page
     public function EmailGeneralSave(Request $request)
     {
         if ($this->has_settings()) {
@@ -604,7 +561,7 @@ dd($exception);
         return redirect()->back();
     }
 
-
+    //This function is used for showing settings/Email/Workflow page
     public function EmailWorkFlow()
     {
         return view('settings.email-workflow')->with([
@@ -614,6 +571,7 @@ dd($exception);
         ]);
     }
 
+    //This function is used for saving content of Workflow page
     public function EmailWorkFlowSave(Request $request)
     {
         $shopfy = Auth::user();
@@ -624,7 +582,6 @@ dd($exception);
         } else {
             $setting = new Setting();
         }
-
 
         $rq_customer = ($request->input('rq_customer') ? 1 : 0);
         $rq_admin = ($request->input('rq_admin') ? 1 : 0);
@@ -644,7 +601,7 @@ dd($exception);
         return redirect()->back();
     }
 
-
+    //This function is used for showing settings/Email/Workflow Edit page
     public function Editor(Request $request)
     {
         $setting = $this->has_settings();
@@ -699,10 +656,9 @@ dd($exception);
     }
 
 
+    //This function is used for saving content of Workflow Edit page
     public function EditorSave(Request $request)
     {
-
-
         if ($this->has_settings()) {
             $setting = Setting::find($this->has_settings()->id);
         } else {
@@ -767,6 +723,7 @@ dd($exception);
     }
 
 
+    //Function used for sending test-email on the receiver email (for testing) of Email tab
     public function sendTestEmail($status)
     {
         $settings = Setting::where('shop_id', Auth::id())->first();
@@ -794,10 +751,10 @@ dd($exception);
         return $status;
     }
 
+    //Function works when we toggle button in Settings/Email/Workflow page
     public function emailflowupdate(Request $request)
     {
         $shop = Auth::user();
-
         $settings = Setting::where('shop_id', $shop->id)->first();
         if ($request->input('request_email')) {
             $settings->request_email = $request->input('request_email');
@@ -831,6 +788,7 @@ dd($exception);
         return response()->json($request->all());
     }
 
+    //This function is used for showing settings/Email/Export page
     public function EmailExport()
     {
         return view('settings.email-export')->with([
@@ -840,7 +798,7 @@ dd($exception);
         ]);
     }
 
-
+    //This function is used for saving content of Export page
     public function EmailExportSave(Request $request)
     {
         $settings = Setting::where('shop_id', Auth::id())->first();
@@ -854,35 +812,24 @@ dd($exception);
         return back();
     }
 
-
+//Synchronize Orders
     public function synchronization($next = null)
     {
         $shopfy = Auth::user();
-
-
-
         $shop = User::where('id', $shopfy->id)->first();
-
-
 
         try {
             $count = $shopfy->api()->rest('GET', '/admin/orders/count.json')['body']['count'];
-
-
 
             $orders = $shopfy->api()->rest('GET', '/admin/orders.json', [
                 'limit'=>250,
                 'page_info'=>$next
             ]);
 
-
-
-
             $test = [];
 
             if(isset($orders['body']['orders'])) {
                 $orders = $orders['body']['orders'];
-
 
                 array_push($test, $orders);
 
@@ -911,18 +858,13 @@ dd($exception);
                 }
             }
 
-
-
-
         } catch (\Exception $exception) {
-
             dd($exception);
             return back();
         }
-
     }
 
-
+//Synchronize Orders Webhook
     public function OrdersSyncWebhook($id, $shop)
     {
         $shopfy = User::where('name', $shop)->first();
@@ -936,7 +878,6 @@ dd($exception);
         $checks = $order;
 
         $order_check = Order::where('order_name', '#' . $checks->order_number)->first();
-
 
         if ($order_check != null) {
             return "";
@@ -1053,7 +994,6 @@ dd($exception);
 
         $products_json = json_encode($products);
 
-
         $order_db = new Order();
         $order_db->order_id = $order->id;
         $order_db->order_name = '#' . $order->order_number;
@@ -1071,7 +1011,7 @@ dd($exception);
 
     }
 
-
+//This function works when we open some request on home page
     public function singleRequest($id)
     {
         $shopfy = Auth::user();
@@ -1102,7 +1042,6 @@ dd($exception);
             $order_line_products[$line_item['id']] = json_decode(OrderLineProduct::where('product_id', $line_item['product_id'])->first()->product_json, true);
         }
 
-
         return view('invoice')->with([
             'request' => $request,
             'selected_products' => json_decode($request->product, true),
@@ -1115,10 +1054,9 @@ dd($exception);
         ]);
     }
 
-
+//Delete comment on the request-detail page
     public function DeleteComment($id)
     {
-
         $data = explode('-', $id);
         $shop = Auth::user();
         $delete_comment = Timeline::where('id', $data[0])
@@ -1127,13 +1065,10 @@ dd($exception);
 
     }
 
-
+//Function for submitting comment in request-detail page
     public function timeline_submit(Request $request)
     {
-
         if ($request->input('comment_id') != null) {
-
-
             $update_comment = Timeline::where('id', $request->input('comment_id'))
                 ->where('request_id', $request->input('request_id'))
                 ->update([
@@ -1146,11 +1081,10 @@ dd($exception);
             $message->request_id = $request->input('request_id');
             $message->save();
         }
-
-
         return redirect()->back();
     }
 
+    //Function work when we search for order on home page
     public function Filtration(Request $request)
     {
         $shop = Auth::user();
@@ -1185,7 +1119,6 @@ dd($exception);
             }
         }
 
-
         $return_type = RefundTypes::where('shop_id', $shop->id)->cursor();
         $methods = Payment::where('shop_id', $shop->id)->cursor();
         return view('index')->with([
@@ -1200,13 +1133,11 @@ dd($exception);
             'easypost'=>$easypost
 
         ]);
-
     }
 
     public function RequestStatus($id, Request $r)
     {
         $request = \App\Models\Request::find($id);
-
 
         $status = $r->input('type');
 
@@ -1266,8 +1197,6 @@ dd($exception);
     public function EmailTemplate($r)
     {
 
-
-
         $settings = Setting::where('shop_id', $r->shop_id)->first();
 
 
@@ -1311,7 +1240,6 @@ dd($exception);
     public function create_draft($request_id, $order_id, $line_items, $note = 'Exchange')
 
     {
-
 
         $shopfy = Auth::user();
         $line_items = $line_items->toArray();
@@ -1481,11 +1409,10 @@ dd($exception);
         }
     }
 
-
+//Used for showing Analytics Page
     public function Analytics($custom_date = '', $message = '')
     {
 
-//        dd($custom_date);
         $shopfy = Auth::user();
         $shop = User::where('id', $shopfy->id)->first();
 
@@ -1496,12 +1423,11 @@ dd($exception);
             $date = $custom_date;
             $message_data = $message;
         }
-//        dd($date);
+
 
         $request = \App\Models\Request::where("shop_id", $shopfy->id)
             ->where("created_at", "like", "%" . $date . "%")->count();
-//        dd($request);
-//        dd($request);
+
 
         $refund = RequestProducts::where("shop_id", $shopfy->id)
             ->where("created_at", "like", "%" . $date . "%")
@@ -1524,13 +1450,6 @@ dd($exception);
             ->groupBy('product_id')
             ->get();
 
-//
-//            $return_reasons= App\Reason::with('has_skus')
-////                ->where("created_at","like","%".$date."%")
-//                ->where('shop_id',$shopfy->id)
-//                ->where(DB::raw('request_products.id','=','1'))
-//                ->get();
-//        dd(date('Y-m-d',strtotime(Carbon::now()->subDay(1))));
         $shopfy_id = $shopfy->id;
         $return_reasons = Reason::where('shop_id', $shopfy->id)
             ->with(array('has_skus' => function ($query) use ($date, $shopfy_id) {
@@ -1539,21 +1458,20 @@ dd($exception);
             }))->cursor();
         $datasets = [];
         $current = 0;
-//        if($request->input('values') && $request->input('values')==-1)
-//        {
+
 
         $labels = ['12AM-3AM', '3AM-6AM', '6AM-9AM', '9AM-12PM', '12PM-3PM', '3PM-6PM', '6PM-9PM', '9PM-12AM'];
 
         foreach ($labels as $label) {
-//            $start = Carbon::yesterday()->add($current, 'hour')->format('Y-m-d H-i-s');
+
             $start = Carbon::parse($date)->add($current, 'hour')->format('Y-m-d H-i-s');
 
 
             $current += 3;
-//            $end = Carbon::yesterday()->add($current, 'hour')->format('Y-m-d H-i-s');
+
             $end = Carbon::parse($date)->add($current, 'hour')->format('Y-m-d H-i-s');
 
-//            dd($start,$end);
+
             $datasets['exchange'][$label] = RequestProducts::where("shop_id", $shopfy->id)
                 ->where('return_type', 'exchange')
                 ->whereBetween('created_at', [$start, $end])
@@ -1568,9 +1486,7 @@ dd($exception);
                 ->whereBetween('created_at', [$start, $end])
                 ->count();
         }
-//        dd($datasets);
 
-//        }
         $exports = RequestExport::where('shop_id', $shopfy->id)->orderBy('created_at', 'desc')->cursor();
 
         return view('anaylatics')->with([
@@ -1586,11 +1502,10 @@ dd($exception);
             'datasets' => $datasets,
             'exports' => $exports
 
-
         ]);
     }
 
-
+//Used for filter Analytics by Date Range
     public function FilterAnalytics(Request $request)
     {
         $shop_domain = $request->input('shop');
@@ -1620,8 +1535,6 @@ dd($exception);
                     ->whereBetween('created_at', [$start, $end])
                     ->count();
             }
-
-//            dd($datasets);
 
         }
 
@@ -1904,11 +1817,9 @@ dd($exception);
         ]);
     }
 
-
+//Used for creating CSV in Analytics page
     public function createCSV(Request $request)
     {
-
-
         try {
             $csv = ExporterFacade::make('Csv');
             if ($request->input('date') !== 'custom') {
@@ -1920,7 +1831,7 @@ dd($exception);
 
             } else {
 
-//            $start=Carbon::cr
+
                 $request->validate([
                     'start_date' => 'required',
                     'end_date' => 'required'
@@ -1934,7 +1845,6 @@ dd($exception);
             foreach ($requests as $req) {
 
                 $order = $req->has_order;
-//            $statuses=$req->has_statuses()->pluck('created_at','status');
                 $label = $req->request_labels;
                 if ($req->status == 0) {
                     $status = 'Requested';
@@ -1951,7 +1861,7 @@ dd($exception);
                 $item_json = collect(json_decode($req->items_json, true));
                 $returntypes = $item_json->pluck('return_type')->toArray();
                 $return_reasons = Reason::whereIn('id', $item_json->pluck('return_reason')->toArray())->pluck('name')->toArray();
-//            $it=[
+
                 foreach ($req->request_products as $req_pro) {
                     $request_exchange = RequestExchange::where('request_id', $req->id)->first();
                     $refunded_at = (isset($req->request_status(3)->created_at) ? $req->request_status(3)->created_at->format('Y-m-d') : null);
@@ -1996,12 +1906,10 @@ dd($exception);
                     $it['Approved At'] = (isset($req->request_status(1)->created_at) ? $req->request_status(1)->created_at->format('Y-m-d') : '');
                     $it['Package Received At'] = (isset($req->request_status(2)->created_at) ? $req->request_status(2)->created_at->format('Y-m-d') : '');
                     $it['Refunded At'] = $refunded_at;
-//            ];
+
                     array_push($yourCollection, $it);
                 }
             }
-
-
 
             $csv->load(collect($yourCollection))->setSerialiser(new BasicSerialiser());
 
@@ -2017,7 +1925,7 @@ dd($exception);
             $export->end_date = $end;
             $export->shop_id = Auth::id();
             $export->save();
-//        dd($export);
+
             $settings = Setting::where('shop_id', Auth::id())->first();
             Mail::send('emails.export', ['export' => $export, 'settings' => $settings], function ($m) use ($export, $settings) {
                 $m->from($settings->sender_email, $settings->sender_name);
@@ -2032,18 +1940,15 @@ dd($exception);
         }
     }
 
-
+//Update Order
     public function UpdateOrder($id, $shop)
     {
         $shopfy = User::where('name', $shop)->first();
-
-
         $order = $shopfy->api()->rest('GET', '/admin/orders/' . $id . '.json')['body']['order'];
         $order = json_decode(json_encode($order), FALSE);
         $checks = $order;
 
         $order_check = Order::where('order_id', $id)->first();
-
 
         $orders_items = $order->line_items;
         $products_ids = [];
@@ -2123,7 +2028,6 @@ dd($exception);
 
         $products_json = json_encode($products);
 
-
         $order_check->order_id = $order->id;
         $order_check->order_name = '#' . str_replace('US', '', $order->order_number);
         $order_check->email = $order->email;
@@ -2136,7 +2040,7 @@ dd($exception);
 
     }
 
-
+//Works when we click refund button on request-detail page
     public function requestRefund($id)
     {
         $request = \App\Models\Request::find($id);
@@ -2154,10 +2058,9 @@ dd($exception);
             }
             $label = RequestLabel::where('request_id', $request->id)->first();
             if ($label && $label->fees_applied == false && isset($label->fees)) {
-//                $amount += floatval($label->fees);
+
             }
             if ($this->Transaction($request->id, $amount)) {
-//                $label->fees_applied = true;
                 $request->refunded=true;
                 $request->save();
                 if($label) {
@@ -2204,10 +2107,7 @@ dd($exception);
                 ]);
                 $refund = json_decode(json_encode($refund), FALSE);
                 $req_refund = new RequestRefund();
-//                $req_refund->line_item_detail=json_encode($refund->refund_line_items);
-//                $req_refund->currency=$refund->currency;
                 $req_refund->order_id = $request->order_id;
-//                $req_refund->parent_id=$transactions[0]['id'];
                 $req_refund->request_id = $request->id;
                 $req_refund->refunded_json = json_encode($refund);
                 $req_refund->save();
@@ -2221,6 +2121,9 @@ dd($exception);
             return false;
         }
     }
+
+
+    //Works When we click mark store as credit on request-detail page
     public function markStoreCredit($id)
     {
         $request=\App\Models\Request::find($id);
@@ -2234,13 +2137,11 @@ dd($exception);
         $this->timeline_submit($rest);
         return back();
 
-//        App\Request::whereHas('request_labels',function($lebel){$lebel->where('status','delivered');})->update(['store_credited'=>true]);
     }
 
 
-
+//Function for showing Settings/Portal/Text
     public function settings_portal_text(){
-
         $shopfy = Auth::user();
         $has_settings = Setting::where('shop_id', $shopfy->id)->first();
         return view('settings.portal-text')->with([
@@ -2251,11 +2152,11 @@ dd($exception);
 
     }
 
+    //Function for saving content for login page text on customer side
     public function settings_portal_text_post(Request $request){
 
         $shopfy = Auth::user();
         $has_settings = Setting::where('shop_id', $shopfy->id)->first();
-
 
         if ($has_settings) {
             $setting = Setting::find($has_settings->id);
