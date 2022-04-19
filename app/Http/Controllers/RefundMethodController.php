@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 class RefundMethodController extends Controller
 {
 
-    public function index(){
+/*    public function index(){
         $shopfy = Auth::user();
         $shop_detail=User::where('id',$shopfy->id)->first();
         return view('settings.refund-list')->with([
@@ -46,7 +46,10 @@ class RefundMethodController extends Controller
             return redirect()->back();
         }
 
-    }
+    }*/
+
+
+    //function of view of Settings/Return Label/Mail
     public function ReturnDetails(){
         $shop = Auth::user();
         $settings=Setting::where('shop_id', $shop->id)->first();
@@ -58,11 +61,11 @@ class RefundMethodController extends Controller
 
     }
 
+    //function for saving Return Label/Mail content
     public function ReturnDetailsSave(Request $request){
 
         $shop = Auth::user();
         $settings=$this->has_Settings();
-
 
         if($settings == null){
             $save_settings=new Setting();
@@ -86,6 +89,7 @@ class RefundMethodController extends Controller
 
     }
 
+    //General function
     public function has_settings()
     {
         $shopfy = Auth::user();
@@ -93,7 +97,7 @@ class RefundMethodController extends Controller
         return $has_settings;
     }
 
-    //    Edit Refund
+/*    //    Edit Refund
     public function EditRefund($id){
         $shopfy = Auth::user();
         $shop_details=User::where('id', $shopfy->id)->first();
@@ -118,5 +122,5 @@ class RefundMethodController extends Controller
             ->where('id',$id)
             ->delete();
         return redirect()->route('orders.refund.list');
-    }
+    }*/
 }
