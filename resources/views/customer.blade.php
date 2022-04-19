@@ -40,60 +40,6 @@
                 }
             }
 
-            /*@media only screen and (max-width: 360px) and (min-width: 320px)  {*/
-
-
-            /*    .logo-img{*/
-
-            /*        margin-left: 50px !important;*/
-            /*    }*/
-            /*}*/
-
-            /*@media only screen and (max-width: 370px) and (min-width: 360px)  {*/
-
-
-            /*    .logo-img{*/
-
-            /*        margin-left: 60px !important;*/
-            /*    }*/
-            /*}*/
-
-            /*@media only screen and (max-width: 380px) and (min-width: 370px)  {*/
-
-
-            /*    .logo-img{*/
-
-            /*        margin-left: 65px !important;*/
-            /*    }*/
-            /*}*/
-
-            /*@media only screen and (max-width: 390px) and (min-width: 380px)  {*/
-
-
-            /*    .logo-img{*/
-
-            /*        margin-left: 70px !important;*/
-            /*    }*/
-            /*}*/
-
-            /*@media only screen and (max-width: 400px) and (min-width: 390px)  {*/
-
-
-            /*    .logo-img{*/
-
-            /*        margin-left: 75px !important;*/
-            /*    }*/
-            /*}*/
-
-            /*@media only screen and (max-width: 430px) and (min-width: 400px)  {*/
-
-
-            /*    .logo-img{*/
-
-            /*        margin-left: 80px !important;*/
-            /*    }*/
-            /*}*/
-
 
 
         </style>
@@ -347,7 +293,7 @@
     $(".back_request").click(function (e) {
 
         e.preventDefault();
-        // $('.loading').fadeIn();
+
         $.ajax({
             type:"GET",
             url:$(this).attr("href"),
@@ -369,7 +315,7 @@
 
 
                     $("body").html(result.data);
-                    // console.log($(result.data));
+
                 }
 
             }
@@ -435,10 +381,7 @@
             $('#exchange-modal-'+$(this).attr('data-id')).modal('show');
     });
 
-  // $('.checkboxes').change(function(){
-  //     if($('select[name=type-'+$(this).attr('data-id')+']').val()=='Exchange' && $(this).is('checked'))
-  //         $('#exchange-modal-'+$(this).attr('data-id')).modal('show');
-  // });
+
 
     if($('#inp').length){
         document.getElementById("inp").addEventListener("change", readFile);

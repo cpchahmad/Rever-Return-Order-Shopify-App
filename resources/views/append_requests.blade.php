@@ -7,25 +7,7 @@
             <th>Order</th>
             <th>Customer</th>
             <th>Requested</th>
-            {{--                                <th>--}}
-            {{--                                    <div class="dropdown">--}}
-            {{--                                        <h5 style="font-size: 14px;color: #8898aa;" class="m-0 dropdown-toggle"--}}
-            {{--                                            type="button" id="dropdownMenuButton" data-toggle="dropdown"--}}
-            {{--                                            aria-haspopup="true" aria-expanded="false">--}}
-            {{--                                            Type--}}
-            {{--                                        </h5>--}}
-            {{--                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">--}}
-            {{--                                            @if(count($return_types)>0)--}}
-            {{--                                                @foreach($return_types as $type)--}}
-            {{--                                                    <a class="dropdown-item"--}}
-            {{--                                                       href="{{route('filtration').'?type='.$type->id.'&status='.$current_status}}"> {{$type->return_type}}</a>--}}
 
-            {{--                                                @endforeach--}}
-            {{--                                            @endif--}}
-
-            {{--                                        </div>--}}
-            {{--                                    </div>--}}
-            {{--                                </th>--}}
             <th>
                 <div class="dropdown">
                     <h5 style="font-size: 14px;color: #8898aa;" class="m-0 dropdown-toggle"
@@ -46,7 +28,7 @@
                 </div>
             </th>
             <th>Package Status</th>
-            {{--                                <th>Tracking Code</th>--}}
+
             <th>Action</th>
         </tr>
         </thead>
@@ -60,7 +42,7 @@
                 <td>{{$request->has_order->email}}</td>
                 <td>{{$request->created_at->format('d/m/Y')}}</td>
                 <?php $request_products = json_decode($request->product);
-                //                                    $payments = json_decode($request->payment_id);?>
+
                 <?php
                 $methods=json_decode($request->items_json,true);
                 $method_str=[];
@@ -87,8 +69,7 @@
                         @endif
                     @endif
                 </td>
-                {{--                                    <td><span class="badge badge-sm badge-success">{{$payments->name}}</span></td>--}}
-                {{--                                    <td>@if($request->request_labels)<a target="_blank" href="https://www.google.com/search?q={{$request->request_labels->tracking_code}}">{{$request->request_labels->tracking_code}}</a> @endif</td>--}}
+
                 <td>
                     <a href="/requests/{{$request->id}}">Open</a>
                     @if($request->status==4)

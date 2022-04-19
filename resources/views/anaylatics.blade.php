@@ -48,13 +48,19 @@
 
 
                                                     <div id="myDropdown" class="dropdown-content p-2">
-
+                                    
 
                                                         <div class="form-group mt-3">
                                                             <label for="date_range"> Date Range</label>
                                                             <select class="form-control" id="date_range">
                                                                 <option value="-2"> Select Range</option>
-
+                                                                {{--                                                                <option value="0">Custom</option>--}}
+                                                                <option value="1">Today</option>
+                                                                <option value="-1"> Yesterday</option>
+                                                                <option value="7">Last 7 Days</option>
+                                                                <option value="30">Last 30 Days</option>
+                                                                <option value="90">Last 90 Days</option>
+                                                                {{--                                                                <option value="m">Last Month</option>--}}
                                                                 <option value="y">Last Year</option>
 
                                                             </select>
@@ -81,7 +87,7 @@
 
                                         <div class="col-2 border-right">
                                             <div class="text-center">
-
+{{--                                                <h4> Request</h4>--}}
                                                 <h4>Number of Requests</h4>
                                                 <h4>
                                                     {{array_sum($datasets['exchange'])+array_sum($datasets['payment_method'])+array_sum($datasets['store_credit'])}}
@@ -89,6 +95,8 @@
 
                                             </div>
                                         </div>
+
+
 
 
                                         <div class="col-2 border-right">
@@ -235,7 +243,7 @@
             background: #5e72e4 !important;
         }
     </style>
-    {{--    @dd($interval)--}}
+
 @endsection
 
 @section('script')

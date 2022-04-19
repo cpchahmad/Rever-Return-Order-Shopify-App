@@ -2,7 +2,7 @@
 @extends('layouts.admin')
 
 @section('content')
-    {{--        @include('inc.settings-nav')--}}
+
     <div class="row" style="margin-right: 0px;margin-left: 0px;">
         <div class="col">
             <div class="tabs_wrapper mt-4">
@@ -352,7 +352,7 @@
 
                                                     <?php $request_products = json_decode($request->product);
                                                     $payments = json_decode($request->payment_id);?>
-                                                    {{--                                    <td>{{$request->return_payment_method}}</td>--}}
+
                                                     <td>@if(count($request->returnMethods()))
                                                             @foreach($request->returnMethods() as $method)
                                                                 <span class="badge badge-sm badge-success">{{$method}}</span><br/>
