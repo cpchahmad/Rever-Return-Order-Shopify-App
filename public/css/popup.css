@@ -524,7 +524,7 @@ span.font-muted
     .popup_img
     {
         height: 60%;
-        /*margin:0;*/
+        margin:auto;
         padding:0px ;
     }
     .popup_text
