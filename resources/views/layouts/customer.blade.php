@@ -100,12 +100,9 @@
                             width: 50% !important;
                         }
 
-            }
+                .main_products_all_section{
 
-            @media only screen and (max-width: 600px) and (min-width: 500px)  {
-                .logo-img{
-
-                    width: 45% !important;
+                    margin-top: 25px !important;
                 }
 
             }
@@ -116,7 +113,20 @@
                     width: 45% !important;
                 }
 
+                .main_products_all_section{
+
+                    margin-top: 30px !important;
+                }
+
             }
+
+            /*@media only screen and (max-width: 600px) and (min-width: 500px)  {*/
+            /*    .logo-img{*/
+
+            /*        width: 45% !important;*/
+            /*    }*/
+
+            /*}*/
 
             @media only screen and (max-width: 700px) and (min-width: 600px)  {
                 .logo-img{
@@ -128,6 +138,11 @@
 
             .header{
                 margin-top: 45px;
+            }
+
+            .main_products_all_section{
+
+                margin-top: 35px !important;
             }
 
 

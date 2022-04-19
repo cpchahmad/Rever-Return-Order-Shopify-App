@@ -25,6 +25,11 @@ Route::group(['middleware'=>['auth.shopify']], function () {
     Route::get('/settings/logo', [App\Http\Controllers\OrderController::class, 'settings_logo'])->name('settings.logo');
     Route::post('/settings/logo', [App\Http\Controllers\OrderController::class, 'settings_logo_post'])->name('settings.logo.post');
 
+    Route::get('/settings/portal-text', [App\Http\Controllers\OrderController::class, 'settings_portal_text'])->name('settings.portal-text');
+    Route::post('/settings/portal-text', [App\Http\Controllers\OrderController::class, 'settings_portal_text_post'])->name('settings.portal.text.post');
+
+
+
     Route::get('/request/settings',  [App\Http\Controllers\RequestController::class, 'DeclineRequestDeletion'])->name('request.decline.setting');
     Route::post('/request/settings', [App\Http\Controllers\RequestController::class, 'DeclineRequestDeletionSave'])->name('request.decline.setting.save');
 
@@ -52,7 +57,7 @@ Route::group(['middleware'=>['auth.shopify']], function () {
 
 
     Route::get('/order/return/type', [App\Http\Controllers\OrderController::class, 'OrderRefundType'])->name('orders.return.type');
-    Route::post('/order/return/type', [App\Http\Controllers\OrderController::class, 'BuiltRefundTypeSave'])->name('built.return.type.save');
+//    Route::post('/order/return/type', [App\Http\Controllers\OrderController::class, 'BuiltRefundTypeSave'])->name('built.return.type.save');
     Route::post('/order/return/type/save',  [App\Http\Controllers\OrderController::class, 'OrderRefundTypesave'])->name('orders.return.type.save');
 
     Route::get('/order/{id}/type/edit',[App\Http\Controllers\OrderController::class, 'OrderReturnTypeEdit'])->name('orders.return.type.edit');

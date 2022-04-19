@@ -90,10 +90,11 @@ class CustomerController extends Controller
     public function loginshow(Request $request)
     {
 
-
+//dd($request->all());
 //        $domain='centricwear.myshopify.com';
 //        $domain='teststoreintegrate.myshopify.com';
 
+//       $error= $request->input('error');
         $domain = $request['shop'];
 //        $domain='rever-order.myshopify.com';
         if (Auth::check()) {
@@ -128,7 +129,8 @@ class CustomerController extends Controller
             'settings' => $has_settings,
             'content' => $content,
             'design' => $design,
-            'error'=>$request->input('error')
+            'error'=>$request->input('error'),
+            'error1'=>$request->input('error1')
         ])->render();
 //        }
 
@@ -247,7 +249,10 @@ class CustomerController extends Controller
 //                if ($r_settings->exclude_non_us_order == true && $login_check_json->shipping_address->country_code !== 'US') {
                 if ($r_settings->exclude_non_us_order == true && $login_check_json->shipping_address->country_code !== 'US') {
 
-                    return back();
+                    $message="Non US Orders are not eligible for return";
+
+                    return redirect('https://'.$request->shop.'/a/return/order?error1='.$message);
+//                    return back();
                 }
 
 
@@ -497,7 +502,9 @@ class CustomerController extends Controller
             }
             else {
 
-                return redirect('https://'.$request->shop.'/a/return/order');
+                $message="Incorrect Order Number or Email";
+                return redirect('https://'.$request->shop.'/a/return/order?error='.$message);
+//                return redirect('https://'.$request->shop.'/a/return/order'.$request->input('error'));
 
 //                return redirect((route('c.home',['error'=>'incorrect'])));
             }
@@ -515,6 +522,7 @@ class CustomerController extends Controller
     {
 
 
+
         $r_request=null;
 
         $items = json_decode(json_decode($request->sessiondata,'false'),'false');
@@ -527,6 +535,7 @@ class CustomerController extends Controller
                 'order_name' => '#' . str_replace('US', '', $request->order_name),
                 'email' => $request->email
             ])->first();
+
 
             $shop = $order->shop_id;
             $settings = Setting::where('shop_id', $shop)->first();
@@ -544,6 +553,7 @@ class CustomerController extends Controller
             $lines = collect(json_decode($order->order_json)->line_items);
 
 
+
             $request_settings = RequestSetting::where('shop_id', $shop)->first();
 
             $r_details = json_decode($request->input('product'));
@@ -551,6 +561,7 @@ class CustomerController extends Controller
 
 
             $order_detail = json_decode($order->order_json);
+
 
             $line_items = $order_detail->line_items;
             $total_amount = 0;
@@ -593,6 +604,7 @@ class CustomerController extends Controller
             foreach ($items as $singleItem) {
 
 
+
                 if ($singleItem['return_type'] === 'exchange') {
 
                     $product = OrderLineProduct::where('product_id', $singleItem['product_id'])->first();
@@ -618,6 +630,7 @@ class CustomerController extends Controller
                     $total_amount += floatval($singleItem['price']);
 
 
+
                 }
 
 
@@ -627,6 +640,7 @@ class CustomerController extends Controller
                 $its['reason'] = $singleItem['quantity'];
                 $its['return_type'] = $singleItem['return_type'];
                 $reason = ReasonsDataSet::find($singleItem['return_reason']);
+
 
 
 
@@ -652,6 +666,7 @@ class CustomerController extends Controller
 
 
 
+
             $r_request = new \App\Models\Request();
             $r_request->shop_id = $shop;
             $r_request->order_id = $order->id;
@@ -664,6 +679,7 @@ class CustomerController extends Controller
 
             $r_request->product = json_encode($products);
 
+
 //        $r_request->addition_information = $request->input('additional_information');
             $r_request->product_prices = json_encode($product_price);
             $r_request->request_amount = $total_amount;
@@ -675,12 +691,12 @@ class CustomerController extends Controller
 
 
 
-
             $status = new RequestStatus();
             $status->request_id = $r_request->id;
             $status->request_id = $r_request->id;
             $status->status = 0;
             $status->save();
+
             if ($request_settings && $request_settings->auto_approval == true) {
                 $status->status = 1;
                 $status->save();
@@ -692,6 +708,8 @@ class CustomerController extends Controller
             $rq_order = new OrderController();
 //            $rq_order->EmailTemplate($r_request);
             $order_product_image_data = json_decode($order->products_json);
+
+
 
 
 //            $qr_code_path = QrCode::format('png')
@@ -713,7 +731,7 @@ class CustomerController extends Controller
 //
 //            ])->save(public_path() . '/request_pdf/' . str_replace("#", '', $order->order_name) . '_' . $r_request->id . '_file.pdf');
 //            $r_request->request_pdf = '/request_pdf/' . str_replace("#", '', $order->order_name) . '_' . $r_request->id . '_file.pdf';
-            $r_request->save();
+//            $r_request->save();
 
             //Save Request Products
 
@@ -721,6 +739,7 @@ class CustomerController extends Controller
             if ($order_detail->shipping_address !== null) {
                 $shipping_address = $order_detail->shipping_address;
                 $ship=RequestShippingAddress::where('request_id',$r_request->id)->first();
+
                 if($ship===null)
                 {
                     $ship = new RequestShippingAddress();
@@ -736,6 +755,7 @@ class CustomerController extends Controller
                 $ship->country = $shipping_address->country;
                 $ship->save();
             }
+
 
 //            foreach (Session::get('items') as $r_items) {
             foreach ($items as $r_items) {
@@ -787,8 +807,11 @@ class CustomerController extends Controller
             }
 
 
+
             $order_ = new OrderController();
+
             $order_->EmailTemplate($r_request);
+
 
             $easy = new EasyPostController();
             $easy->createShipment($r_request->id, $order->id,"");
@@ -799,7 +822,7 @@ class CustomerController extends Controller
         } catch (\Exception $exception) {
 
 
-
+//            return $exception->getMessage();
 //            return redirect(proxy(route('request.labeling', $r_request->id)));
 //            return redirect(proxy(route('request.labeling', $r_request->id)));
             return redirect('https://'.$request->shop.'/a/return/customer/request/'.$r_request->id.'/labeling');

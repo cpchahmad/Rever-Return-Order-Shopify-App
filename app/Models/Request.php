@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Request extends Model
 {
+
+//    protected $fillable = ['message'];
     public function has_shop(){
         return $this->belongsTo('App\Models\Shop', 'shop_id');
     }

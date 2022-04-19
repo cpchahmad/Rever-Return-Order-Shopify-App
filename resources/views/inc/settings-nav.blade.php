@@ -35,19 +35,19 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{ (request()->is('settings/logo')) ? 'active' : '' }}" href="#portal" data-toggle="collapse" role="button" aria-expanded="true"
+                        <a class="nav-link {{ (request()->is('settings/logo')) || (request()->is('settings/portal-text'))   ? 'active' : '' }}" href="#portal" data-toggle="collapse" role="button" aria-expanded="true"
                            aria-controls="navbar-email">
                             <i class="ni ni-palette text-primary"></i>
                             <span class="nav-link-text text-uppercase">Portal</span>
                         </a>
-                        <div class="collapse  {{ (request()->is('settings/logo')) ? 'show' : '' }} " id="portal">
+                        <div class="collapse  {{ (request()->is('settings/logo')) || (request()->is('settings/portal-text')) ? 'show' : '' }} " id="portal">
                             <ul class="nav nav-sm flex-column">
                                 <li class="nav-item {{ (request()->is('settings/logo')) ? 'active' : '' }}">
                                     <a href="{{route('settings.logo')}}" class="nav-link">Logo</a>
                                 </li>
-                                {{--                                <li class="nav-item">--}}
-                                {{--                                    <a href="{{route('portal.design')}}" class="nav-link">Design</a>--}}
-                                {{--                                </li>--}}
+                                <li class="nav-item {{ (request()->is('settings/portal-text')) ? 'active' : '' }}">
+                                    <a href="{{route('settings.portal-text')}}" class="nav-link">Text</a>
+                                </li>
                                 {{--                                <li class="nav-item">--}}
                                 {{--                                    <a href="{{route('portal.content')}}" class="nav-link">Content</a>--}}
                                 {{--                                </li>--}}
@@ -174,7 +174,7 @@
                         <a class="nav-link {{ (request()->is('settings/easypost/integration')) ? 'active' : '' }}" href="{{route('easypost.index')}}">
                             <i class="fa fa-shipping-fast text-primary"></i>
                             {{--                            <span class="nav-link-text text-uppercase">Easy Post</span>--}}
-                            <span class="nav-link-text text-uppercase">Sendcloud</span>
+                            <span class="nav-link-text text-uppercase">Logistics Integration</span>
                         </a>
                     </li>
                 </ul>

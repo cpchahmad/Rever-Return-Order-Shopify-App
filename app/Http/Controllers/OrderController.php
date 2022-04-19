@@ -38,12 +38,10 @@ use Session;
 
 class OrderController extends Controller
 {
-
+//Dashboard function used for getting all request, approve, received and refunded data and display it in table
     public function Dashboard(Request $request)
     {
         $current = $request->input('type');
-
-
         $shopfy = Auth::user();
         $easypost=EasyPost::where('shop_id',$shopfy->id)->first();
         $current_status = 0;
@@ -67,7 +65,6 @@ class OrderController extends Controller
             $current_status = 0;
 
         }
-
 
         $requests1 = \App\Models\Request::with('has_order')
             ->where([
@@ -101,11 +98,7 @@ class OrderController extends Controller
                 'shop_id' => $shopfy->id,
             ])->orderBy('id', 'DESC')->paginate(30);
 
-
-//        $requests->appends(['type' => $current]);
-
         $r_settings=RequestSetting::where('shop_id',$shopfy->id)->first();
-//
         $return_type = RefundTypes::where('shop_id', $shopfy->id)->cursor();
         $methods = Payment::where('shop_id', $shopfy->id)->cursor();
         return view('index')->with([
@@ -126,8 +119,7 @@ class OrderController extends Controller
         ]);
     }
 
-
-
+    //Settings function is used for showing the settings of current login shop
     public function Settings()
     {
         $shopfy = Auth::user();
@@ -137,7 +129,7 @@ class OrderController extends Controller
         ]);
     }
 
-
+    //settings_logo function is used for showing the settings/logo of current login shop
     public function settings_logo()
     {
         $shopfy = Auth::user();
@@ -149,13 +141,11 @@ class OrderController extends Controller
         ]);
     }
 
+    //This function is used for saving logo of current login shop
     public function settings_logo_post(Request $request)
     {
         $shopfy = Auth::user();
-
         $has_settings = Setting::where('shop_id', $shopfy->id)->first();
-
-
         if ($has_settings) {
             $setting = Setting::find($has_settings->id);
         } else {
@@ -176,67 +166,51 @@ class OrderController extends Controller
             $background->move(public_path() . '/logos/', $lname);
             $setting->background = $lname;
         }
-
-
         $setting->shop_id = $shopfy->id;
         $setting->save();
-
         return redirect()->back();
     }
 
-
-
-
-
-
-
+    //This function is used for showing Settings/General/Product Exclusion page of current login shop
     public function ProductExclusion()
     {
-
         $shop = Auth::user();
         $has_settings = Setting::where('shop_id', $shop->id)->first();
         return view('settings.tags-block')->with([
             'settings' => $has_settings,
             'title' => 'General'
         ]);
-
     }
 
+    //This function is used for saving block product of current login shop
     public function ProductExclusionSave(Request $request)
     {
         $shop = Auth::user();
-
         $has_settings = Setting::where('shop_id', $shop->id)->first();
-
         if ($has_settings == null) {
             $settings_save = new Setting();
             $settings_save->shop_id = $shop->id;
             $settings_save->block_products = $request->input('block_tags');
             $settings_save->save();
             return back();
-
-
         } else {
-
             $has_settings->block_products = $request->input('block_tags');
             $has_settings->save();
             return back();
         }
-
-
     }
 
 
+    //This function is used for showing settings/General/Product Return Method page of current login shop
     public function ProductReturn()
     {
         $request_settings = RequestSetting::where('shop_id', Auth::id())->first();
-
         return view('settings.product_return')->with([
             'settings' => $request_settings
         ]);
     }
 
-
+    //This function is used for saving which method you want to return product of current login shop
     public function ProductReturnSave(Request $request)
     {
         $request_settings = RequestSetting::where('shop_id', Auth::id())->first();
@@ -251,21 +225,17 @@ class OrderController extends Controller
         return back();
     }
 
-
-
-
-
+    //This function is used for showing settings/General/Import CSV page of current login shop
     public function loadPrevious()
     {
         return view('settings.import');
     }
 
+    //This function is used to upload CSV
     public function savePrevious(Request $request)
     {
         $shop = Auth::user();
         $file = $request->file('file');
-
-
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension();
         $tempPath = $file->getRealPath();
@@ -301,7 +271,6 @@ class OrderController extends Controller
 
                 while (($filedata = fgetcsv($file, 1000, ",")) !== FALSE) {
 
-
                     $num = count($filedata );
 
                     // Skip first row (Remove below comment if you want to skip the first row)
@@ -314,14 +283,10 @@ class OrderController extends Controller
                     }
                     $i++;
                 }
-
-
                 fclose($file);
-
 
                 // Insert to MySQL database
                 foreach($importData_arr as $importData){
-
                     $t=PreviousRequest::where('order_number',$importData[0])->first();
                     if ($t===null) {
                         $t=new PreviousRequest();
@@ -338,36 +303,24 @@ class OrderController extends Controller
                         $t->status=0;
                     }
                     $t->save();
-
-
                 }
-
-
-
-
 
                 Session::flash('message','Import Successful.');
 
             }else{
                 Session::flash('message','File too large. File must be less than 2MB.');
-
             }
 
         }else{
             Session::flash('message','Invalid File Extension.');
-
         }
         return back();
-
     }
 
-
-
+    //This function is used for showing settings/Order Detail/Return Type page
     public function OrderRefundType()
     {
-
         $shop = Auth::user();
-
         $built_refund_types = RefundTypes::where('shop_id', Null)->cursor();
         $refund_types_select = RefundTypes::where('shop_id', $shop->id)
             ->where('return_assigning', '!=', null)
@@ -383,46 +336,36 @@ class OrderController extends Controller
             'title' => 'Order',
             'sub_title' => "return_type"
         ]);
-
     }
 
-    public function BuiltRefundTypeSave(Request $request)
-    {
-        $shop = Auth::user();
-
-        $return_type = $request->input('built_type');
-        $update_check = App\RefundTypes::where('shop_id', $shop->id)
-            ->where('return_assigning', '!=', null)
-            ->delete();
-
-//      if(count($update_check)>0){
-//          $exist_ids=[];
-//          foreach ($update_check as $check){
-//            array_push($exist_ids,$check->return_assigning);
-//          }
-//      }
-
-        if ($return_type != null) {
-            foreach ($return_type as $r_type) {
-
-                $built_type = App\RefundTypes::where('id', $r_type)->first();
-                $assign_check = App\RefundTypes::where('shop_id', $shop->id)
-                    ->where('return_assigning', $built_type->id)
-                    ->first();
-
-                if ($assign_check == null) {
-                    $custom_assign = new App\RefundTypes();
-                    $custom_assign->shop_id = $shop->id;
-                    $custom_assign->return_type = $built_type->return_type;
-                    $custom_assign->return_assigning = $built_type->id;
-                    $custom_assign->save();
-                }
-
-            }
-        }
-
-        return back();
-    }
+    //This function is used for saving return Type
+//    public function BuiltRefundTypeSave(Request $request)
+//    {
+//        $shop = Auth::user();
+//        $return_type = $request->input('built_type');
+//        $update_check = RefundTypes::where('shop_id', $shop->id)
+//            ->where('return_assigning', '!=', null)
+//            ->delete();
+//
+//        if ($return_type != null) {
+//            foreach ($return_type as $r_type) {
+//
+//                $built_type = RefundTypes::where('id', $r_type)->first();
+//                $assign_check = RefundTypes::where('shop_id', $shop->id)
+//                    ->where('return_assigning', $built_type->id)
+//                    ->first();
+//
+//                if ($assign_check == null) {
+//                    $custom_assign = new RefundTypes();
+//                    $custom_assign->shop_id = $shop->id;
+//                    $custom_assign->return_type = $built_type->return_type;
+//                    $custom_assign->return_assigning = $built_type->id;
+//                    $custom_assign->save();
+//                }
+//            }
+//        }
+//        return back();
+//    }
 
 
 
@@ -1324,6 +1267,7 @@ dd($exception);
     {
 
 
+
         $settings = Setting::where('shop_id', $r->shop_id)->first();
 
 
@@ -1348,10 +1292,13 @@ dd($exception);
                         $m->to($order->email)->subject(($settings->rq_admin_subject) ? $settings->rq_admin_subject : 'Request Rejected');
                     }
                 });
-            }catch (\Exception $exception) {
-                dd($exception);
+            }
 
-            } finally {
+            catch (\Exception $exception) {
+                return ($exception);
+
+            }
+            finally {
 
                 return true;
             }
@@ -1537,6 +1484,8 @@ dd($exception);
 
     public function Analytics($custom_date = '', $message = '')
     {
+
+//        dd($custom_date);
         $shopfy = Auth::user();
         $shop = User::where('id', $shopfy->id)->first();
 
@@ -1547,9 +1496,12 @@ dd($exception);
             $date = $custom_date;
             $message_data = $message;
         }
+//        dd($date);
 
         $request = \App\Models\Request::where("shop_id", $shopfy->id)
             ->where("created_at", "like", "%" . $date . "%")->count();
+//        dd($request);
+//        dd($request);
 
         $refund = RequestProducts::where("shop_id", $shopfy->id)
             ->where("created_at", "like", "%" . $date . "%")
@@ -1593,9 +1545,15 @@ dd($exception);
         $labels = ['12AM-3AM', '3AM-6AM', '6AM-9AM', '9AM-12PM', '12PM-3PM', '3PM-6PM', '6PM-9PM', '9PM-12AM'];
 
         foreach ($labels as $label) {
-            $start = Carbon::yesterday()->add($current, 'hour')->format('Y-m-d H-i-s');
+//            $start = Carbon::yesterday()->add($current, 'hour')->format('Y-m-d H-i-s');
+            $start = Carbon::parse($date)->add($current, 'hour')->format('Y-m-d H-i-s');
+
+
             $current += 3;
-            $end = Carbon::yesterday()->add($current, 'hour')->format('Y-m-d H-i-s');
+//            $end = Carbon::yesterday()->add($current, 'hour')->format('Y-m-d H-i-s');
+            $end = Carbon::parse($date)->add($current, 'hour')->format('Y-m-d H-i-s');
+
+//            dd($start,$end);
             $datasets['exchange'][$label] = RequestProducts::where("shop_id", $shopfy->id)
                 ->where('return_type', 'exchange')
                 ->whereBetween('created_at', [$start, $end])
@@ -1604,11 +1562,13 @@ dd($exception);
                 ->where('return_type', 'payment_method')
                 ->whereBetween('created_at', [$start, $end])
                 ->count();
+
             $datasets['store_credit'][$label] = RequestProducts::where("shop_id", $shopfy->id)
                 ->where('return_type', 'store_credit')
                 ->whereBetween('created_at', [$start, $end])
                 ->count();
         }
+//        dd($datasets);
 
 //        }
         $exports = RequestExport::where('shop_id', $shopfy->id)->orderBy('created_at', 'desc')->cursor();
@@ -1661,7 +1621,13 @@ dd($exception);
                     ->count();
             }
 
-        } elseif ($request->input('values') && $request->input('values') == 7) {
+//            dd($datasets);
+
+        }
+
+
+
+        elseif ($request->input('values') && $request->input('values') == 7) {
             $labels = [];
             for ($i = 7; $i >= 1; $i--) {
                 array_push($labels, Carbon::today()->subDays($i)->format('l'));
@@ -1684,7 +1650,8 @@ dd($exception);
                     ->whereBetween('created_at', [$start, $end])
                     ->count();
             }
-        } elseif ($request->input('values') && $request->input('values') == 30) {
+        }
+        elseif ($request->input('values') && $request->input('values') == 30) {
             $labels = ['30 days', '24 days', '18 days', '15 days', '12 days', '6 days', 'Today'];
             $current = 30;
             foreach ($labels as $label) {
@@ -1704,7 +1671,8 @@ dd($exception);
                     ->whereBetween('created_at', [$start, $end])
                     ->count();
             }
-        } else if ($request->input('values') && $request->input('values') == 90) {
+        }
+        else if ($request->input('values') && $request->input('values') == 90) {
             $labels = ['90 days', '75 days', '60 days', '45 days', '30 days', '15 days', 'today'];
             $current = 90;
             foreach ($labels as $label) {
@@ -1724,7 +1692,8 @@ dd($exception);
                     ->whereBetween('created_at', [$start, $end])
                     ->count();
             }
-        } else if ($request->input('values') && $request->input('values') == 'y') {
+        }
+        else if ($request->input('values') && $request->input('values') == 'y') {
             $labels = [];
             for ($i = 11; $i >= 0; $i--) {
                 array_push($labels, Carbon::now()->subMonth($i)->format('M'));
@@ -2257,13 +2226,49 @@ dd($exception);
         $request=\App\Models\Request::find($id);
         $request->store_credited=true;
         $request->save();
-        $rest=new \App\Models\Request([
+        $rest=new Request([
             'message'=>'Gift card issued at '.Carbon::today()->format('Y-m-d H:i:s'),
             'request_id'=>$id
         ]);
+
         $this->timeline_submit($rest);
         return back();
 
 //        App\Request::whereHas('request_labels',function($lebel){$lebel->where('status','delivered');})->update(['store_credited'=>true]);
+    }
+
+
+
+    public function settings_portal_text(){
+
+        $shopfy = Auth::user();
+        $has_settings = Setting::where('shop_id', $shopfy->id)->first();
+        return view('settings.portal-text')->with([
+            'settings' => $has_settings,
+            'title' => "Portal",
+            'sub_title' => "Text",
+        ]);
+
+    }
+
+    public function settings_portal_text_post(Request $request){
+
+        $shopfy = Auth::user();
+        $has_settings = Setting::where('shop_id', $shopfy->id)->first();
+
+
+        if ($has_settings) {
+            $setting = Setting::find($has_settings->id);
+        } else {
+            $setting = new Setting();
+        }
+
+        $setting->login_page_text=$request->login_page_text;
+
+        $setting->shop_id = $shopfy->id;
+        $setting->save();
+
+        return redirect()->back();
+
     }
 }

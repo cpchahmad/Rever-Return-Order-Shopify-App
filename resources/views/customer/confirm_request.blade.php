@@ -94,10 +94,10 @@
         <div class="header">
 
             <div id="over" style="position:absolute; ">
-            <a href="https://{{$domain}}">
+            <a href="https://{{$domain}}" style="text-decoration: none;">
                 @if($settings)
                     <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
-
+                    <h5 style="color: white">Powered by Rever</h5>
                 @else
                     <img src="{{asset('images/Group 26.svg')}}" alt="logo">
 

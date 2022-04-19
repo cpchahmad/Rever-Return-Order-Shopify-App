@@ -52,7 +52,7 @@
                                             <div class="d-flex justify-content-between">
 
                                                 <i class="fa fa-building" aria-hidden="true"></i>
-                                                <h5 class="ml-2"> Your Store glance</h5>
+                                                <h5 class="ml-2"> Your Store at a glance</h5>
                                             </div>
                                             <div class="d-flex ">
 
@@ -108,7 +108,8 @@
 
                                         <div class="col-2 border-right">
                                             <div class="text-center">
-                                                <h4> Request</h4>
+{{--                                                <h4> Request</h4>--}}
+                                                <h4>Number of Requests</h4>
                                                 <h4>
                                                     {{array_sum($datasets['exchange'])+array_sum($datasets['payment_method'])+array_sum($datasets['store_credit'])}}
                                                 </h4>
@@ -122,30 +123,33 @@
                                         {{--                                            </div>--}}
                                         {{--                                        </div>--}}
 
-                                        <div class="col-2 border-right">
-                                            <div class="text-center">
-                                                <h4> Value Requested</h4>
-                                                <h4>
-                                                    {{array_sum($datasets['exchange'])+array_sum($datasets['payment_method'])+array_sum($datasets['store_credit'])}}
-                                                </h4>
-                                            </div>
-                                        </div>
+{{--                                        <div class="col-2 border-right">--}}
+{{--                                            <div class="text-center">--}}
+{{--                                                <h4> Value Requested</h4>--}}
+{{--                                                <h4>--}}
+{{--                                                    {{array_sum($datasets['exchange'])+array_sum($datasets['payment_method'])+array_sum($datasets['store_credit'])}}--}}
+{{--                                                </h4>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
 
                                         <div class="col-2 border-right">
                                             <div class="text-center">
-                                                <h4>Exchange</h4>
+{{--                                                <h4>Exchange</h4>--}}
+                                                <h4>Number of Exchanges</h4>
                                                 <h4>{{array_sum($datasets['exchange'])}}</h4>
                                             </div>
                                         </div>
                                         <div class="col-2 border-right">
                                             <div class="text-center">
-                                                <h4>Payment Method</h4>
+{{--                                                <h4>Payment Method</h4>--}}
+                                                <h4>Number of Refunds</h4>
                                                 <h4>{{array_sum($datasets['payment_method'])}}</h4>
                                             </div>
                                         </div>
-                                        <div class="col-2 ">
+                                        <div class="col-3 ">
                                             <div class="text-center">
-                                                <h4>Store Credit </h4>
+{{--                                                <h4>Store Credit </h4>--}}
+                                                <h4>Number of Vouchers</h4>
                                                 <h4>{{array_sum($datasets['store_credit'])}}</h4>
                                             </div>
                                         </div>
@@ -230,7 +234,7 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-header">
-                                        <h2>Exports
+                                        <h2>Export data
                                             <button class="new_export_button btn btn-primary float-right">Create</button>
                                         </h2>
                                     </div>
@@ -337,7 +341,8 @@
                 datasets: [
 
                     {
-                        label: 'Payment Method',
+                        // label: 'Payment Method',
+                        label: 'Refunds',
                         backgroundColor: 'rgb(255, 99, 132)',
                         borderColor: 'rgb(255, 99, 132)',
                         data: payment_data,
@@ -362,7 +367,8 @@
                 labels: labels,
                 datasets: [
                     {
-                        label: 'Store Credit',
+                        // label: 'Store Credit',
+                        label: 'Vouchers',
                         backgroundColor: 'rgb(255, 205, 86)',
                         borderColor: 'rgb(255, 205, 86)',
                         data: store_data,

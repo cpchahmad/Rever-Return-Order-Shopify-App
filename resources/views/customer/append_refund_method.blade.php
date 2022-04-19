@@ -1,9 +1,39 @@
 <link rel="stylesheet" href="{{asset('css/refund_page.css')}}">
+
+<style>
+
+    @media only screen and (max-width: 350px) and (min-width: 320px)  {
+
+
+        .popupBody{
+
+            margin-top: 150px !important;
+        }
+    }
+    @media only screen and (max-width: 450px) and (min-width: 351px)  {
+
+
+        .popupBody{
+
+            margin-top: 130px !important;
+        }
+    }
+
+
+    @media only screen and (max-width: 820px) and (min-width: 700px)  {
+
+
+        .popupBody{
+
+            margin-top: 70px !important;
+        }
+    }
+</style>
 <div class="main_section_popup">
 
     <div class="overlay_section"></div>
     <div class="popUpmain">
-        <div class="popupBody">
+        <div class="popupBody" style="margin-top: 10px;">
             <div class="title__main">
                 <span>How do you want it to be refunded?</span>
             </div>

@@ -34,31 +34,31 @@
                             @if(empty($edit_type))
                                 <div class="row">
                                     <div class="col-md-12">
-                                        @if(count($built_types) >0)
-                                            <form method="POST" action="{{route('built.return.type.save')}}">
-                                                @csrf
-                                                <ul class="list-unstyled">
-                                                    @foreach($built_types as $built_type)
-                                                        <li>
-                                                            <div class="custom-control custom-checkbox mr-sm-2">
-                                                                <input type="checkbox" name="built_type[]" class="custom-control-input" value="{{$built_type->id}}" id="built_{{$built_type->id}}"
-                                                                @if(count($selected) > 0)
-                                                                    @foreach($selected as $select)
-                                                                        @if($select->return_assigning ==$built_type->id  )
-                                                                            {!! 'checked' !!}
-                                                                            @endif
-                                                                        @endforeach
-                                                                    @endif
-                                                                >
-                                                                <label class="custom-control-label" for="built_{{$built_type->id}}">{{$built_type->return_type}}</label>
-                                                            </div>
-                                                        </li>
-                                                    @endforeach
-                                                </ul>
-                                                <button class="btn btn-primary btn-sm" type="submit"> Save</button>
-                                            </form>
+{{--                                        @if(count($built_types) >0)--}}
+{{--                                            <form method="POST" action="{{route('built.return.type.save')}}">--}}
+{{--                                                @csrf--}}
+{{--                                                <ul class="list-unstyled">--}}
+{{--                                                    @foreach($built_types as $built_type)--}}
+{{--                                                        <li>--}}
+{{--                                                            <div class="custom-control custom-checkbox mr-sm-2">--}}
+{{--                                                                <input type="checkbox" name="built_type[]" class="custom-control-input" value="{{$built_type->id}}" id="built_{{$built_type->id}}"--}}
+{{--                                                                @if(count($selected) > 0)--}}
+{{--                                                                    @foreach($selected as $select)--}}
+{{--                                                                        @if($select->return_assigning ==$built_type->id  )--}}
+{{--                                                                            {!! 'checked' !!}--}}
+{{--                                                                            @endif--}}
+{{--                                                                        @endforeach--}}
+{{--                                                                    @endif--}}
+{{--                                                                >--}}
+{{--                                                                <label class="custom-control-label" for="built_{{$built_type->id}}">{{$built_type->return_type}}</label>--}}
+{{--                                                            </div>--}}
+{{--                                                        </li>--}}
+{{--                                                    @endforeach--}}
+{{--                                                </ul>--}}
+{{--                                                <button class="btn btn-primary btn-sm" type="submit"> Save</button>--}}
+{{--                                            </form>--}}
 
-                                        @endif
+{{--                                        @endif--}}
 
 
                                     </div>

@@ -45,10 +45,11 @@
 
 
             <div id="over" style="position:absolute; ">
-            <a href="https://{{$domain}}" id="policy">
+            <a href="https://{{$domain}}" id="policy" style="text-decoration: none;">
                 @if($settings)
                 <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
 
+                    <h5 style="color: white">Powered by Rever</h5>
                     @else
                                     <img src="{{asset('images/Group 26.svg')}}" alt="logo">
 
@@ -67,11 +68,29 @@
                     </div>
                     <div class="heading_parent">
                         <div class="field_text">
-                            <p>We offer a hassle-free 30-day exchange/ return policy. To be eligible for an exchange/ a refund, all returned items must be unworn, unwashed, and undamaged with tags still attached. " then in another line "To find your order number, check your order confirmation email or login to your account. Sample order number format: US1001</p>
+                            @if($settings->login_page_text)
+
+                                <p>{{$settings->login_page_text}}</p>
+                       @else
+                                <p>We offer a hassle-free 30-day exchange/ return policy. To be eligible for an exchange/ a refund, all returned items must be unworn, unwashed, and undamaged with tags still attached. " then in another line "To find your order number, check your order confirmation email or login to your account. Sample order number format: US1001</p>
+
+                            @endif
                         </div>
                     </div>
+
+
                     @if(isset($error))
-                        <h4 class="incorrect">Incorrect Order Number or Email</h4>
+
+{{--                    @if (url()->current() == "{{$domain}}/a/return/order?error")--}}
+
+                        <h4 class="incorrect">{{$error}}</h4>
+                    @endif
+
+                    @if(isset($error1))
+
+                        {{--                    @if (url()->current() == "{{$domain}}/a/return/order?error")--}}
+
+                        <h4 class="incorrect">{{$error1}}</h4>
                     @endif
                     <div class="field_parent">
                         <input type="text" name="order_name" class="input_field" placeholder="Order Number">

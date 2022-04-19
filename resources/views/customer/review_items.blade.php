@@ -32,10 +32,10 @@
 
             <div id="over" style="position:absolute; ">
             {{--            <a href="https://us.centricwear.com">--}}
-            <a href="https://{{$shop}}">
+            <a href="https://{{$shop}}" style="text-decoration: none">
                 @if($settings)
                     <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:12%;margin: 0 auto;" alt="logo">
-
+                    <h5 style="color: white">Powered by Rever</h5>
                 @else
                     <img src="{{asset('images/Group 26.svg')}}" alt="logo">
 
