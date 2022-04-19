@@ -72,12 +72,12 @@ Route::group(['middleware'=>['auth.shopify']], function () {
     Route::Post('/orders/custom/text/save', [App\Http\Controllers\OrderController::class, 'AddCustomationTextSave'])->name('custom.text.save');
 
     // Order retrun Method
-//    Route::get('/order/confirmation/settings', [App\Http\Controllers\RefundMethodController::class, 'ReturnDetails'])->name('return.confirmation');
-//    Route::post('/order/confirmation/save', [App\Http\Controllers\RefundMethodController::class, 'ReturnDetailsSave'])->name('confirmation.save');
-//    Route::post('/settings/refund', [App\Http\Controllers\RefundMethodController::class, 'AddRefund'])->name('orders.refund.post');
-//    Route::get('/settings/refund', [App\Http\Controllers\RefundMethodController::class, 'index'])->name('orders.refund.list');
-//    Route::get('/settings/{id}/edit/refund', [App\Http\Controllers\RefundMethodController::class, 'EditRefund'])->name('orders.refund.edit');
-//    Route::get('/settings/{id}/delete/refund', [App\Http\Controllers\RefundMethodController::class, 'DeleteRefund'])->name('orders.refund.delete');
+    Route::get('/order/confirmation/settings', [App\Http\Controllers\RefundMethodController::class, 'ReturnDetails'])->name('return.confirmation');
+    Route::post('/order/confirmation/save', [App\Http\Controllers\RefundMethodController::class, 'ReturnDetailsSave'])->name('confirmation.save');
+    Route::post('/settings/refund', [App\Http\Controllers\RefundMethodController::class, 'AddRefund'])->name('orders.refund.post');
+    Route::get('/settings/refund', [App\Http\Controllers\RefundMethodController::class, 'index'])->name('orders.refund.list');
+    Route::get('/settings/{id}/edit/refund', [App\Http\Controllers\RefundMethodController::class, 'EditRefund'])->name('orders.refund.edit');
+    Route::get('/settings/{id}/delete/refund', [App\Http\Controllers\RefundMethodController::class, 'DeleteRefund'])->name('orders.refund.delete');
 
 
     Route::get('label/test/{type}/send',[App\Http\Controllers\OrderController::class, 'sendTestLabel'])->name('send.test.label');
