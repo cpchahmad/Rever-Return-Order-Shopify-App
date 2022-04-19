@@ -8,18 +8,13 @@
     <link rel="canonical" href="https://www.creative-tim.com/product/argon-dashboard-pro" />
 
 
-
-    {{--    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600" rel="stylesheet">--}}
-
     <link rel="stylesheet" href="{{asset('argon/vendor/nucleo/css/nucleo.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('argon/vendor/%40fortawesome/fontawesome-free/css/all.min.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('argon/vendor/quill/dist/quill.core.css')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('argon/css/argon.mine209.css?v=1.0.0')}}" type="text/css">
     <link rel="stylesheet" href="{{asset('argon/css/colorpicker.css')}}" type="text/css">
-    {{--    <link rel="stylesheet" href="https://unpkg.com/@shopify/polaris@4.13.1/styles.min.css"/>--}}
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-{{--    <link rel="stylesheet" href="{{asset('css/tagsinput/bootstrap-tagsinput.css')}}"/>--}}
 
 
     <script src="{{asset('argon/vendor/jquery/dist/jquery.min.js')}}"></script>
@@ -132,31 +127,6 @@
 
 <body>
 
-{{--<nav class="navbar navbar-expand-lg navbar-light" style="padding: 5px;background: #F6F6F7;">--}}
-
-{{--    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">--}}
-{{--        <span class="navbar-toggler-icon"></span>--}}
-{{--    </button>--}}
-
-{{--    <div class="collapse navbar-collapse" id="navbarSupportedContent">--}}
-{{--        <ul class="navbar-nav mr-auto">--}}
-{{--            <li class="nav-item active">--}}
-{{--                <a class="nav-link" href="{{route('home')}}">Dashboard <span class="sr-only">(current)</span></a>--}}
-{{--            </li>--}}
-{{--            <li class="nav-item">--}}
-{{--                <a class="nav-link" href="{{route('settings.home')}}">Setting</a>--}}
-{{--            </li>--}}
-
-
-{{--            <li class="nav-item">--}}
-{{--                <a class="nav-link" href="{{route('analytics')}}">Analytics</a>--}}
-{{--            </li>--}}
-
-
-{{--        </ul>--}}
-
-{{--    </div>--}}
-{{--</nav>--}}
 <style>
 
 
@@ -223,11 +193,11 @@
     $('#flash-overlay-modal').modal();
 
 </script>
-{{--<script src="{{asset('argon/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js')}}"></script>--}}
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.17.0/ui/trumbowyg.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.17.0/trumbowyg.min.js"></script>
 
-{{--<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>--}}
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="{{asset('argon/js/colorpicker.js')}}"></script>
@@ -358,7 +328,7 @@
         data.statics=$('.statics').attr('status');
 
         data.criteria=$('#criteria').val();
-        // if(value.length >3){
+
             $.ajax({
                 async: false,
                 type:"GET",
@@ -370,7 +340,7 @@
                 }
 
             });
-        // }
+
 
 
     });
@@ -387,7 +357,7 @@
         data.statics=$('.statics').attr('status');
 
         data.criteria=$('#criteria').val();
-        // if(value.length >3){
+
         $.ajax({
             async: false,
             type:"GET",
@@ -399,7 +369,7 @@
             }
 
         });
-        // }
+
 
 
     });
@@ -416,7 +386,7 @@
         data.statics=$('.statics').attr('status');
 
         data.criteria=$('#criteria').val();
-        // if(value.length >3){
+
         $.ajax({
             async: false,
             type:"GET",
@@ -424,11 +394,11 @@
             data:data,
             success:function (result) {
                 $('#append2').html(result);
-                // console.log(result);
+
             }
 
         });
-        // }
+
 
 
     });
@@ -445,7 +415,7 @@
         data.statics=$('.statics').attr('status');
 
         data.criteria=$('#criteria').val();
-        // if(value.length >3){
+
         $.ajax({
             async: false,
             type:"GET",
@@ -453,11 +423,11 @@
             data:data,
             success:function (result) {
                 $('#append3').html(result);
-                // console.log(result);
+
             }
 
         });
-        // }
+
 
 
     });
@@ -474,7 +444,7 @@
         data.statics=$('.statics').attr('status');
 
         data.criteria=$('#criteria').val();
-        // if(value.length >3){
+
         $.ajax({
             async: false,
             type:"GET",
@@ -482,17 +452,16 @@
             data:data,
             success:function (result) {
                 $('#append4').html(result);
-                // console.log(result);
+
             }
 
         });
-        // }
+
 
 
     });
 
     // nav Item Show
-
 
     var title= $(".nav_title").val();
     $(".nav_sub_title").val();
@@ -523,23 +492,8 @@
                 break;
         }
 
-
-
-
-
-
     }
-
-
-
-
     // nav Item Show end
-
-
-
-
-
-
 
     $('.trumbowyg-demo').trumbowyg();
 
@@ -549,7 +503,6 @@
         var $temp = $("<input>");
         $("body").append($temp);
         $temp.val($("#clipboard").text()).select();
-        // $("#clipboard").addClass("alert alert-success")
         document.execCommand("copy");
         $temp.remove();
 
@@ -580,7 +533,7 @@
             $('#range_input_custom').css('display','none');
             $('.filter_type').val('non-custom');
             $('.filter_value').val(value);
-            // console.log($('#filter_analytics').prop('action'));
+
             $('#filter_analytics').submit();
 
         }

@@ -27,6 +27,12 @@
 
         }
 
+        @media only screen and (max-width: 906px) and (min-width: 501px){
+            .popup_img {
+
+margin: auto !important;
+            }
+        }
 
     </style>
 @endsection

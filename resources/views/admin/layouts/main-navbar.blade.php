@@ -15,17 +15,7 @@
                                                        href="{{route('admin.index')}}"> <b
                             class="hidden-xs">Dashboard</b></a></li>
 
-{{--                <li style="color: white"  class="" ><a class="profile-pic"--}}
-{{--                                                       href="{{route('home')}}"> <b--}}
-{{--                            class="hidden-xs">Users</b></a></li>--}}
 
-
-{{--                <li style="color: white" class="" ><a class="profile-pic"--}}
-{{--                                                      href="{{route('settings.home')}}"> <b--}}
-{{--                            class="hidden-xs">SETTINGS</b></a></li>--}}
-{{--                <li style="color: white"  class="" ><a class="profile-pic"--}}
-{{--                                                       href="{{route('analytics')}}"> <b--}}
-{{--                            class="hidden-xs">ANALYTICS</b></a></li>--}}
                 @php
                     $data=\Illuminate\Support\Facades\Auth::user();
                 @endphp

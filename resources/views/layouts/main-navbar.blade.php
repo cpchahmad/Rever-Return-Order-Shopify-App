@@ -1,16 +1,39 @@
+<style>
 
+    @media only screen and (max-width: 425px) and (min-width: 320px) {
+
+        .desktopview {
+            display: none;
+        }
+
+        .mobileview {
+            display: block !important;
+
+        }
+
+        .analytics {
+            display: block !important;
+        }
+    }
+
+</style>
 
 
 <nav class="navbar navbar-default bg-primary" id="top_nav_fixed">
     <div class="navbar-header">
         <div class="decline-item ">
-            <a href="{{route('home')}}">
+            <a href="{{route('home')}}" class="desktopview">
                 <img class="display-4 mt-3" src="{{asset('logos/Logo REVER.png')}}" alt="logo" width="100px">
             </a>
 
         </div>
         <div class="main-menu-overall">
             <ul class="nav navbar-top-links statics" status="">
+
+                <li style="display: none"  class="mobileview" > <a href="{{route('home')}}">
+                        <img class="display-4 " src="{{asset('logos/Logo REVER.png')}}" alt="logo" width="100px">
+                    </a>
+                </li>
                 <li style="color: white"  class="" ><a class="profile-pic"
                                                        href="{{route('home')}}"> <b
                             class="hidden-xs">DASHBOARD</b></a></li>
@@ -21,7 +44,7 @@
                 <li style="color: white" class="" ><a class="profile-pic"
                                                       href="{{route('settings.home')}}"> <b
                             class="hidden-xs">SETTINGS</b></a></li>
-                <li style="color: white"  class="" ><a class="profile-pic"
+                <li style="color: white"  class="analytics" ><a class="profile-pic"
                                                        href="{{route('analytics')}}"> <b
                             class="hidden-xs">ANALYTICS</b></a></li>
                 @php
