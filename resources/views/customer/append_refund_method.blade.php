@@ -7,7 +7,7 @@
 
         .popupBody{
 
-            margin-top: 150px !important;
+            margin-top: 250px !important;
         }
     }
     @media only screen and (max-width: 450px) and (min-width: 351px)  {
