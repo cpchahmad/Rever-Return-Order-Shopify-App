@@ -180,7 +180,8 @@
 
                                             <div class="col-md-2 align-middle p-0">
                                                 <img style="width: 100%;height: auto;"
-                                                     src="@if(isset($item_json['image'])){{$item_json['image']}} @endif">
+{{--                                                     src="@if(isset($item_json['image'])){{$item_json['image']}} @endif">--}}
+                                                     src="@if(isset($item_json['image'])){{$item_json['image']}} @else @if($order_line_product_specific['image']){{$order_line_product_specific['image']['src']}} @endif @endif">
 
                                             </div>
                                             <div class="col-md-4 align-middle">
@@ -208,7 +209,8 @@
 
                                             @if($item_json['return_type']=='exchange')
 
-                                                <?php $line_product = \App\Models\OrderLineProduct::where('product_id', $item_json['product_id'])->first();
+                                                <?php $line_product = \App\Models\OrderLineProduct::where('product_id', $item_json['product_id'])->where('shop_id',$shop_id)->first();
+
 
 
                                                 $line_product = json_decode($line_product->product_json);
@@ -223,12 +225,27 @@
                                                         $sel_variant = $s_variant;
                                                 }
 
+//
+
+                                                if(isset($item_json['image'])){
                                                 $ext_image = $item_json['image'];
+//                                                $ext_image =  isset($item_json['image'])?$item_json['image']:isset($order_line_products['image'])?$order_line_products['image']['src']:"";
+
 
                                                 foreach ($line_product->images as $p_images) {
+
                                                     if ($p_images->id==$sel_variant->image_id) {
+
                                                         $ext_image = $p_images->src;
+
                                                     }
+                                                }
+
+
+                                                    }
+                                                else{
+                                                    $ext_image =isset($order_line_product_specific['image'])?$order_line_product_specific['image']['src']:"";
+
                                                 }
                                                 ?>
                                                 <div class="col-md-2 align-middle p-0">

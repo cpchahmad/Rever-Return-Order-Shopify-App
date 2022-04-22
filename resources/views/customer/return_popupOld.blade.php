@@ -182,79 +182,66 @@
                                 </div>
                             </div>
 
+                            <div class="all_images_main">
+                                <div class="sizes_img_main">
+                                    <div class="size_parent_bg">
+                                        <div class="size_flex p-30">
+                                            <div class="size_text">
 
-                            @foreach($product_options as $index=>$productOption)
-{{--                                @dump($productOption->name)--}}
-                            @if($productOption->name=='Color')
-                                    <div class="all_images_main">
-                                        <div class="sizes_img_main">
-                                            <div class="size_parent_bg">
-                                                <div class="size_flex p-30">
-                                                    <div class="size_text">
-
-                                                        <span class="custom_span ">{{$productOption->name}}</span>
-                                                    </div>
-                                                    <div class="Medium_text">
-                                                        <span class="custom_span option-image"></span>
-                                                    </div>
-                                                </div>
+                                                <span class="custom_span ">{{$product_options[0]->name}}</span>
+                                            </div>
+                                            <div class="Medium_text">
+                                                <span class="custom_span option1"></span>
                                             </div>
                                         </div>
-                                        <div class="main_imae_flex p-30">
-{{--                                            @dump($color_variants)--}}
-                                            @foreach($color_variants as $color_variant)
+                                    </div>
+                                </div>
+                                <div class="main_imae_flex p-30">
+                                    @foreach($color_variants as $color_variant)
+                                        <div class="img_Size_three">
+                                            <div class="image_parentt">
+                                                <input class="variant_check opt-1" name="option1" type="radio"
+                                                       style="display: none"
+                                                       value="{{$color_variant['color']}}">
+                                                <img src="{{$color_variant['image']}}" alt=""
+                                                     class="add_option1 img_responsive">
+                                            </div>
+                                        </div>
+                                    @endforeach
 
-                                                <div class="img_Size_three">
-                                                    <div class="image_parentt">
-                                                        <input class=" opt-image" name="option{{$index+1}}" type="radio"
-                                                               style="display: none"
-                                                               value="{{$color_variant['color']}}">
-                                                        <img src="{{$color_variant['image']}}" alt=""
-                                                             class="add_option1 img_responsive">
-                                                    </div>
-                                                </div>
-                                            @endforeach
+                                </div>
+                            </div>
 
+                            @if(isset($product_options[1]))
+                                <div class="sizes_img_main">
+                                    <div class="size_parent_bg">
+                                        <div class="size_flex p-30">
+                                            <div class="size_text">
+                                                <span class="custom_span">{{$product_options[1]->name}}</span>
+                                            </div>
+                                            <div class="Medium_text">
+                                                <span class="custom_span option2"></span>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div class="radios_sizes">
 
-
-                                @else
-                                    <div class="sizes_img_main">
-                                        <div class="size_parent_bg">
+                                        @foreach($product_options[1]->values as $value)
                                             <div class="size_flex p-30">
                                                 <div class="size_text">
-                                                    <span class="custom_span">{{$productOption->name}}</span>
+                                                    <input class="variant_check opt-2" type="radio" name="option2"
+                                                           value="{{$value}}">
+                                                    <label for="S">{{$value}}</label>
                                                 </div>
                                                 <div class="Medium_text">
-                                                    <span class="custom_span other-option"></span>
+                                                    <span></span>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="radios_sizes">
+                                        @endforeach
 
-                                            @foreach($productOption->values as $value)
-                                                <div class="size_flex p-30">
-                                                    <div class="size_text">
-                                                        <input class="variant_check opt-2" type="radio" name="option{{$index+1}}"
-                                                               value="{{$value}}">
-                                                        <label for="S">{{$value}}</label>
-                                                    </div>
-                                                    <div class="Medium_text">
-                                                        <span></span>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-
-                                        </div>
                                     </div>
-
-                                @endif
-                            @endforeach
-
-
-
-
+                                </div>
+                            @endif
                             <div class="button_show_onSelect p-30">
                                 <div class="main_continue_btn">
                                     <button type="button"  id="after_btn_checked" disabled>Continue</button>
@@ -292,7 +279,6 @@
                                 </div>
                                 <div class="label_checkbox">
                                     @foreach($exchange_reasons as $reason)
-
                                         <div class="Labels">
                                             <input type="radio" id="one" name="return_reason" value="{{$reason->id}}">
                                             <label for="one" class="mina_onee return_reason_check">
@@ -404,19 +390,10 @@
 
 
             })
-            //by me
-            // $('input[name=option2]').on('change', function () {
-            //     $('.opt-2').removeAttr('checked');
-            //     $(this).attr('checked', 'checked');
-            //     $('.option2').html($(this).val());
-            //     check_exchange_option();
-            //
-            // });
-            $('.variant_check').on('change', function () {
-                // $('.variant_check').removeAttr('checked');
-                $(this).parents('.sizes_img_main').find('.variant_check').removeAttr('checked');
+            $('input[name=option2]').on('change', function () {
+                $('.opt-2').removeAttr('checked');
                 $(this).attr('checked', 'checked');
-                $(this).parents('.sizes_img_main').find('.other-option').html($(this).val());
+                $('.option2').html($(this).val());
                 check_exchange_option();
 
             });
@@ -426,12 +403,12 @@
                     $('#selection_form').submit();
             });
             $('.image_parentt').on('click', function (event) {
-                $('.opt-image').removeAttr('checked');
+                $('.opt-1').removeAttr('checked');
                 $('.image_parentt').removeClass('Custom_border');
                 $(this).addClass('Custom_border');
                 $('.popup_img').css('background', 'url(' + $(this).children('img').attr('src') + ')');
                 $(this).children('input').attr('checked', 'checked');
-                $('.option-image').html($(this).children('input').val());
+                $('.option1').html($(this).children('input').val());
                 check_exchange_option();
             });
             $('button .back').on('click', function () {
@@ -444,98 +421,56 @@
         //     check_exchange_option();
         // });
 
-        // function check_exchange_option1() {
-        //     console.log($('input[name=option3]').val());
-        // }
-
         function check_exchange_option() {
             $('#after_btn_checked').attr('disabled', true);
 
             $('#after_btn_checked').html('<i class="fa fa-spinner fa-spin" style="font-family: FontAwesome !important;"></i>');
             // console.log($('input[name=option2]').val(),$('input[name=option1]').val())
 
-            if($('input[name=option3]').val()){
-
-                if($('input[name=option1]').is(":checked") && $('input[name=option2]').is(":checked") && $('input[name=option3]').is(":checked") ){
-
-                    ajaxFunction();
-                    // alert('allchecked');
-                }
-
-            }
-
-
-
-
-            else         if($('input[name=option2]').val()) {
-
-                if ($('input[name=option2]').val() && $('input[name=option1]').val()) {
-
-                    // alert($('input[name=option1]:checked').val());
-                    if ($('input[name=option1]').is(":checked") && $('input[name=option2]').is(":checked")) {
-                        ajaxFunction();
-                        // alert('allchecked22');
+            if ($('input[name=option2]').val() && $('input[name=option1]').val()) {
+            // if ($('input[name=option2]').val() ) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
+                });
+                $.ajax({
+                    method: "POST",
+                    url: "{{(route('check.variant.stock'))}}",
+                    data: {
+                        'option1': $('input[name=option1]:checked').val(),
+                        'option2': $('input[name=option2]:checked').val(),
+                        'product_id': "{{$line_item['product_id']}}",
+                        'quantity': "{{$line_item['quantity']}}"
+                    },
+                    success: function (response) {
+                        // console.log(response);
+                        if (response.stat == 'found') {
+                            $('#after_btn_checked').removeAttr('disabled');
+                            $('#after_btn_checked').html('Continue');
+                            return true;
+                        } else if (response.stat == 'out of stock') {
+                            $('#after_btn_checked').html('Out of Stock');
+                            return false;
+                        }
+                        //commentted by me
+                        // $('#after_btn_checked').html('Continue');
+                        $('#after_btn_checked').html('Not Available');
+                    },
+                    error:function(response)
+                    {
+                        //commentted by me
+                        // $('#after_btn_checked').html('Continue');
+                        $('#after_btn_checked').html('Not Available1');
 
+                    }
+                });
 
-                }
             }
-
-
-
             else{
 
-                if($('input[name=option1]').is(":checked")){
-                    ajaxFunction();
-
-                }
-
-
-
+                $('#after_btn_checked').html('Not Available');
             }
-
-
-        }
-
-        function ajaxFunction(){
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                method: "POST",
-                url: "{{(route('check.variant.stock'))}}",
-                data: {
-                    'option1': $('input[name=option1]:checked').val(),
-                    'option2': $('input[name=option2]:checked').val(),
-                    'option3': $('input[name=option3]:checked').val(),
-                    'product_id': "{{$line_item['product_id']}}",
-                    'quantity': "{{$line_item['quantity']}}"
-                },
-                success: function (response) {
-                    console.log(response);
-                    if (response.stat == 'found') {
-                        $('#after_btn_checked').removeAttr('disabled');
-                        $('#after_btn_checked').html('Continue');
-                        return true;
-                    } else if (response.stat == 'out of stock') {
-                        $('#after_btn_checked').html('Out of Stock');
-                        return false;
-                    }
-                    //commentted by me
-                    // $('#after_btn_checked').html('Continue');
-                    $('#after_btn_checked').html('Not Available');
-                },
-                error:function(response)
-                {
-                    //commentted by me
-                    // $('#after_btn_checked').html('Continue');
-                    $('#after_btn_checked').html('Not Available1');
-
-                }
-            });
         }
     </script>
 @endsection

@@ -7,7 +7,8 @@
 <style>
     body {
         background-image: url('{{asset('logos/'.$settings->background)}}') !important;
-
+        background-repeat: no-repeat !important ;
+        background-size: cover !important;
     }
 </style>
 @endsection

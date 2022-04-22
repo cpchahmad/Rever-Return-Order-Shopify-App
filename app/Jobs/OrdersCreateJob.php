@@ -53,16 +53,19 @@ class OrdersCreateJob implements ShouldQueue
         // Convert domain
 //        $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
 
-
+//        DB::table('error_logs')->insert([
+//            'message' => 'order create complete'.$this->data->order_number,
+//        ]);
         try {
             $order=new OrderController();
-            $order->OrdersSyncWebhook($this->data->id,$this->shopDomain);
+//            $order->OrdersSyncWebhook($this->data->id,$this->shopDomain);
+            $order->OrdersSyncWebhook($this->data,$this->shopDomain);
+
             return true;
-            DB::table('error_logs')->insert([
-                'message' => 'order create complete',
-            ]);
+
         }catch (\Exception $exception)
         {
+
             return ;
         }
         // Do what you wish with the data

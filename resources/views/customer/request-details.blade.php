@@ -24,7 +24,8 @@
         }
         body {
             background-image: url('{{asset('logos/'.$settings->background)}}') !important;
-
+            background-repeat: no-repeat !important ;
+            background-size: cover !important;
         }
 
 
@@ -66,9 +67,9 @@
             array_push($request_items, $it);
         }
         if($it['blocked']==true)
-            {
-                $has_blocked_items=true;
-            }
+        {
+            $has_blocked_items=true;
+        }
     }
     ?>
 
@@ -89,16 +90,16 @@
 
             <div class="header">
                 <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">
-                <a href="https://{{$domain}}"  style="text-decoration: none;">
-                    @if($settings)
-                        <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">
-                        <h5 style="color: white">Powered by Rever</h5>
-                    @else
-                        <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+                    <a href="https://{{$domain}}"  style="text-decoration: none;">
+                        @if($settings)
+                            <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">
+                            <h5 style="color: white">Powered by Rever</h5>
+                        @else
+                            <img src="{{asset('images/Group 26.svg')}}" alt="logo">
 
-                    @endif
-                </a>
-            </div>
+                        @endif
+                    </a>
+                </div>
             </div>
             <div class="main_products_all_section" style="margin-top: 10px;">
                 <div class="heading_section">
@@ -166,7 +167,7 @@
                                             @endif
                                             <div class="product_container">
                                                 <div class="icons_images"
-                                                     >
+                                                >
                                                     <div class="img_background delete_item"
 
                                                          data-href="https://{{$domain}}/a/return/customer/{{$order->id}}/item/{{$line_item['id']}}/remove?customsession={{json_encode($customsession)}}&line_item_id={{$line_item['id']}}">
@@ -261,8 +262,11 @@
                                                     </a>
                                                     <div id="request_{{$request_item['request_id']}}" class="modal">
                                                         <?php
-                                                        $request = \App\Models\Request::find($request_item['request_id']);
-                                                        $order = \App\Models\Order::find($request->order_id);
+                                                        $getuser_id=\App\Models\User::where('name',$domain)->first();
+                                                        $request = \App\Models\Request::where('id',$request_item['request_id'])->where('shop_id',$getuser_id->id)->first();
+
+
+                                                        $order = \App\Models\Order::where('id',$request->order_id)->where('shop_id',$getuser_id->id)->first();
                                                         $r_status = $request->has_statuses;
                                                         ?>
                                                         <div class="row">
@@ -304,13 +308,15 @@
 
                                                                     <div class="col-md-2 align-middle p-0">
                                                                         <img style="width: 100%;height: auto;"
-                                                                             src="@if(isset($item_json['image'])){{$item_json['image']}} @endif">
+                                                                             src="@if(isset($item_json['image'])){{$item_json['image']}} @else @if(isset($line_item['image'])){{$line_item['image']}} @endif @endif">
+                                                                        {{--                                                                             src="{{ isset($item_json['image'])?$item_json['image']:isset($line_item['image'])?$line_item['image']:""}}">--}}
 
                                                                     </div>
                                                                     <div class="col-md-4 align-middle">
                                                                         <b> {{$item_json['title'].'-'.implode(' / ',array_filter($item_json['options']))}} </b>
                                                                         x {{$item_json['quantity']}}
                                                                         <div class="row">
+
 
                                                                             <div
                                                                                 class="col-md-12 mt-2 font-weight-bold">
@@ -320,7 +326,8 @@
                                                                             <div
                                                                                 class="col-md-12 mt-2 font-weight-bold">
                                                                                 Reason:
-                                                                                <?php $reason=\App\Models\ReasonsDataSet::find($item_json['return_reason'])?>
+<!--                                                                                --><?php //$reason=\App\Models\ReasonsDataSet::find($item_json['return_reason'])?>
+                                                                                <?php $reason=\App\Models\Reason::find($item_json['return_reason'])?>
                                                                                 {{($reason!==null?$reason->name:'Unknown Reason')}}
                                                                             </div>
                                                                             <div
@@ -341,7 +348,9 @@
                                                                                 $sel_variant = $s_variant;
                                                                         }
 
-                                                                        $ext_image = $item_json['image'];
+
+
+                                                                        $ext_image = isset($item_json['image'])?$item_json['image']:isset($line_item['image'])?$line_item['image']:"";
 
                                                                         foreach ($line_product->images as $p_images) {
                                                                             if ($p_images->id == $sel_variant->image_id) {
@@ -437,7 +446,7 @@
                                                             <div class="product_parent">
                                                                 <div class="product_img">
                                                                     <div class="img_parent">
-                                                                        <img src="{{$line_item['image']}}"
+                                                                        <img src="@if(isset($line_item['image'])){{$line_item['image']}} @endif"
                                                                              alt=""
                                                                              class="img_responsive">
                                                                     </div>
@@ -480,7 +489,7 @@
                 <div class="main_btn_section">
                     <div class="small_section">
 
-                            @if($customsession)
+                        @if($customsession)
                             @if(count($customsession)>1)
                                 <span>{{count($customsession)}} items selected</span>
                             @elseif(count($customsession))

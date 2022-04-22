@@ -140,7 +140,8 @@ class CustomerController extends Controller
             $settings1 = Setting::where('shop_id', $shop->id)->first();
 
 
-            $prev=PreviousRequest::where('order_number',$prev)->first();
+
+            $prev=PreviousRequest::where('order_number',$prev)->where('shop_id',$shop->id)->first();
 
 
             if ($prev!==null)
@@ -172,18 +173,24 @@ class CustomerController extends Controller
             $settings = Setting::where('shop_id', $shop->id)->first();
             $r_settings = RequestSetting::where('shop_id', $shop->id)->first();
 
+
             $login_check = Order::where([
                 'order_name' => $order_name,
                 'email' => $order_email,
                 'shop_id' => $shop->id
             ])->first();
 
-            $special_orders=explode(',',$r_settings->special_orders);
-            $exclude_orders=explode(',',$r_settings->exclude_orders);
-            $exchange_orders=explode(',',$r_settings->exchange_orders);
 
-            if ($login_check !== null) {
+            if($r_settings!=null) {
+                $special_orders = explode(',', $r_settings->special_orders);
+                $exclude_orders = explode(',', $r_settings->exclude_orders);
+                $exchange_orders = explode(',', $r_settings->exchange_orders);
+            }
 
+            if ($login_check !== null ) {
+
+
+                if($r_settings!=null){
                 if(!in_array(str_replace('#','US',$login_check->order_name),$exchange_orders) && RequestExchange::where('order_id',$login_check->order_id)->exists())
                 {
 
@@ -195,12 +202,13 @@ class CustomerController extends Controller
                     ])->render();
                     return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
-                }
+                }}
 
                 $login_check_json = json_decode($login_check->order_json);
 
 
-                if ($r_settings->exclude_non_us_order == true && $login_check_json->shipping_address->country_code !== 'US') {
+
+                if ($r_settings !=null && $r_settings->exclude_non_us_order == true && $login_check_json->shipping_address->country_code !== 'US') {
 
                     $message="Non US Orders are not eligible for return";
 
@@ -211,14 +219,16 @@ class CustomerController extends Controller
                 $design = PortalDesign::where('shop_id', $shop->id)
                     ->first();
 
+
                 $order = Order::where([
                     'order_name' => $order_name,
                     'shop_id' => $shop->id
                 ])->first();
 
+
                 $r_items = [];
                 $request_ids = [];
-                $requests = \App\Models\Request::where('order_id', $order->id)->cursor();
+                $requests = \App\Models\Request::where('order_id', $order->id)->where('shop_id',$shop->id)->cursor();
 
                 foreach ($requests as $re) {
                     $req_items = json_decode($re->items_json, true);
@@ -229,6 +239,8 @@ class CustomerController extends Controller
 
 
                 }
+
+
 
                 $lines = json_decode($order->order_json);
 
@@ -251,13 +263,13 @@ class CustomerController extends Controller
                         }
                     }
 
-                    $line_product = OrderLineProduct::where('product_id', $line->product_id)->first();
+                    $line_product = OrderLineProduct::where('product_id', $line->product_id)->where('shop_id',$shop->id)->first();
 
                     if ($line_product === null) {
                         $product_detail = $shop->api()->rest('GET', '/admin/products/' . $lineItem->product_id . '.json')['body']['product'];
 
                         $product_detail = json_decode(json_encode($product_detail), FALSE);
-                        $order_line_product = OrderLineProduct::where('product_id', $lineItem['product_id'])->first();
+                        $order_line_product = OrderLineProduct::where('product_id', $lineItem['product_id'])->where('shop_id',$shop->id)->first();
                         if ($order_line_product === null) {
                             $order_line_product = new OrderLineProduct();
                             $order_line_product->product_id = $lineItem['product_id'];
@@ -268,7 +280,7 @@ class CustomerController extends Controller
                         }
 
                     }
-                    $line_product = OrderLineProduct::where('product_id', $line->product_id)->first();
+                    $line_product = OrderLineProduct::where('product_id', $line->product_id)->where('shop_id',$shop->id)->first();
                     $line_product = json_decode($line_product->product_json);
 
                     foreach (json_decode($order->line_images, true) as $im) {
@@ -281,7 +293,7 @@ class CustomerController extends Controller
                         $line_product = $line_product->body->product;
                     }
 
-                   ;
+
                     $tags = $line_product->tags;
 
                     $product_tags = explode(',', str_replace(' ', '', $tags));
@@ -325,6 +337,8 @@ class CustomerController extends Controller
                 ])->where('status', '!=', 4)->orderBy('id', 'DESC')->cursor();
 
 
+
+
                 $back["shop_domain"] = $shop->shopify_domain;
 
                 if ($this->checkCustomerBlock($order_email, $shop->id)) {
@@ -345,6 +359,7 @@ class CustomerController extends Controller
 
                 }
                 $date = Carbon::createFromDate($order_json->created_at);
+
                 if ($r_settings !== null && $r_settings->valid_return_date !== null) {
 
                     $date = $date->addDays($r_settings->valid_return_date);
@@ -357,6 +372,7 @@ class CustomerController extends Controller
                 $returnable = true;
 
 
+
                 if ($date->lessThan(Carbon::today())) {
 
 
@@ -364,19 +380,26 @@ class CustomerController extends Controller
 
                 }
 
-                if (!$returnable && in_array(str_replace('#','US',$order->order_name),$special_orders))
-                {
 
 
-                    $returnable = true;
-                }
-                if (in_array(str_replace('#','US',$order->order_name),$exclude_orders))
-                {
 
-                    $returnable = false;
-                }
+                    if (!$returnable && in_array(str_replace('#', 'US', $order->order_name), $special_orders)) {
+
+
+                        $returnable = true;
+                    }
+
+
+                    if (in_array(str_replace('#', 'US', $order->order_name), $exclude_orders)) {
+
+                        $returnable = false;
+                    }
+
 
                 $date = $date->englishMonth . ' ' . $date->day . ', ' . $date->year;
+//return $line_items;
+
+
 
                 $html = view('customer.request-details')->with([
                     'order' => $order,
@@ -416,6 +439,7 @@ class CustomerController extends Controller
 
 
         } catch (\Exception $exception) {
+            return $exception->getMessage();
             dd($exception);
             return back();
         }
@@ -430,9 +454,13 @@ class CustomerController extends Controller
 
         try {
 
+            $shop_id=User::where('name',$request->shop)->first();
+
+
             $order = Order::where([
                 'order_name' => '#' . str_replace('US', '', $request->order_name),
-                'email' => $request->email
+                'email' => $request->email,
+                'shop_id'=>$shop_id->id
             ])->first();
 
 
@@ -452,6 +480,7 @@ class CustomerController extends Controller
 
             $request_settings = RequestSetting::where('shop_id', $shop)->first();
 
+
             $r_details = json_decode($request->input('product'));
 
             $order_detail = json_decode($order->order_json);
@@ -464,11 +493,16 @@ class CustomerController extends Controller
             $products = [];
             $its=[];
 
+
             foreach ($items as $singleItem) {
 
                 if ($singleItem['return_type'] === 'exchange') {
 
-                    $product = OrderLineProduct::where('product_id', $singleItem['product_id'])->first();
+
+
+
+
+                    $product = OrderLineProduct::where('product_id', $singleItem['product_id'])->where('shop_id',$shop)->first();
 
 
                     $product = json_decode($product->product_json);
@@ -492,12 +526,17 @@ class CustomerController extends Controller
 
                 }
 
+
                 $its['id'] = intval($singleItem['id']);
                 $its['quantity'] = $singleItem['quantity'];
                 $its['reason'] = $singleItem['quantity'];
                 $its['return_type'] = $singleItem['return_type'];
-                $reason = ReasonsDataSet::find($singleItem['return_reason']);
+//                $reason = ReasonsDataSet::find($singleItem['return_reason']);
+                $reason = Reason::find($singleItem['return_reason']);
 
+
+//return $reason;
+//                return $reason;
                 if($reason==null)
                 {
                     $reason=ReasonsDataSet::first();
@@ -512,6 +551,7 @@ class CustomerController extends Controller
                 array_push($products, $its);
                 $product_price[intval($singleItem['id'])] = floatval($singleItem['price']);
             }
+
 
             $r_request = new \App\Models\Request();
             $r_request->shop_id = $shop;
@@ -543,13 +583,15 @@ class CustomerController extends Controller
             }
 
 
-            $rq_order = new OrderController();
+
+//            $rq_order = new OrderController();
 
             $order_product_image_data = json_decode($order->products_json);
 
             $r_request->save();
 
             $shop_detail = User::where('id', $shop)->first();
+//            return $shop_detail;
 
 
             //Save Request Products
@@ -557,10 +599,13 @@ class CustomerController extends Controller
                 $shipping_address = $order_detail->shipping_address;
                 $ship=RequestShippingAddress::where('request_id',$r_request->id)->first();
 
+
                 if($ship===null)
                 {
                     $ship = new RequestShippingAddress();
+
                 }
+
                 $ship->request_id = $r_request->id;
                 $ship->first_name = $shipping_address->first_name;
                 $ship->last_name = $shipping_address->last_name;
@@ -575,6 +620,7 @@ class CustomerController extends Controller
 
 
 
+
             foreach ($items as $r_items) {
                 $request_product = new RequestProducts();
                 $item_price = $r_items['price'];
@@ -586,7 +632,9 @@ class CustomerController extends Controller
                 $request_product->product_id = $r_items['product_id'];
                 $request_product->product_name = $r_items['title'];
                 $request_product->return_type = $r_items['return_type'];
-                $request_product->reason = ReasonsDataSet::find($r_items['return_reason'])->name;
+//                $request_product->reason = ReasonsDataSet::find($r_items['return_reason'])->name;
+                $request_product->reason = Reason::find($r_items['return_reason'])->name;
+
                 $request_product->shop_id = $shop;
                 $request_product->order_id = $order->order_name;
                 $request_product->request_id = $r_request->id;
@@ -634,6 +682,7 @@ class CustomerController extends Controller
             return redirect('https://'.$request->shop.'/a/return/customer/request/'.$r_request->id.'/labeling');
         } catch (\Exception $exception) {
 
+            return $exception->getMessage();
             return redirect('https://'.$request->shop.'/a/return/customer/request/'.$r_request->id.'/labeling');
 
         }
@@ -752,6 +801,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
             $lines = json_decode($order->order_json);
             $lines = $lines->line_items;
 
+
             foreach ($lines as $line) {
 
                 if ($line_id == $line->id) {
@@ -796,17 +846,32 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                     }
 
                     $product_options = $line_product->options;
+//                    return $product_options;
 
                     $variants = [];
                     $color_variants = [];
+                    $color_position=1;
                     if (count($product_options)) {
 
-                        $color_options = $product_options[0]->values;
+
+                        foreach ($product_options as $productget_option) {
+//                            return $productget_option;
+                            if($productget_option->name=='Color'){
+
+                                $color_position=$productget_option->position;
+                                $color_options = $productget_option->values;
+
+                                break;
+                            }
+                        }
                     }
 
+//                    return $color_options;
+//                    return $line_product->variants;
 
                     foreach ($line_product->variants as $variant) {
                         if ($variant->id == $line->variant_id) {
+
                             array_push($data['options'], $variant->option1);
                             array_push($data['options'], $variant->option2);
                             array_push($data['options'], $variant->option3);
@@ -816,32 +881,77 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                             $src = null;
 
                         }
+
+
+
                         if (count($color_options)) {
+//                            return $color_options;
                             foreach ($color_options as $color_option) {
-                                if ($variant->option1 == $color_option) {
+//                                return ['image_id'=>$variant,'line_image'=>$color_options];
+//                                return $variant;
+                                $variant_opt='option'.$color_position;
+
+
+                                if ($variant->$variant_opt == $color_option ) {
+//                                    return $variant->$variant_opt;
+//                                    return ['image_id'=>$color_option,'line_image'=>$line_product->images];
+
                                     foreach ($line_product->images as $Image) {
+
+
+//                                            return ['image_id'=>$variant->image_id,'line_image'=>$Image->id];
                                         if ($variant->image_id == $Image->id) {
+
                                             array_push($color_variants, [
                                                 'variant_id' => $variant->id,
-                                                'color' => $variant->option1,
+                                                'color' => $variant->$variant_opt,
                                                 'image' => $Image->src
+//                                                'image' => 'Color Images'
                                             ]);
+
+                                            break;
+                                        }
+
+                                        else {
+                                            array_push($color_variants, [
+                                                'variant_id' => $variant->id,
+                                                'color' => $variant->$variant_opt,
+                                                'image' => $line_product->image->src
+                                            ]);
+
                                         }
                                     }
+//                                    return ($color_variants);
+
                                 }
+
+
 
                             }
                         }
                     }
+
+//                    return $color_variants;
                     $temp = [];
                     $datas = [];
                     foreach ($color_variants as $col_v) {
 
+//                        return $col_v;
                         if (count($datas) > 0) {
                             if (!in_array($col_v['color'], $datas)) {
                                 array_push($temp, $col_v);
                                 array_push($datas, $col_v['color']);
 
+                            }
+                            else{
+                                foreach($temp as $key => $value)
+                                {
+                                    if($col_v['color']==$value['color']) {
+//                                        return $value['color'];
+                                        $temp[$key] = $col_v;
+                                    }
+//                                    $temp[$key]['values'] = date('d/m/Y',$value['transaction_date']);
+                                }
                             }
                         } else {
                             array_push($temp, $col_v);
@@ -849,8 +959,10 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
                         }
                     }
+
                     $color_variants = $temp;
 
+//                    return $color_variants;
                     $image_id = null;
                     foreach ($line_product->variants as $single_variant) {
                         if ($single_variant->id == $data['variant_id'])
@@ -881,15 +993,30 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                     }
                 }
             }
+//            $exchange_reasons = RequestCategory::whereHas('reasons')('name', 'Exchange')->first();
             $exchange_reasons = RequestCategory::where('name', 'Exchange')->first();
+//return $exchange_reasons->reasons;
+
+//                $shop_ID=$order->shop_id;
+
+
+//            $exchange_reasons=  RequestCategory::where('name','Exchange')
+//                ->whereHas('reasons',function($query) use ($shop_ID){
+//                $query->where('shop_id',$shop_ID);
+//            })->first();
+
+            $exchange_reasons= $exchange_reasons->reasons->where('shop_id',$order->shop_id);
             $refund_reasons = RequestCategory::where('name', 'Refund')->first();
+
+            $refund_reasons= $refund_reasons->reasons->where('shop_id',$order->shop_id);
+
 
             $html= view('customer.return_popup')->with([
                 'shop' => $order->has_shop,
                 'order' => $order,
                 'line_item' => $data,
-                'exchange_reasons' => $exchange_reasons->reasons,
-                'refund_reasons' => $refund_reasons->reasons,
+                'exchange_reasons' => $exchange_reasons,
+                'refund_reasons' => $refund_reasons,
                 'product_options' => $product_options,
                 'color_variants' => $color_variants,
                 'allow_methods' => $allow_methods,
@@ -1098,17 +1225,50 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 //Function to check if the stock is available for the product
     public function checkVariantStock(Request $request)
     {
+
+
+
         $option1 = $request->option1;
         $option2 = $request->option2;
+        $option3 = $request->option3;
+
         $product_id = $request->product_id;
         $quantity = $request->quantity;
 
         $product = OrderLineProduct::where('product_id', $product_id)->first();
+
+
         $product = json_decode($product->product_json);
 
         foreach ($product->variants as $variant) {
+//            return ($variant);
 
-            if ($variant->option1 && $variant->option2) {
+
+            if ($variant->option1 && ($variant->option2 == null || $variant->option2 == '') && ($variant->option3 == null || $variant->option3 == '')) {
+                if ($variant->option1 == $option1 ) {
+
+                    if ($variant->inventory_quantity >= $quantity) {
+                        return response()->json([
+                            'stat' => 'found',
+                            'variant_id' => $variant->id,
+                            'stock' => $variant->inventory_quantity
+                        ]);
+                    } else {
+                        return response()->json([
+                            'stat' => 'out of stock',
+                            'variant_id' => $variant->id,
+                            'stock' => $variant->inventory_quantity
+                        ]);
+                    }
+                } else {
+                    return response()->json([
+                        'stat' => 'not found',
+                        'variant_id' => $variant->id
+                    ]);
+                }
+            }
+
+            else if ($variant->option1 && $variant->option2 && ($variant->option3 == null || $variant->option3 == '')) {
                 if ($variant->option1 == $option1 && $variant->option2 == $option2) {
 
                     if ($variant->inventory_quantity >= $quantity) {
@@ -1124,8 +1284,31 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                             'stock' => $variant->inventory_quantity
                         ]);
                     }
+                } else {
+                    return response()->json([
+                        'stat' => 'not found',
+                        'variant_id' => $variant->id
+                    ]);
                 }
-                else {
+            }
+            else if ($variant->option1 && $variant->option2 && $variant->option3) {
+
+                if ($variant->option1 == $option1 && $variant->option2 == $option2 && $variant->option3 == $option3) {
+
+                    if ($variant->inventory_quantity >= $quantity) {
+                        return response()->json([
+                            'stat' => 'found',
+                            'variant_id' => $variant->id,
+                            'stock' => $variant->inventory_quantity
+                        ]);
+                    } else {
+                        return response()->json([
+                            'stat' => 'out of stock',
+                            'variant_id' => $variant->id,
+                            'stock' => $variant->inventory_quantity
+                        ]);
+                    }
+                } else {
                     return response()->json([
                         'stat' => 'not found1',
                         'variant_id' => $variant->id
@@ -1137,6 +1320,9 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                     'variant_id' => $variant->id
                 ]);
             }
+
+
+
         }
     }
 

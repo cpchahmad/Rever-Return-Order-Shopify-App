@@ -10,5 +10,6 @@ class RequestCategory extends Model
     public function reasons()
     {
         return $this->hasMany(Reason::class,'category_id')->where('category_id',$this->id);
+//        return $this->hasMany(Reason::class,'category_id' ,'id');
     }
 }

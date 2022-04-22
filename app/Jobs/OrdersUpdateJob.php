@@ -56,6 +56,9 @@ class OrdersUpdateJob implements ShouldQueue
 //                'message' => 'order update webhook'. $this->shopDomain->toNative(),
 //
 //            ]);
+//        DB::table('error_logs')->insert([
+//            'message' => 'order update running'.$this->data->order_number,
+//        ]);
         try {
             $order = new OrderController();
             $order->UpdateOrder($this->data->id, $this->shopDomain->toNative());

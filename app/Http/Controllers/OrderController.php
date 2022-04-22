@@ -347,6 +347,7 @@ class OrderController extends Controller
             $custom_type->shop_id = $shop->id;
             $custom_type->return_type = $request->input('type');
             $custom_type->save();
+
         }
         return back();
     }
@@ -865,19 +866,21 @@ class OrderController extends Controller
     }
 
 //Synchronize Orders Webhook
-    public function OrdersSyncWebhook($id, $shop)
+    public function OrdersSyncWebhook($order, $shop)
     {
         $shopfy = User::where('name', $shop)->first();
 
         DB::table('error_logs')->insert([
             'message' => 'order create 1',
         ]);
-        $order = $shopfy->api()->rest('GET', '/admin/orders/' . $id . '.json')['body']['order'];
+//        $order = $shopfy->api()->rest('GET', '/admin/orders/' . $id . '.json')['body']['order'];
 
         $order = json_decode(json_encode($order), FALSE);
         $checks = $order;
 
-        $order_check = Order::where('order_name', '#' . $checks->order_number)->first();
+//        $order_check = Order::where('order_name', '#' . $checks->order_number)->first();
+//         $order_check = Order::where('order_name', '#' . $checks->order_number)->where('shop_id',$shopfy->id)->first();
+         $order_check = Order::where('order_id', $checks->id)->where('shop_id',$shopfy->id)->first();
 
         if ($order_check != null) {
             return "";
@@ -904,7 +907,9 @@ class OrderController extends Controller
                 {
                     $product_detail=$product_detail['body']['product'];
                     $product_detail = json_decode(json_encode($product_detail), FALSE);
-                    $order_line_product = OrderLineProduct::where('product_id', $item->product_id)->first();
+//                    $order_line_product = OrderLineProduct::where('product_id', $item->product_id)->first();
+                    $order_line_product = OrderLineProduct::where('product_id', $item->product_id)->where('shop_id',$shopfy->id)->first();
+
                     if ($order_line_product === null) {
                         $order_line_product = new OrderLineProduct();
                         $order_line_product->product_id = $item->product_id;
@@ -1039,8 +1044,10 @@ class OrderController extends Controller
         $all_products = $request->has_order->order_json;
         $all_products = json_decode($all_products, true);
         foreach ($all_products['line_items'] as $line_item) {
-            $order_line_products[$line_item['id']] = json_decode(OrderLineProduct::where('product_id', $line_item['product_id'])->first()->product_json, true);
+            $order_line_products[$line_item['id']] = json_decode(OrderLineProduct::where('product_id', $line_item['product_id'])->where('shop_id',$shopfy->id)->first()->product_json, true);
         }
+//dd($order_line_products[$line_item['id']]);
+
 
         return view('invoice')->with([
             'request' => $request,
@@ -1048,6 +1055,7 @@ class OrderController extends Controller
             'all_products' => $all_products['line_items'],
             'shop_details' => $shop_detail,
             'order_line_products' => $order_line_products,
+            'order_line_product_specific' => $order_line_products[$line_item['id']],
             'shop_id'=>Auth::user()->id,
             'easypost'=>$easypost
 
@@ -1944,11 +1952,13 @@ class OrderController extends Controller
     public function UpdateOrder($id, $shop)
     {
         $shopfy = User::where('name', $shop)->first();
+        Auth::login($shopfy);
         $order = $shopfy->api()->rest('GET', '/admin/orders/' . $id . '.json')['body']['order'];
         $order = json_decode(json_encode($order), FALSE);
         $checks = $order;
 
-        $order_check = Order::where('order_id', $id)->first();
+        $order_check = Order::where('order_id', $id)->where('shop_id',$shopfy->id)->first();
+//        $order_check = Order::where('order_id', $id)->first();
 
         $orders_items = $order->line_items;
         $products_ids = [];
@@ -1958,7 +1968,8 @@ class OrderController extends Controller
         foreach ($orders_items as $item) {
             $product_detail = $shopfy->api()->rest('GET', '/admin/products/' . $item->product_id . '.json')['body']['product'];
             $product_detail = json_decode(json_encode($product_detail), FALSE);
-            $order_line_product = OrderLineProduct::where('product_id', $item->product_id)->first();
+//            $order_line_product = OrderLineProduct::where('product_id', $item->product_id)->first();
+            $order_line_product = OrderLineProduct::where('product_id', $item->product_id)->where('shop_id',$shopfy->id)->first();
             if ($order_line_product === null) {
                 $order_line_product = new OrderLineProduct();
                 $order_line_product->product_id = $item->product_id;
