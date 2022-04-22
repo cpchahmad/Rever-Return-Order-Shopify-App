@@ -84,10 +84,10 @@ class RefundMethodController extends Controller
             $settings->label_message=$request->input('message');
             $settings->save();
 
-            return back();
+             return back();
         }
-
     }
+
 
     //General function
     public function has_settings()
