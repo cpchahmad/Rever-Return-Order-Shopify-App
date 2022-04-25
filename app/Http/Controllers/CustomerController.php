@@ -401,6 +401,7 @@ class CustomerController extends Controller
 
 
 
+//                    return $request->customsession;
 
 
                 $html = view('customer.request-details')->with([
@@ -665,12 +666,12 @@ class CustomerController extends Controller
 
 
 
-            if ($items) {
+//            if ($items) {
                 $session = ItemSession::where('order_id', $order->id)->first();
                 if ($session) {
                     $session->delete();
                 }
-            }
+//            }
 
 
 

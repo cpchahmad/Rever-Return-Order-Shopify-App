@@ -235,10 +235,9 @@
 
                                             @php
                                             $check_decline_status=\App\Models\Request::where('id',$request_item['request_id'])->first();
-
                                             @endphp
                                             @if($request_item['unavailable']==true)
-                                                <li class="porduct @if($check_decline_status->status==4) request-decline @else already-Requested @endif ">
+                                                <li class="porduct @if($check_decline_status->status==4) request-decline @else already-Requested @endif">
                                                     <a href="#request_{{$request_item['request_id']}}" rel="modal:open">
                                                         <div class="product_container">
                                                             <div class="product_parent">
