@@ -322,6 +322,11 @@ return [
             'topic' => 'products/update',
             'address' => 'https://phpstack-176572-2488981.cloudwaysapps.com/webhook/product-update'
         ],
+
+        [
+            'topic' => 'app/uninstalled',
+            'address' => 'https://phpstack-176572-2488981.cloudwaysapps.com/webhook/app-uninstalled'
+        ]
         /*
             [
                 'topic' => env('SHOPIFY_WEBHOOK_1_TOPIC', 'orders/create'),

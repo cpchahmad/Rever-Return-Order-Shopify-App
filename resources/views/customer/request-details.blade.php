@@ -227,7 +227,7 @@
 
 
                         @if(count($request_items))
-                            <div class="request-decline">
+                            <div class="">
                                 <div class="return_text">
                                     <span class="return">Return/ Exchange Started</span>
                                     <ul class="non_return">
@@ -238,7 +238,7 @@
 
                                             @endphp
                                             @if($request_item['unavailable']==true)
-                                                <li class="porduct @if($check_decline_status->status==4) request-decline @else @endif">
+                                                <li class="porduct @if($check_decline_status->status==4) request-decline @else already-Requested @endif ">
                                                     <a href="#request_{{$request_item['request_id']}}" rel="modal:open">
                                                         <div class="product_container">
                                                             <div class="product_parent">
