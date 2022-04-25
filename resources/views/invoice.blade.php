@@ -62,6 +62,11 @@
                     <li>
                         #{{$request->id}}
                     </li>
+                    @if($request->status == 4)
+                    <li>
+                        <h4 style="color: red">Request Declined</h4>
+                    </li>
+                    @endif
                 </ul>
             </div>
             <div class="progress_bar_Wrapper">
@@ -87,7 +92,7 @@
 
 
                             @if($request->store_credited==1)
-                                <small> {{$request->updated_at->format('m / d / Y')}}</small>
+                                <small> {{$request->where('id',$request->id)->where('store_credited',1)->first()->request_store_credit_date}}</small>
                             @endif
 
                         </li>
@@ -97,11 +102,14 @@
                             @if($request->where('id',$request->id)->where('request_receive',1)->first())
                                 <small> {{$request->where('id',$request->id)->where('request_receive',1)->first()->request_receive_date}}</small>@endif
                         </li>
-                        <li @if($request->status >= 3) class="active" @endif>
+
+                        <li @if($request->status == 3) class="active" @endif>
                             COMPLETED<br>
                             @if($request->has_statuses()->where('status',3)->first())
                                 <small> {{$request->has_statuses()->where('status',3)->first()->created_at->format('m / d / Y')}}</small>@endif
                         </li>
+
+
                     </ul>
                 </div>
             </div>
@@ -176,10 +184,10 @@
 
 
 
-{{--                        <button type="button" class="btn btn-danger btn-sm mx-1" style="float: right;"--}}
-{{--                                onclick="window.location.href='/requests/{{$request->id}}/status?type=refunded';">--}}
-{{--                            Decline--}}
-{{--                        </button>--}}
+                        <button type="button" class="btn btn-danger btn-sm mx-1" style="float: right;"
+                                onclick="window.location.href='{{route('request.delete',$request->id)}}';">
+                            Decline
+                        </button>
                         <button type="button" class="btn btn-success btn-sm mx-1" style="float: right;"
                                 onclick="window.location.href='/requests/{{$request->id}}/status?type=refunded';">
                             Approve

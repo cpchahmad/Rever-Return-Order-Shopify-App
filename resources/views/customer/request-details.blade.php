@@ -227,7 +227,7 @@
                                     <ul class="non_return">
                                         @foreach($request_items as $request_item)
                                             @if($request_item['unavailable']==true)
-                                                <li class="porduct">
+                                                <li class="porduct @if($request_item['status']==4) request-decline @else @endif">
                                                     <a href="#request_{{$request_item['request_id']}}" rel="modal:open">
                                                         <div class="product_container">
                                                             <div class="product_parent">
@@ -275,26 +275,38 @@
                                                             <ul class="progressbar">
                                                                 <li @if($request->status >= 0) class="active" @endif>
                                                                     Requested <br>
-                                                                    @if($request->has_statuses()->where('status',0)->first())
-                                                                        <small> {{$request->has_statuses()->where('status',0)->first()->created_at}}</small>@endif
+                                                                    <small> {{$request->created_at->format('m / d / Y')}}</small>
                                                                 </li>
 
                                                                 <li @if($request->status >= 1) class="active" @endif>
                                                                     Approved <br>
-                                                                    @if($request->has_statuses()->where('status',1)->first())
-                                                                        <small> {{$request->has_statuses()->where('status',1)->first()->created_at}}</small>@endif
+                                                                    @if($request->request_refund_status)
+                                                                        <small> {{$request->request_refund_status->created_at->format('m / d / Y')}}</small>
+                                                                    @endif
+
+                                                                    @if($request->request_exchange_status)
+                                                                        <small> {{$request->request_exchange_status->created_at->format('m / d / Y')}}</small>
+                                                                    @endif
+
+
+
+
+                                                                    @if($request->store_credited==1)
+                                                                        <small> {{$request->where('id',$request->id)->where('store_credited',1)->first()->request_store_credit_date}}</small>
+                                                                    @endif
 
 
                                                                 </li>
                                                                 <li @if($request->status >= 2) class="active" @endif>
                                                                     Received<br>
-                                                                    @if($request->has_statuses()->where('status',2)->first())
-                                                                        <small> {{$request->has_statuses()->where('status',2)->first()->created_at}}</small>@endif
+
+                                                                    @if($request->where('id',$request->id)->where('request_receive',1)->first())
+                                                                        <small> {{$request->where('id',$request->id)->where('request_receive',1)->first()->request_receive_date}}</small>@endif
                                                                 </li>
-                                                                <li @if($request->status >= 3) class="active" @endif>
+                                                                <li @if($request->status == 3) class="active" @endif>
                                                                     Completed<br>
                                                                     @if($request->has_statuses()->where('status',3)->first())
-                                                                        <small> {{$request->has_statuses()->where('status',3)->first()->created_at}}</small>@endif
+                                                                        <small> {{$request->has_statuses()->where('status',3)->first()->created_at->format('m / d / Y')}}</small>@endif
                                                                 </li>
                                                             </ul>
                                                             <br/>

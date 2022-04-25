@@ -191,16 +191,37 @@ class RequestController extends Controller
     }
 
 //Delete Decine request
+//    public function DeclineRequestDeleteOld($id)
+//    {
+//        $shop = Auth::user();
+//
+//
+//        try {
+//            $delete_request_product = RequestProducts::where('request_id', $id)->delete();
+//            $exchange_prod=RequestExchange::where('request_id',$id)->delete();
+//            $decline_request = \App\Models\Request::where('shop_id', $shop->id)
+//                ->where('id', $id)->delete();
+//        }catch (\Exception $exception)
+//        {
+//            return redirect()->route('dashboard');
+//        }
+//        return redirect()->route('dashboard');
+//
+//    }
+
     public function DeclineRequestDelete($id)
     {
         $shop = Auth::user();
 
 
         try {
-            $delete_request_product = RequestProducts::where('request_id', $id)->delete();
-            $exchange_prod=RequestExchange::where('request_id',$id)->delete();
+//            $delete_request_product = RequestProducts::where('request_id', $id)->delete();
+//            $exchange_prod=RequestExchange::where('request_id',$id)->delete();
             $decline_request = \App\Models\Request::where('shop_id', $shop->id)
-                ->where('id', $id)->delete();
+                ->where('id', $id)->first();
+
+            $decline_request->status=4;
+            $decline_request->save();
         }catch (\Exception $exception)
         {
             return redirect()->route('dashboard');

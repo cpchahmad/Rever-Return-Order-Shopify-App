@@ -401,6 +401,7 @@ class CustomerController extends Controller
 
 
 
+
                 $html = view('customer.request-details')->with([
                     'order' => $order,
                     'requests' => $requests,
