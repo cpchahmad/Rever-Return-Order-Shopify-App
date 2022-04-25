@@ -311,6 +311,10 @@ ul li.active .product_container .icons_images {
     margin: 30px 0px;
 }
 
+
+
+
+
 .non-returnAble li .product_container {
     position: relative;
 }
@@ -365,16 +369,9 @@ ul li.active .product_container .icons_images {
 
 
 
-.request-decline .product_container {
-    position: relative;
-    pointer-events: none;
-}
-.request-decline {
 
-    pointer-events: none;
-}
 
-.request-decline .product_container::before {
+.already-Requested li .product_container::before {
     content: '';
     width: 100%;
     height: 100%;
@@ -383,23 +380,11 @@ ul li.active .product_container .icons_images {
     top: 0px;
     left: 0px;
     border-radius: 5px;
-    z-index: 99;
+    z-index: 1;
 }
 
-.request-decline .product_container::after {
-    content: 'Admin Decline the Request';
-    position: absolute;
-    width: 100%;
-    top: 50%;
-    -webkit-transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    font-weight: bold;
-    z-index: 999;
-}
 
-.already-Requested li .product_container::before {
+.request-decline li .product_container::before {
     content: '';
     width: 100%;
     height: 100%;
@@ -426,6 +411,21 @@ ul li.active .product_container .icons_images {
 
 .already-Requested li .product_container::after {
     content: 'View Progress';
+    position: absolute;
+    width: 100%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    z-index: 1;
+}
+
+
+
+.request-decline li .product_container::after {
+    content: 'Admin Decline the Request';
     position: absolute;
     width: 100%;
     top: 50%;

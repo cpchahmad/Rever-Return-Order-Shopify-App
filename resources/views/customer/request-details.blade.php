@@ -71,7 +71,12 @@
             $has_blocked_items=true;
         }
     }
+
     ?>
+
+
+
+
 
 
 
@@ -220,14 +225,20 @@
                             @endforeach
                         @endif
 
+
                         @if(count($request_items))
-                            <div class="already-Requested">
+                            <div class="request-decline">
                                 <div class="return_text">
                                     <span class="return">Return/ Exchange Started</span>
                                     <ul class="non_return">
                                         @foreach($request_items as $request_item)
+
+                                            @php
+                                            $check_decline_status=\App\Models\Request::where('id',$request_item['request_id'])->first();
+
+                                            @endphp
                                             @if($request_item['unavailable']==true)
-                                                <li class="porduct @if($request_item['status']==4) request-decline @else @endif">
+                                                <li class="porduct @if($check_decline_status->status==4) request-decline @else @endif">
                                                     <a href="#request_{{$request_item['request_id']}}" rel="modal:open">
                                                         <div class="product_container">
                                                             <div class="product_parent">

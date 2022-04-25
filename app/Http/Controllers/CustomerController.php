@@ -250,6 +250,7 @@ class CustomerController extends Controller
 
                 foreach ($lines as $key => $line) {
 
+
                     $lineItem['id'] = $line->id;
                     $lineItem['fulfillment_status']=$line->fulfillment_status;
                     $lineItem['variant_id'] = $line->variant_id;
@@ -397,7 +398,7 @@ class CustomerController extends Controller
 
 
                 $date = $date->englishMonth . ' ' . $date->day . ', ' . $date->year;
-//return $line_items;
+
 
 
 
