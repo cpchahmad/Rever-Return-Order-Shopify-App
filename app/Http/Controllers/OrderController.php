@@ -1371,6 +1371,9 @@ class OrderController extends Controller
                 $request_exchange->request_id = $request_id;
                 $request_exchange->save();
 
+                $request->status=1;
+                $request->save();
+
             }
 //            $label->fees_applied = true;
             if($label) {
@@ -2056,9 +2059,12 @@ class OrderController extends Controller
     {
         $request = \App\Models\Request::find($id);
 
+
         $request_products = $request->request_products();
 
+
         if (count($request_products->where('return_type', 'payment_method')->get())) {
+
 
             $amount = 0;
             $items = json_decode($request->items_json, true);
@@ -2067,7 +2073,10 @@ class OrderController extends Controller
                     $amount += floatval($it['price']);
                 }
             }
+
+
             $label = RequestLabel::where('request_id', $request->id)->first();
+
             if ($label && $label->fees_applied == false && isset($label->fees)) {
 
             }
@@ -2079,12 +2088,14 @@ class OrderController extends Controller
                 }
             }
         }
+
         return back();
     }
 
     public function Transaction($request_id, $amount)
     {
         $request = \App\Models\Request::find($request_id);
+
 
 
         try {
@@ -2099,6 +2110,7 @@ class OrderController extends Controller
                 }
 
             }
+
             $transaction = $shop->api()->rest('GET', '/admin/orders/' . $request->has_order->order_id . '/transactions.json');
             $transactions = $transaction['body']['transactions'];
             if (count($transactions)) {
@@ -2116,12 +2128,18 @@ class OrderController extends Controller
                         ]
                     ]
                 ]);
+
                 $refund = json_decode(json_encode($refund), FALSE);
                 $req_refund = new RequestRefund();
                 $req_refund->order_id = $request->order_id;
                 $req_refund->request_id = $request->id;
                 $req_refund->refunded_json = json_encode($refund);
                 $req_refund->save();
+
+                $request->status=1;
+                $request->save();
+
+
                 return $refund;
             } else {
                 flash('Some Thing Went Wrong With Refund')->error();
@@ -2139,6 +2157,7 @@ class OrderController extends Controller
     {
         $request=\App\Models\Request::find($id);
         $request->store_credited=true;
+        $request->status=1;
         $request->save();
         $rest=new Request([
             'message'=>'Gift card issued at '.Carbon::today()->format('Y-m-d H:i:s'),
@@ -2183,4 +2202,21 @@ class OrderController extends Controller
         return redirect()->back();
 
     }
+
+    public function requestReceived($id)
+    {
+        $request = \App\Models\Request::find($id);
+        $date = date('m / d / Y');
+//        dd($date);
+
+        $request->request_receive=1;
+        $request->status=2;
+        $request->request_receive_date=$date;
+
+        $request->save();
+
+        return back();
+    }
+
+
 }

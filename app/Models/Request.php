@@ -57,6 +57,21 @@ class Request extends Model
         return $this->hasOne(RequestLabel::class,'request_id');
     }
 
+    public function request_refund_status()
+    {
+        return $this->hasOne(RequestRefund::class,'request_id');
+    }
+
+    public function request_exchange_status()
+    {
+        return $this->hasOne(RequestExchange::class,'request_id');
+    }
+
+    public function request_store_credit_status()
+    {
+        return $this->hasOne(Timeline::class,'request_id');
+    }
+
 
 
     public function store_credit_products()

@@ -125,6 +125,9 @@ Route::group(['middleware'=>['auth.shopify']], function () {
     Route::get('/request/{id}/manualexchange',[App\Http\Controllers\EasyPostController::class, 'manualExchange'])->name('request.manualExchange');
 
 
+    Route::get('/request/{id}/received',[App\Http\Controllers\OrderController::class, 'requestReceived'])->name('request.received');
+
+
     Route::get('/request/{id}/items/{item_id}/change', [App\Http\Controllers\RequestController::class, 'changeRequestItem'])->name('change.request_item.type');
 
     Route::get('/request/{id}/refund',  [App\Http\Controllers\OrderController::class, 'requestRefund'])->name('request.refund');

@@ -73,18 +73,26 @@
                         </li>
 
                         <li @if($request->status >= 1) class="active" @endif>
-                            Approved <br>
-                            {{--                            @foreach($request->has_statuses as $r_status)--}}
-                            {{--                                @if($r_status->status == 1)--}}
-                            @if($request->has_statuses()->where('status',1)->first())
-                                <small> {{$request->has_statuses()->where('status',1)->first()->created_at->format('m / d / Y')}}</small>@endif
-                            {{--                                @endif--}}
-                            {{--                            @endforeach--}}
+                            Compensated <br>
+
+                            @if($request->request_refund_status)
+                                <small> {{$request->request_refund_status->created_at->format('m / d / Y')}}</small>
+                            @endif
+
+                            @if($request->request_exchange_status)
+                                <small> {{$request->request_exchange_status->created_at->format('m / d / Y')}}</small>
+                            @endif
+
+                            @if($request->request_store_credit_status)
+                                <small> {{$request->request_store_credit_status->created_at->format('m / d / Y')}}</small>
+                            @endif
+
                         </li>
+
                         <li @if($request->status >= 2) class="active" @endif>
                             Received<br>
-                            @if($request->has_statuses()->where('status',2)->first())
-                                <small> {{$request->has_statuses()->where('status',2)->first()->created_at->format('m / d / Y')}}</small>@endif
+                            @if($request->where('id',$request->id)->where('request_receive',1)->first())
+                                <small> {{$request->where('id',$request->id)->where('request_receive',1)->first()->request_receive_date}}</small>@endif
                         </li>
                         <li @if($request->status >= 3) class="active" @endif>
                             COMPLETED<br>
@@ -95,7 +103,8 @@
                 </div>
             </div>
             <div class="mt-5">
-                @if($request->status == 0)
+{{--                Comment by me--}}
+         {{--       @if($request->status == 0)
                     <div class="alert alert-primary  fade show" role="alert">
                         <span class="alert-icon"><i class="ni ni-like-2"></i></span>
                         <span class="alert-text">Your customer is waiting for approval!</span>
@@ -111,34 +120,70 @@
                         </button>
 
                     </div>
-                @endif
+                @endif--}}
 
-                @if($request->status == 1 || $request->status == 2)
+{{--                @dd($request)--}}
+{{--                @if($request->status == 1 || $request->status == 2)--}}
+                @if($request->status == 0)
+
+
+
                     <div class="alert alert-primary  fade show" role="alert">
                         <span class="alert-icon"><i class="ni ni-like-2"></i></span>
                         <span class="alert-text">Customer is waiting?</span>
                         @if(count($request->request_products->where('return_type', 'exchange'))>0 && $request->request_Exchange===null)
+
                                 <a href="{{route('request.manualExchange',$request->id)}}" class="btn btn-danger text-white float-right mx-2 btn-sm">Create Exchange Manually</a>
                         @endif
-                        @if($request->status != 4)
-                            <button class="btn button btn-sm btn-danger mx-3" style="float: right;"
-                                    onclick="window.location.href='{{route('request.delete',$request->id)}}';">
-                                Delete Request
-                            </button>
-                        @endif
 
-                        <button type="button" class="btn btn-danger btn-sm mx-1" style="float: right;"
-                                onclick="window.location.href='/requests/{{$request->id}}/status?type=refunded';">
-                                Complete Request
-                        </button>
                         @if(count($request->request_products->where('return_type', 'payment_method')) && count($request->request_refund)==0)
+
                             <a  href="{{route('request.refund',$request->id)}}" class="btn btn-danger text-white float-right mx-2 btn-sm">Create Refund of ${{$request->payment_method_products()->sum('price')}}</a>
                         @endif
 
-                        @if(in_array($request->status,[1,2]) && isset($request->request_labels->status)   && count($request->request_products->where('return_type', 'store_credit'))>0 && $request->store_credited==false)
+
+{{--                        @if(in_array($request->status,[1,2]) && isset($request->request_labels->status)   && count($request->request_products->where('return_type', 'store_credit'))>0 && $request->store_credited==false)--}}
+                        @if(count($request->request_products->where('return_type', 'store_credit'))>0 && $request->store_credited==false)
+
                             <a target="_blank" href="https://{{\Illuminate\Support\Facades\Auth::user()->name}}/admin/gift_cards/new" class="btn btn-danger text-white float-right mx-1 btn-sm">Create Gift Card of ${{$request->store_credit_products()->sum('price')}}</a>
                             <a href="{{route('mark.store.credited',$request->id)}}" class="btn btn-danger text-white float-right mx-1 btn-sm">Mark as store credited</a>
                         @endif
+                    </div>
+                @endif
+
+
+                @if($request->status == 1)
+                    <div class="alert alert-primary  fade show" role="alert">
+
+                        <span class="alert-text">Have you Received the Order?</span>
+
+                            <a href="{{route('request.received',$request->id)}}" class="btn btn-danger text-white float-right mx-2 btn-sm">Mark as Received</a>
+
+
+
+
+
+                    </div>
+                @endif
+
+                @if($request->status == 2)
+                    <div class="alert alert-primary  fade show" role="alert">
+
+                        <span class="alert-text">Do you Approve the Return?</span>
+
+
+
+{{--                        <button type="button" class="btn btn-danger btn-sm mx-1" style="float: right;"--}}
+{{--                                onclick="window.location.href='/requests/{{$request->id}}/status?type=refunded';">--}}
+{{--                            Decline--}}
+{{--                        </button>--}}
+                        <button type="button" class="btn btn-success btn-sm mx-1" style="float: right;"
+                                onclick="window.location.href='/requests/{{$request->id}}/status?type=refunded';">
+                            Approve
+                        </button>
+
+
+
                     </div>
                 @endif
 
