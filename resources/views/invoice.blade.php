@@ -83,8 +83,11 @@
                                 <small> {{$request->request_exchange_status->created_at->format('m / d / Y')}}</small>
                             @endif
 
-                            @if($request->request_store_credit_status)
-                                <small> {{$request->request_store_credit_status->created_at->format('m / d / Y')}}</small>
+
+
+
+                            @if($request->store_credited==1)
+                                <small> {{$request->updated_at->format('m / d / Y')}}</small>
                             @endif
 
                         </li>

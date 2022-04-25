@@ -2155,9 +2155,12 @@ class OrderController extends Controller
     //Works When we click mark store as credit on request-detail page
     public function markStoreCredit($id)
     {
+
+        $date = date('m / d / Y');
         $request=\App\Models\Request::find($id);
         $request->store_credited=true;
         $request->status=1;
+        $request->request_store_credit_date=$date;
         $request->save();
         $rest=new Request([
             'message'=>'Gift card issued at '.Carbon::today()->format('Y-m-d H:i:s'),
