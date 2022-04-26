@@ -52,21 +52,21 @@
 
 
                                     </div>
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <h4>Automatically approve pending request.</h4>
-                                        <div class="">
-                                            <label class="custom-toggle" >
-                                                <input name="auto_approval" id="auto-approve" type="checkbox" value="1"
-                                                @if($r_settings != null && $r_settings->auto_approval == true)
-                                                    {!! 'checked' !!}
-                                                    @endif
-                                                >
-                                                <span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
-                                            </label>
-                                        </div>
+{{--                                    <div class="d-flex justify-content-between mb-2">--}}
+{{--                                        <h4>Automatically approve pending request.</h4>--}}
+{{--                                        <div class="">--}}
+{{--                                            <label class="custom-toggle" >--}}
+{{--                                                <input name="auto_approval" id="auto-approve" type="checkbox" value="1"--}}
+{{--                                                @if($r_settings != null && $r_settings->auto_approval == true)--}}
+{{--                                                    {!! 'checked' !!}--}}
+{{--                                                    @endif--}}
+{{--                                                >--}}
+{{--                                                <span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>--}}
+{{--                                            </label>--}}
+{{--                                        </div>--}}
 
 
-                                    </div>
+{{--                                    </div>--}}
                                     <div class="d-flex justify-content-between">
 
                                         <h4>Delete declined requests manually</h4>

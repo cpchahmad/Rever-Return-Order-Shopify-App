@@ -1244,7 +1244,7 @@ class OrderController extends Controller
         }
     }
 
-
+//Create draft for manual Exchange
     public function create_draft($request_id, $order_id, $line_items, $note = 'Exchange')
 
     {
@@ -1388,7 +1388,7 @@ class OrderController extends Controller
 
     }
 
-
+//Complete draft for manual Exchange
     public function complete_draft($orderId)
     {
         try {
