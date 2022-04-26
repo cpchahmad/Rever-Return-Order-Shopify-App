@@ -37,6 +37,15 @@
                                 </p>
                             </div>
 
+                            <div class="row mt-2">
+                                <div class="col-md-12">
+                                    <a href="https://{{auth()->user()->name}}/a/return/order" type="button" style="float: right" target="_blank">Preview
+                                    <i class="fa fa-link"></i>
+                                    </a>
+
+                                </div>
+                            </div>
+
                             <div class="row mt-4 mb-4">
                                 <div class="col-md-6">
                                     @if($settings)

@@ -116,6 +116,9 @@ Route::group(['middleware'=>['auth.shopify']], function () {
 
     Route::get('/request/{id}/delete', [App\Http\Controllers\RequestController::class, 'DeclineRequestDelete'])->name('request.delete');
 
+
+    Route::get('/request/{id}/delete/get', [App\Http\Controllers\RequestController::class, 'DeleteRequestDelete'])->name('delete.request');
+
     Route::get('/delete/{id}/comment', [App\Http\Controllers\OrderController::class, 'DeleteComment'])->name('delete.comment');
 
     Route::post('/timeline', [App\Http\Controllers\OrderController::class, 'timeline_submit'])->name('timeline.submit');

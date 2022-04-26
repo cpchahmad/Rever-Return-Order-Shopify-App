@@ -15,7 +15,11 @@
         }
 
         body {
+            @if(isset($settings->background))
             background-image: url('{{asset('logos/'.$settings->background)}}') !important;
+            @else
+              background-image: url('{{asset('logos/backgroungimg.png')}}') !important;
+            @endif
             background-repeat: no-repeat !important ;
             background-size: cover !important;
         }
@@ -34,12 +38,13 @@
 
             <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">
             <a href="https://{{$domain}}" id="policy" style="text-decoration: none;">
-                @if($settings)
+                @if(isset($settings->logo))
                 <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">
 
                     <h5 style="color: white">Powered by Rever</h5>
                     @else
-                                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+                                    <img src="{{asset('logos/Logo REVER.png')}}" style="width:135px;height: auto;" alt="logo">
+                    <h5 style="color: white">Powered by Rever</h5>
 
                 @endif
             </a>
@@ -56,7 +61,9 @@
                     </div>
                     <div class="heading_parent">
                         <div class="field_text">
-                            @if($settings->login_page_text)
+
+
+                            @if(isset($settings->login_page_text))
 
                                 <p>{{$settings->login_page_text}}</p>
                        @else

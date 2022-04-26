@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Return Solution</title>
+    <title>Rever</title>
     <link rel="canonical" href="https://www.creative-tim.com/product/argon-dashboard-pro" />
 
 

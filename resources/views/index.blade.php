@@ -122,10 +122,10 @@
                                                     <td>
                                                         <a href="/requests/{{$request->id}}">Open</a>
                                                         @if($request->status==3 && $r_settings->finish_status==false)
-                                                            <a class="ml-1 text-danger" href="{{route('request.delete',$request->id)}}">Delete</a>
+                                                            <a class="ml-1 text-danger" href="{{route('delete.request',$request->id)}}">Delete</a>
                                                         @endif
                                                         @if($request->status==4 && $r_settings->decline_status==false)
-                                                            <a class="ml-1 text-danger" href="{{route('request.delete',$request->id)}}">Delete</a>
+                                                            <a class="ml-1 text-danger" href="{{route('delete.request',$request->id)}}">Delete</a>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -257,10 +257,10 @@
                                                     <td>
                                                         <a href="/requests/{{$request->id}}">Open</a>
                                                         @if($request->status==3 && $r_settings->finish_status==false)
-                                                            <a class="ml-1 text-danger" href="{{route('request.delete',$request->id)}}">Delete</a>
+                                                            <a class="ml-1 text-danger" href="{{route('delete.request',$request->id)}}">Delete</a>
                                                         @endif
                                                         @if($request->status==4 && $r_settings->decline_status==false)
-                                                            <a class="ml-1 text-danger" href="{{route('request.delete',$request->id)}}">Delete</a>
+                                                            <a class="ml-1 text-danger" href="{{route('delete.request',$request->id)}}">Delete</a>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -393,10 +393,10 @@
                                                     <td>
                                                         <a href="/requests/{{$request->id}}">Open</a>
                                                         @if($request->status==3 && $r_settings->finish_status==false)
-                                                            <a class="ml-1 text-danger" href="{{route('request.delete',$request->id)}}">Delete</a>
+                                                            <a class="ml-1 text-danger" href="{{route('delete.request',$request->id)}}">Delete</a>
                                                         @endif
                                                         @if($request->status==4 && $r_settings->decline_status==false)
-                                                            <a class="ml-1 text-danger" href="{{route('request.delete',$request->id)}}">Delete</a>
+                                                            <a class="ml-1 text-danger" href="{{route('delete.request',$request->id)}}">Delete</a>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -528,10 +528,10 @@
                                                     <td>
                                                         <a href="/requests/{{$request->id}}">Open</a>
                                                         @if($request->status==3 && $r_settings->finish_status==false)
-                                                            <a class="ml-1 text-danger" href="{{route('request.delete',$request->id)}}">Delete</a>
+                                                            <a class="ml-1 text-danger" href="{{route('delete.request',$request->id)}}">Delete</a>
                                                         @endif
                                                         @if($request->status==4 && $r_settings->decline_status==false)
-                                                            <a class="ml-1 text-danger" href="{{route('request.delete',$request->id)}}">Delete</a>
+                                                            <a class="ml-1 text-danger" href="{{route('delete.request',$request->id)}}">Delete</a>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -663,10 +663,10 @@
                                                     <td>
                                                         <a href="/requests/{{$request->id}}">Open</a>
                                                         @if($request->status==3 && $r_settings->finish_status==false)
-                                                            <a class="ml-1 text-danger" href="{{route('request.delete',$request->id)}}">Delete</a>
+                                                            <a class="ml-1 text-danger" href="{{route('delete.request',$request->id)}}">Delete</a>
                                                         @endif
                                                         @if($request->status==4 && $r_settings->decline_status==false)
-                                                            <a class="ml-1 text-danger" href="{{route('request.delete',$request->id)}}">Delete</a>
+                                                            <a class="ml-1 text-danger" href="{{route('delete.request',$request->id)}}">Delete</a>
                                                         @endif
                                                     </td>
                                                 </tr>

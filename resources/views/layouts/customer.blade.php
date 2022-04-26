@@ -112,7 +112,7 @@
 </style>
     @yield('css')
 
-    <title>Centric Return</title>
+    <title>Rever</title>
 </head>
 <body>
 <section class="banner" id="append_data">

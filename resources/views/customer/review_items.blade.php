@@ -6,8 +6,12 @@
 
 <style>
     body {
-        background-image: url('{{asset('logos/'.$settings->background)}}') !important;
-        background-repeat: no-repeat !important ;
+        @if(isset($settings->background))
+background-image: url('{{asset('logos/'.$settings->background)}}') !important;
+        @else
+background-image: url('{{asset('logos/backgroungimg.png')}}') !important;
+        @endif
+background-repeat: no-repeat !important ;
         background-size: cover !important;
     }
 </style>
@@ -27,7 +31,9 @@
                     <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">
                     <h5 style="color: white">Powered by Rever</h5>
                 @else
-                    <img src="{{asset('images/Group 26.svg')}}" alt="logo">
+                    <img src="{{asset('logos/Logo REVER.png')}}" style="width:135px;height: auto;" alt="logo">
+                    <h5 style="color: white">Powered by Rever</h5>
+
 
                 @endif
             </a>

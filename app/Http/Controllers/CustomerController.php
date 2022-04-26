@@ -89,12 +89,14 @@ class CustomerController extends Controller
     public function loginshow(Request $request)
     {
         $domain = $request['shop'];
+
         if (Auth::check()) {
             return redirect()->route('analytics');
         }
         if ($domain != null) {
 
             $shop = User::where('name', $domain)->first();
+
             if ($shop == null) {
 
                 return view('errors.404');
@@ -108,6 +110,7 @@ class CustomerController extends Controller
         $content = PortalContent::where('shop_id', $shop->id)
             ->orderby('id', 'desc')
             ->first();
+
         $design = PortalDesign::where('shop_id', $shop->id)
             ->first();
         $has_settings = Setting::where('shop_id', $shop->id)->first();
@@ -122,6 +125,8 @@ class CustomerController extends Controller
             'error'=>$request->input('error'),
             'error1'=>$request->input('error1')
         ])->render();
+
+
 
         return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
     }
@@ -185,6 +190,9 @@ class CustomerController extends Controller
                 $special_orders = explode(',', $r_settings->special_orders);
                 $exclude_orders = explode(',', $r_settings->exclude_orders);
                 $exchange_orders = explode(',', $r_settings->exchange_orders);
+            }
+            else{
+                $exclude_orders=array();
             }
 
             if ($login_check !== null ) {
@@ -297,13 +305,24 @@ class CustomerController extends Controller
 
                     $tags = $line_product->tags;
 
+
                     $product_tags = explode(',', str_replace(' ', '', $tags));
 
-                    $excludes = explode(',', $settings->block_products);
+
+                    $block_products=isset($settings->block_products)?$settings->block_products:'';
+
+                    $excludes = explode(',',$block_products );
+
+
 
                     foreach ($excludes as $exclude) {
 
+                                if(in_array('',$product_tags)){
+                                    $lineItem['blocked'] = false;
+                                    goto quit;
+                                }
                         if (in_array($exclude, $product_tags)) {
+
 
                             $lineItem['blocked'] = true;
                             goto quit;
@@ -318,6 +337,8 @@ class CustomerController extends Controller
                     } else {
                         $lineItem['unavailable'] = false;
                     }
+
+
                     foreach ($line_product->variants as $variant) {
                         if ($variant->id == $line->variant_id) {
                             $lineItem['options'] = [];
@@ -332,6 +353,7 @@ class CustomerController extends Controller
                     array_push($line_items, $lineItem);
                 }
 
+
                 $requests = \App\Models\Request::where([
                     'shop_id' => $shop->id,
                     'order_id' => $order->id
@@ -340,7 +362,10 @@ class CustomerController extends Controller
 
 
 
+
                 $back["shop_domain"] = $shop->shopify_domain;
+
+
 
                 if ($this->checkCustomerBlock($order_email, $shop->id)) {
                     $html = view('customer.block')->with([
@@ -359,16 +384,23 @@ class CustomerController extends Controller
                     return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
                 }
+
+
+
                 $date = Carbon::createFromDate($order_json->created_at);
+
+
 
                 if ($r_settings !== null && $r_settings->valid_return_date !== null) {
 
                     $date = $date->addDays($r_settings->valid_return_date);
 
                 } else {
-                    $date = $date->addDays(30)->format('Y-m-d');
+//                    $date = $date->addDays(30)->format('Y-m-d');
+                    $date = $date->addDays(30);
 
                 }
+
 
                 $returnable = true;
 
@@ -384,11 +416,14 @@ class CustomerController extends Controller
 
 
 
+
+
                     if (!$returnable && in_array(str_replace('#', 'US', $order->order_name), $special_orders)) {
 
 
                         $returnable = true;
                     }
+
 
 
                     if (in_array(str_replace('#', 'US', $order->order_name), $exclude_orders)) {
@@ -787,6 +822,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
         try {
 
             $order = Order::find($order_id);
+
             $settings2=Setting::where('shop_id',$order->shop_id)->first();
             if ($this->checkCustomerBlock($order->email, $order->shop_id)) {
 
@@ -829,9 +865,16 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                     $product_tags = explode(',', str_replace(' ', '', $line_product->tags));
                     $allow_methods = [];
 
-                    $exchange_product_tags = explode(',', $r_settings->exchange_product_tags);
-                    $payment_product_tags = explode(',', $r_settings->payment_product_tags);
-                    $store_product_tags = explode(',', $r_settings->store_product_tags);
+                    $exchange_products_get=isset($r_settings->exchange_product_tags)?$r_settings->exchange_product_tags:'';
+                    $exchange_product_tags = explode(',', $exchange_products_get);
+
+                    $payment_product_get=isset($r_settings->payment_product_tags)?$r_settings->payment_product_tags:'';
+
+                    $payment_product_tags = explode(',', $payment_product_get);
+
+                    $store_product_get=isset($r_settings->store_product_tags)?$r_settings->store_product_tags:'';
+
+                    $store_product_tags = explode(',', $store_product_get);
 
                     if (count(array_intersect($exchange_product_tags, $product_tags))) {
                         array_push($allow_methods, 'exchange');
@@ -1029,7 +1072,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
         } catch (\Exception $exception) {
 
-
+return $exception->getMessage();
             return redirect('https://'.$request->shop.'/a/return/order');
 
         }
@@ -1349,15 +1392,19 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 //After selection the selected items are submit
     public function itemsSelectedSubmit(Request $request)
     {
+        $shop=User::where('name',$request->shop)->first();
         $order = Order::where([
             'order_name' => '#' . str_replace('US', '', $request->order_name),
-            'email' => $request->email
+            'email' => $request->email,
+            'shop_id'=>$shop->id
         ])->first();
 
-        $settings=Setting::where('shop_id',$order->shop_id)->first();
+
+        $settings=Setting::where('shop_id',$shop->id)->first();
+
 
         try {
-            if ($this->checkCustomerBlock($order->email, $order->shop_id)) {
+            if ($this->checkCustomerBlock($order->email,$shop->id)) {
 
                 $html= view('customer.block')->with([
                     'settings' => $settings,
@@ -1376,7 +1423,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
             foreach ($items as $item) {
 
                 if ($item['return_type'] == "exchange") {
-                    $product = OrderLineProduct::where('product_id', $item['product_id'])->first();
+                    $product = OrderLineProduct::where('product_id', $item['product_id'])->where('shop_id',$shop->id)->first();
                     $product = json_decode($product->product_json);
                     $discount_allocations = $lines->whereIn('id', $item['id'])->first();
                     $t_disc = 0;
@@ -1422,7 +1469,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                 'shop' => $request->shop,
                 'order' => $order,
                 'customsession' => $request->sessiondata,
-                'user' => User::find($order->shop_id),
+                'user' => User::find($shop->id),
                 'settings'=>$settings
             ]);
 
@@ -1431,7 +1478,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
 
 
-            $user = User::find($order->shop_id);
+            $user = User::find($shop->id);
             $order_name = str_replace('#', '', $order->order_name);
 
                     return redirect('https://'.$user->name.'/a/return/customer/login?shop='.$user->name.'&order_name='.$order_name.'&email='. $order->email);

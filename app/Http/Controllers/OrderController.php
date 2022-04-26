@@ -1209,6 +1209,7 @@ class OrderController extends Controller
 
 
         $order = Order::where('id', $r->order_id)->first();
+
         if ($settings->sender_email !== null && $settings->sender_name) {
 
             try {
