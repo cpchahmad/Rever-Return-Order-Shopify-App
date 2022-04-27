@@ -34,7 +34,26 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
             background-size: cover !important;
         }
 
+        .alert {
+            padding: 20px;
+            background-color: #f44336;
+            color: white;
+        }
 
+        .closebtn {
+            margin-left: 15px;
+            color: white;
+            font-weight: bold;
+            float: right;
+            font-size: 22px;
+            line-height: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .closebtn:hover {
+            color: black;
+        }
 
     </style>
 @endsection
@@ -99,6 +118,7 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
 
 
 
+
             <div class="header">
                 <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">
                     <a href="https://{{$domain}}"  style="text-decoration: none;">
@@ -113,6 +133,13 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
                     </a>
                 </div>
             </div>
+            @if(isset($error))
+                <div class="alert" style="margin-top: 20px" >
+                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                    <strong>{{$error}}</strong>
+                </div>
+
+            @endif
             <div class="main_products_all_section" style="margin-top: 10px;">
                 <div class="heading_section">
                     <h2>Choose an item to return/ exchange</h2>

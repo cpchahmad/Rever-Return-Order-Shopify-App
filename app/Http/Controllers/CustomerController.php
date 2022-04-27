@@ -456,7 +456,8 @@ class CustomerController extends Controller
                         'email' => $order->email
                     )),
                     'domain'=>$shop_name,
-                    'customsession'=>$request->customsession
+                    'customsession'=>$request->customsession,
+                    'error'=>$request->error
 
                 ])->render();
 
@@ -502,6 +503,7 @@ class CustomerController extends Controller
             ])->first();
 
 
+
             $shop = $order->shop_id;
             $settings = Setting::where('shop_id', $shop)->first();
 
@@ -523,7 +525,28 @@ class CustomerController extends Controller
 
             $order_detail = json_decode($order->order_json);
 
+           if(!isset($order_detail->shipping_address)){
 
+
+               $request->merge([
+                   'shop'=>$request->shop,
+                   'order_name'=>$order->order_name,
+                   'email'=>$order->email,
+                   'error'=>'Please add Shipping Address to your Order on Store'
+               ]);
+               return     $this->login($request);
+           }
+           elseif ($order_detail->shipping_address==null) {
+
+               $request->merge([
+                   'shop'=>$request->shop,
+                   'order_name'=>$order->order_name,
+                   'email'=>$order->email,
+                   'error'=>'Please add Shipping Address to your Order on Store'
+               ]);
+               return     $this->login($request);
+
+           }
             $line_items = $order_detail->line_items;
             $total_amount = 0;
 
@@ -631,10 +654,14 @@ class CustomerController extends Controller
             $shop_detail = User::where('id', $shop)->first();
 //            return $shop_detail;
 
+//            return $order_detail;
 
             //Save Request Products
-            if ($order_detail->shipping_address !== null) {
+
+            if (isset($order_detail->shipping_address) && $order_detail->shipping_address !== null) {
+
                 $shipping_address = $order_detail->shipping_address;
+
                 $ship=RequestShippingAddress::where('request_id',$r_request->id)->first();
 
 
@@ -716,6 +743,7 @@ class CustomerController extends Controller
 
 
             $easy = new EasyPostController();
+
             $easy->createShipment($r_request->id, $order->id,"");
             return redirect('https://'.$request->shop.'/a/return/customer/request/'.$r_request->id.'/labeling');
         } catch (\Exception $exception) {
