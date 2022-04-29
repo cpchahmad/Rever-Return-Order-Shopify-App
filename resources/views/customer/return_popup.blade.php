@@ -384,7 +384,7 @@
 
 
             $('.type_check').on('click', function (event) {
-                alert(1);
+
                 $(this).prev('input').attr('checked', true);
             });
 
