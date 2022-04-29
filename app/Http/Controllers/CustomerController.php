@@ -436,7 +436,7 @@ class CustomerController extends Controller
 
 
 
-//                    return $request->customsession;
+//                    return $line_items;
 
 
                 $html = view('customer.request-details')->with([
@@ -739,16 +739,27 @@ class CustomerController extends Controller
 
             $order_ = new OrderController();
 
-            $order_->EmailTemplate($r_request);
+            try {
+    $order_->EmailTemplate($r_request);
+            }
 
+            catch (\Exception $exception){
+                goto shipment;
+            }
 
+            shipment:
             $easy = new EasyPostController();
 
-            $easy->createShipment($r_request->id, $order->id,"");
+
+                $easy->createShipment($r_request->id, $order->id, "");
+
+
             return redirect('https://'.$request->shop.'/a/return/customer/request/'.$r_request->id.'/labeling');
         } catch (\Exception $exception) {
 
-            return $exception->getMessage();
+//            return $exception->getMessage();
+
+
             return redirect('https://'.$request->shop.'/a/return/customer/request/'.$r_request->id.'/labeling');
 
         }
@@ -1215,6 +1226,8 @@ return $exception->getMessage();
 
                     $line_product = OrderLineProduct::where('product_id', $line->product_id)->first();
                     $line_product = json_decode($line_product->product_json);
+                     $line_product_product_img=$line_product->image->src;
+
 
                     foreach ($line_product->variants as $variant) {
                         if ($variant->id == $line->variant_id) {
@@ -1222,8 +1235,15 @@ return $exception->getMessage();
                             array_push($data['options'], $variant->option2);
                             array_push($data['options'], $variant->option3);
                             foreach ($line_product->images as $image) {
-                                if ($image->id == $variant->image_id)
+                                if ($image->id == $variant->image_id) {
+
                                     $data['image'] = $image->src;
+                                    break;
+                                }
+                                else{
+                                    $data['image'] = $line_product_product_img;
+                                }
+
                             }
                         }
 

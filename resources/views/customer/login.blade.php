@@ -14,15 +14,7 @@
             margin-bottom: 10px
         }
 
-        body {
-            @if(isset($settings->background))
-            background-image: url('{{asset('logos/'.$settings->background)}}') !important;
-            @else
-              background-image: url('{{asset('logos/backgroungimg.png')}}') !important;
-            @endif
-            background-repeat: no-repeat !important ;
-            background-size: cover !important;
-        }
+
 
 
 

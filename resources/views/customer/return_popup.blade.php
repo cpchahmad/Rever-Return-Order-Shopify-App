@@ -16,17 +16,7 @@
             background-position: center !important;
         }
 
-            body {
-            @if(isset($settings->background))
-background-image: url('{{asset('logos/'.$settings->background)}}') !important;
-            @else
-              background-image: url('{{asset('logos/backgroungimg.png')}}') !important;
-            @endif
 
-            background-repeat: no-repeat !important ;
-            background-size: cover !important;
-
-        }
 
         @media only screen and (max-width: 906px) and (min-width: 501px){
             .popup_img {
@@ -381,6 +371,7 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
 @section('script')
     <script>
         $(document).on('click', '.click_label', function () {
+
             if ($(this).prev('input').attr('checked', true))
                 $('#selection_form').submit();
         });
@@ -389,8 +380,17 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
 
 
         $(document).ready(function () {
+
+
+
             $('.type_check').on('click', function (event) {
+                alert(1);
                 $(this).prev('input').attr('checked', true);
+            });
+
+            $('.return_reason_check').on('click', function (event) {
+                if ($(this).prev('input').attr('checked', true))
+                    $('#selection_form').submit();
             });
 
 
@@ -427,10 +427,7 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
 
             });
 
-            $('.return_reason_check').on('click', function (event) {
-                if ($(this).prev('input').attr('checked', true))
-                    $('#selection_form').submit();
-            });
+
             $('.image_parentt').on('click', function (event) {
                 $('.opt-image').removeAttr('checked');
                 $('.image_parentt').removeClass('Custom_border');
@@ -441,6 +438,7 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
                 check_exchange_option();
             });
             $('button .back').on('click', function () {
+
                 $('.popup_img').css('background', 'url(' + $('#image_value').val() + ')');
             });
 

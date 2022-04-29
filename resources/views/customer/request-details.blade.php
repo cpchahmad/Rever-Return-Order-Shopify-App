@@ -22,17 +22,7 @@
         .delete_item {
             z-index: 1;
         }
-        body {
 
-            @if(isset($settings->background))
-background-image: url('{{asset('logos/'.$settings->background)}}') !important;
-            @else
-              background-image: url('{{asset('logos/backgroungimg.png')}}') !important;
-            @endif
-
-            background-repeat: no-repeat !important ;
-            background-size: cover !important;
-        }
 
         .alert {
             padding: 20px;
@@ -176,10 +166,13 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
                                                                     </div>
                                                                     <div class="variants">
                                                                         <ul class="active">
+                                                                            @if(isset($line_item['options']))
                                                                             @foreach($line_item['options'] as $option)
                                                                                 @if($option)
                                                                                     <li>{{$option}}</li>@endif
                                                                             @endforeach
+
+                                                                                @endif
                                                                         </ul>
                                                                     </div>
                                                                     <div class="price_product">
@@ -229,10 +222,12 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
                                                             </div>
                                                             <div class="variants">
                                                                 <ul>
+                                                                    @if(isset($line_item['options']))
                                                                     @foreach($line_item['options'] as $option)
                                                                         @if($option)
                                                                             <li>{{$option}}</li>@endif
                                                                     @endforeach
+                                                                        @endif
                                                                 </ul>
                                                             </div>
                                                             <div class="price_product">
@@ -289,10 +284,13 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
                                                                         </div>
                                                                         <div class="variants">
                                                                             <ul class="active">
+
+                                                                                @if(isset($request_item['options']))
                                                                                 @foreach($request_item['options'] as $option)
                                                                                     @if($option)
                                                                                         <li>{{$option}}</li>@endif
                                                                                 @endforeach
+                                                                                    @endif
                                                                             </ul>
                                                                         </div>
                                                                         <div class="price_product">
@@ -360,11 +358,14 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
 
 
                                                             @foreach(json_decode($request->items_json,true) as $index=>$item_json)
+
+
+
                                                                 <div class="row">
 
                                                                     <div class="col-md-2 align-middle p-0">
                                                                         <img style="width: 100%;height: auto;"
-                                                                             src="@if(isset($item_json['image'])){{$item_json['image']}} @else @if(isset($line_item['image'])){{$line_item['image']}} @endif @endif">
+                                                                             src="@if(isset($item_json['image'])){{$item_json['image']}}  @endif">
                                                                         {{--                                                                             src="{{ isset($item_json['image'])?$item_json['image']:isset($line_item['image'])?$line_item['image']:""}}">--}}
 
                                                                     </div>
@@ -406,7 +407,7 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
 
 
 
-                                                                        $ext_image = isset($item_json['image'])?$item_json['image']:isset($line_item['image'])?$line_item['image']:"";
+                                                                        $ext_image = isset($item_json['image'])?$item_json['image']:"";
 
                                                                         foreach ($line_product->images as $p_images) {
                                                                             if ($p_images->id == $sel_variant->image_id) {
@@ -514,10 +515,13 @@ background-image: url('{{asset('logos/'.$settings->background)}}') !important;
                                                                         </div>
                                                                         <div class="variants">
                                                                             <ul class="active">
+                                                                                @if(isset($line_item['options']))
                                                                                 @foreach($line_item['options'] as $option)
                                                                                     @if($option)
                                                                                         <li>{{$option}}</li>@endif
                                                                                 @endforeach
+
+                                                                                    @endif
                                                                             </ul>
                                                                         </div>
                                                                         <div class="price_product">

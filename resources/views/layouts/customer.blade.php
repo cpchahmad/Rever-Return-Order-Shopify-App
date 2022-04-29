@@ -3,9 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <?php
-    $settings=\App\Models\Setting::first();
-    ?>
+
+{{--    <script>--}}
+{{--        var shop=Shopify.shop;--}}
+{{-- --}}
+{{--    </script>--}}
+<!--    --><?php
+//
+//    $settings=\App\Models\Setting::first();
+//    ?>
     <link rel="stylesheet" href="{{asset('css/font.css')}}">
     @if($settings!=null && $settings->logo!==null)
         <link rel="icon" href="{{asset('logos/'.$settings->logo)}}" type="image/png">
@@ -13,14 +19,20 @@
         <link rel="icon" href="{{asset('argon/img/brand/favicon.png')}}" type="image/png">
     @endif
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    @if($settings!=null && $settings->logo!==null)
-        <style>
+{{--    @if($settings!=null && $settings->logo!==null)--}}
+
+
+    <style>
             body
             {
-                background-image: url('{{asset('logos/'.$settings->background)}}') !important;
-                height: 100%;
-                background-repeat: no-repeat;
-                background-size: cover;
+                @if(isset($settings->background) && $settings->background!="")
+background-image: url('{{asset('logos/'.$settings->background)}}') !important;
+                @else
+background-image: url('{{asset('logos/backgroungimg.png')}}') !important ;
+                @endif
+                height: 100% ;
+                background-repeat: no-repeat !important;
+                background-size: cover !important;
                 /*background-position: center center !important;*/
                 background-attachment: fixed !important;
             }
@@ -86,19 +98,19 @@
             }
 
         </style>
-    @else
-        <style>
-            body
-            {
-                background-image: url('{{asset('images/Rectangle.png')}}') !important;
-                height: 100%;
-                background-repeat: no-repeat;
-                background-size: cover;
-                /*background-position: center center !important;*/
-                background-attachment: fixed !important;
-            }
-        </style>
-    @endif
+{{--    @else--}}
+{{--        <style>--}}
+{{--            body--}}
+{{--            {--}}
+{{--                background-image: url('{{asset('images/Rectangle.png')}}') !important;--}}
+{{--                height: 100%;--}}
+{{--                background-repeat: no-repeat;--}}
+{{--                background-size: cover;--}}
+{{--                /*background-position: center center !important;*/--}}
+{{--                background-attachment: fixed !important;--}}
+{{--            }--}}
+{{--        </style>--}}
+{{--    @endif--}}
 <style>
     div#shopify-section-announcement-bar {
         display: none;
@@ -115,6 +127,7 @@
     <title>Rever</title>
 </head>
 <body>
+{{--@dump($settings)--}}
 <section class="banner" id="append_data">
     @yield('content')
 </section>
