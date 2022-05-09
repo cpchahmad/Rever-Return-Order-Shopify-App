@@ -224,7 +224,8 @@
                             <div class="card-header">
                                 <div class="row">
                                     <div class="col-md-6"><h5 class="h3 mb-0">Request Product</h5></div>
-                                    <div class="col-md-6"><h5 class="h3 mb-0">Refund/Exchange/Store Credit</h5></div>
+{{--                                    <div class="col-md-6"><h5 class="h3 mb-0">Refund/Exchange/Store Credit</h5></div>--}}
+                                    <div class="col-md-6"><h5 class="h3 mb-0">Refund/Exchange</h5></div>
                                 </div>
                             </div>
                             <div class="card-body">
@@ -341,7 +342,7 @@
                                                         <b><span class="badge badge-success">Payment Refunded</span></b>
                                                     @endif
                                                     <br/>
-                                                    <b><a href="{{route('change.request_item.type',['id'=>$request->id,'item_id'=>$item_json['id']])}}" class="badge badge-info">Move to Store Credit</a></b>
+{{--                                                    <b><a href="{{route('change.request_item.type',['id'=>$request->id,'item_id'=>$item_json['id']])}}" class="badge badge-info">Move to Store Credit</a></b>--}}
                                                 </div>
                                             @elseif($item_json['return_type']=='store_credit')
                                                 <div class="col-md-6 align-middle text-center text-warning py-5">
