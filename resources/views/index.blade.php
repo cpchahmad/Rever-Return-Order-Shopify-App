@@ -139,7 +139,7 @@
                                     @else
                                         <div class="card-body text-center pb-6 pt-6 pl-4 pr-4">
                                             <i class="fa fa-sign-language" style="font-size: 60px;"></i>
-                                            <p class="mt-2">Great job, there are no return requsest at the moment.</p>
+                                            <p class="mt-2">Great job, there are no return request at the moment.</p>
                                         </div>
                                     @endif
 
@@ -274,7 +274,7 @@
                                     @else
                                         <div class="card-body text-center pb-6 pt-6 pl-4 pr-4">
                                             <i class="fa fa-sign-language" style="font-size: 60px;"></i>
-                                            <p class="mt-2">Great job, there are no return requsest at the moment.</p>
+                                            <p class="mt-2">Great job, there are no return request at the moment.</p>
                                         </div>
                                     @endif
 
@@ -410,7 +410,7 @@
                                     @else
                                         <div class="card-body text-center pb-6 pt-6 pl-4 pr-4">
                                             <i class="fa fa-sign-language" style="font-size: 60px;"></i>
-                                            <p class="mt-2">Great job, there are no return requsest at the moment.</p>
+                                            <p class="mt-2">Great job, there are no return request at the moment.</p>
                                         </div>
                                     @endif
 
@@ -545,7 +545,7 @@
                                     @else
                                         <div class="card-body text-center pb-6 pt-6 pl-4 pr-4">
                                             <i class="fa fa-sign-language" style="font-size: 60px;"></i>
-                                            <p class="mt-2">Great job, there are no return requsest at the moment.</p>
+                                            <p class="mt-2">Great job, there are no return request at the moment.</p>
                                         </div>
                                     @endif
                                 </div>
@@ -680,7 +680,7 @@
                                     @else
                                         <div class="card-body text-center pb-6 pt-6 pl-4 pr-4">
                                             <i class="fa fa-sign-language" style="font-size: 60px;"></i>
-                                            <p class="mt-2">Great job, there are no return requsest at the moment.</p>
+                                            <p class="mt-2">Great job, there are no return request at the moment.</p>
                                         </div>
                                     @endif
 
