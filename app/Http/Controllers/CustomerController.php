@@ -145,6 +145,8 @@ class CustomerController extends Controller
             $settings1 = Setting::where('shop_id', $shop->id)->first();
 
 
+//            $return_reasons=Reason::where('shop_id',$shop->id)->where('category_id',1)->count();
+//            $exchange_reasons=Reason::where('shop_id',$shop->id)->where('category_id',2)->get();
 
             $prev=PreviousRequest::where('order_number',$prev)->where('shop_id',$shop->id)->first();
 
@@ -457,7 +459,9 @@ class CustomerController extends Controller
                     )),
                     'domain'=>$shop_name,
                     'customsession'=>$request->customsession,
-                    'error'=>$request->error
+                    'error'=>$request->error,
+//                    'exchangereason'=>$exchange_reasons,
+//                    'returnreason'=>$return_reasons
 
                 ])->render();
 
@@ -862,6 +866,10 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
             $order = Order::find($order_id);
 
+            $return_reasons_count=Reason::where('shop_id',$order->shop_id)->where('category_id',1)->count();
+
+            $exchange_reasons_count=Reason::where('shop_id',$order->shop_id)->where('category_id',2)->count();
+
             $settings2=Setting::where('shop_id',$order->shop_id)->first();
             if ($this->checkCustomerBlock($order->email, $order->shop_id)) {
 
@@ -1106,6 +1114,8 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                 'color_variants' => $color_variants,
                 'allow_methods' => $allow_methods,
                 'settings' => $settings2,
+                'exchange_reason_count'=>$exchange_reasons_count,
+                'return_reason_count'=>$return_reasons_count
             ]);
             return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 

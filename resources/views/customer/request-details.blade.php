@@ -130,6 +130,14 @@
                 </div>
 
             @endif
+
+{{--            @if($exchangereason==0 || $returnreason==0 )--}}
+{{--                <div class="alert" style="margin-top: 20px" >--}}
+{{--                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>--}}
+{{--                    <strong>There are no reasons for Exchange/Return. Please Contact Store Owner</strong>--}}
+{{--                </div>--}}
+
+{{--            @endif--}}
             <div class="main_products_all_section" style="margin-top: 10px;">
                 <div class="heading_section">
                     <h2>Choose an item to return/ exchange</h2>
