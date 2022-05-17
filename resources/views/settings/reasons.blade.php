@@ -29,7 +29,9 @@
                     <div class="card-body text-left">
                         <div class="custom_text_lists text-left">
                         <p class="card-text mb-2">
-                            Your Custom Reasons
+                            Build a consistent experience and customer trust by adding some reasons for Exchange/Return .
+                            Incase if you will not add reasons then it will not be shown in Customer side
+
                         </p>
 
                             <div class="table-responsive mb-3">

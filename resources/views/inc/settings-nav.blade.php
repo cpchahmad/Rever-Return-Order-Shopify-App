@@ -25,9 +25,9 @@
                                 <li class="nav-item {{ (request()->is('request/policy'))  ? 'active' : '' }}">
                                     <a href="{{route('request.policy')}}" class="nav-link">Request Policy</a>
                                 </li>
-                                <li class="nav-item {{ (request()->is('requests/import'))  ? 'active' : '' }}">
-                                    <a href="{{route('request.import')}}" class="nav-link">Import CSV</a>
-                                </li>
+{{--                                <li class="nav-item {{ (request()->is('requests/import'))  ? 'active' : '' }}">--}}
+{{--                                    <a href="{{route('request.import')}}" class="nav-link">Import CSV</a>--}}
+{{--                                </li>--}}
                             </ul>
                         </div>
                     </li>
@@ -61,9 +61,9 @@
                                 <li class="nav-item {{ (request()->is('settings/reasons')) ? 'active' : '' }}">
                                     <a href="{{route('settings.reasons')}}" class="nav-link">Return Reason</a>
                                 </li>
-                                <li class="nav-item {{ (request()->is('order/return/type')) ? 'active' : '' }}">
-                                    <a href="{{route('orders.return.type')}}" class="nav-link">Return Type</a>
-                                </li>
+{{--                                <li class="nav-item {{ (request()->is('order/return/type')) ? 'active' : '' }}">--}}
+{{--                                    <a href="{{route('orders.return.type')}}" class="nav-link">Return Type</a>--}}
+{{--                                </li>--}}
                                 <li class="nav-item {{ (request()->is('orders/custom/text')) ? 'active' : '' }}">
                                     <a href="{{route('order.custom.text')}}" class="nav-link">Custom Exchange Text</a>
                                 </li>

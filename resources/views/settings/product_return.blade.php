@@ -40,10 +40,10 @@
                                 {{csrf_field()}}
                                 <div class="row my-5">
                                     <div class="col-md-12">
-                                        <div class="form-group">
-                                            <label  for="block_tags">Store Credit:</label>
-                                            <input type="text" class="form-control" data-role="tagsinput" id="block_tags" @if($settings != null && $settings->store_product_tags != null ) value="{{$settings->store_product_tags}}" @endif name="store_product_tags" >
-                                        </div>
+{{--                                        <div class="form-group">--}}
+{{--                                            <label  for="block_tags">Store Credit:</label>--}}
+{{--                                            <input type="text" class="form-control" data-role="tagsinput" id="block_tags" @if($settings != null && $settings->store_product_tags != null ) value="{{$settings->store_product_tags}}" @endif name="store_product_tags" >--}}
+{{--                                        </div>--}}
                                         <div class="form-group">
                                             <label  for="block_tags">Payment Method:</label>
                                             <input type="text" class="form-control" data-role="tagsinput" id="block_tags" @if($settings != null && $settings->payment_product_tags != null ) value="{{$settings->payment_product_tags}}" @endif name="payment_product_tags" >

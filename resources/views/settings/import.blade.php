@@ -25,6 +25,14 @@
                 <div class="col-lg-12">
                     <!-- Pricing -->
                     <div class="card card-pricing  border-0 mb-4">
+
+                        <div class="card-body text-left">
+                            <p class="card-text mb-2 text-left">
+
+
+                            </p>
+
+                        </div>
                         <div class="card-header bg-transparent">
                             <h4 class="text-uppercase ls-1 text-white py-3 mb-0">Import CSV</h4>
                         </div>

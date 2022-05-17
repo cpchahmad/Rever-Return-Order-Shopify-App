@@ -1,6 +1,8 @@
 
 @extends('layouts.admin')
 
+
+
 @section('content')
 
     <div class="row" style="margin-right: 0px;margin-left: 0px;">
@@ -27,6 +29,8 @@
                                            placeholder="Search and Scan for orders here." href="{{route('search.request')}}"
                                            data-shop="{{\Illuminate\Support\Facades\Auth::user()->name}}" aria-label="Search">
                                 </div>
+
+
 
                             </div>
 

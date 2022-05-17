@@ -748,6 +748,7 @@ class CustomerController extends Controller
             }
 
             catch (\Exception $exception){
+
                 goto shipment;
             }
 
@@ -866,11 +867,12 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
             $order = Order::find($order_id);
 
-            $return_reasons_count=Reason::where('shop_id',$order->shop_id)->where('category_id',1)->count();
+            $return_reasons_count=Reason::where('shop_id',$order->shop_id)->where('category_id',2)->count();
 
-            $exchange_reasons_count=Reason::where('shop_id',$order->shop_id)->where('category_id',2)->count();
+            $exchange_reasons_count=Reason::where('shop_id',$order->shop_id)->where('category_id',1)->count();
 
             $settings2=Setting::where('shop_id',$order->shop_id)->first();
+
             if ($this->checkCustomerBlock($order->email, $order->shop_id)) {
 
 

@@ -252,6 +252,7 @@
 
 
                                                     <div class="col-md-12 mt-2 font-weight-bold">
+
                                                         Reason:
                                                         {{\App\Models\Reason::find($item_json['return_reason'])->name}}
                                                     </div>

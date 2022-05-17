@@ -56,6 +56,7 @@
 
 
 
+
     </style>
 @endsection
 
@@ -155,7 +156,7 @@
                                 </div>
                                 <div class="label_checkbox">
                                     @if(in_array('exchange',$allow_methods))
-                                        <div class="Labels" style="@if($exchange_reason_count==0) pointer-events:none @endif">
+                                        <div class="Labels " style="@if($exchange_reason_count==0) pointer-events:none @endif">
                                             <input type="radio" id="one" name="return_type" value="exchange">
                                             <label for="one" class="mina_oneeee type_check @if($exchange_reason_count==0) no_reasons  @endif" >
                                                 <div class="label_under">
@@ -177,7 +178,7 @@
 
                                         <div class="Labels" style="@if($return_reason_count==0) pointer-events: none @endif">
                                             <input type="radio" id="two" name="return_type" value="return">
-                                            <label for="one" class="type_check @if($exchange_reason_count==0) no_reasons  @endif" data-lable="retuen">
+                                            <label for="one" class="type_check @if($return_reason_count==0) no_reasons  @endif" data-lable="retuen">
                                                 <div class="label_under">
                                                     <div class="under_parent">
                                                         <div class="text_underParent">
@@ -324,7 +325,14 @@
                             </div>
                             <div class="popup_main_body">
                                 <div class="heading_main">
-                                    <span class="title">Why are you exchanging?</span>
+
+                                    @if(isset($settings) && $settings->exchange_text)
+                                        <span class="title">{{$settings->exchange_text}}</span>
+                                    @else
+                                        <span class="title">Why are you exchanging?</span>
+                                        @endif
+
+
                                 </div>
                                 <div class="variants_div">
                                     <ul>
@@ -361,7 +369,8 @@
                         <div class="popup_text four_popup">
                             <div class="header_popup">
                                 <div class="back">
-
+                                    <button type="button" class="back"><img src="{{asset('images/backArrow.svg')}}"
+                                                                            alt=""></button>
                                 </div>
                                 <div class="cross">
 

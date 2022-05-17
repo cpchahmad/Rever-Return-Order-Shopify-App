@@ -7,12 +7,12 @@
                 <div class="header-body">
                     <div class="row align-items-center py-4">
                         <div class="col-lg-6 col-7">
-                            <h6 class="h2 text-white d-inline-block mb-0">Emails</h6>
+                            <h6 class="h2 text-white d-inline-block mb-0">Text</h6>
                             <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
                                 <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
                                     <li class="breadcrumb-item"><a href="{{route('home')}}"><i class="fas fa-home"></i></a></li>
                                     <li class="breadcrumb-item"><a href="{{route('settings.home')}}">Settings</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Email-Export</li>
+                                    <li class="breadcrumb-item active" aria-current="page">Login-Page-Text</li>
                                 </ol>
                             </nav>
                         </div>
@@ -27,11 +27,10 @@
                     <!-- Pricing -->
                     <div class="card card-pricing border-0 text-center mb-4">
                         <div class="card-body text-left">
-{{--                            <div class="reasons_list">--}}
-{{--                                <p class="card-text mb-2 text-left">--}}
-{{--                                    The system will send all email as reminder to customer to drop the package at EasyPost Location.--}}
-{{--                                    Please note that for legal reasons, all customer emails will be sent from our servers.  </p>--}}
-{{--                            </div>--}}
+                            <div class="reasons_list">
+                                <p class="card-text mb-2 text-left">
+                                    The Text will be shown on Customer side Home page  </p>
+                            </div>
 
                             <form action="{{route('settings.portal.text.post')}}" method="POST">
                                 {{csrf_field()}}
