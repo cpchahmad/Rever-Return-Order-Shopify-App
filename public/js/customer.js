@@ -52,7 +52,10 @@ $( document ).ready(function() {
     });
 
 
-
+    $('.mina_twoooooo').click(function (e){
+        $(this).parents().find('.one_popup').css("display","none");
+        $('.four_popup').css("display","block");
+    }) ;
 
 });
 

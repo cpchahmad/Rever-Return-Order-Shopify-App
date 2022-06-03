@@ -76,12 +76,12 @@ class AppUninstalledJob implements ShouldQueue
         $this->shopDomain = ShopDomain::fromNative($this->shopDomain);
 
         $shop= User::where('name', $this->shopDomain->toNative())->first();
-if($shop) {
+        if($shop) {
     $uninstall = new SuperAdminController();
     $uninstall->ShopUninstallJob($shop);
 
 
-}
+            }
         return true;
         // Do what you wish with the data
         // Access domain name as $this->shopDomain->toNative()

@@ -40,6 +40,7 @@
 
                 <li style="color: white"  class="" ><a class="profile-pic"
                                                        href="{{route('home')}}"> <b
+{{--                                                       href="{{route('getwebbhook')}}"> <b--}}
                             class="hidden-xs">RETURN REQUESTS</b></a></li>
                 <li style="color: white" class="" ><a class="profile-pic"
                                                       href="{{route('settings.home')}}"> <b

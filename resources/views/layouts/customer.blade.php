@@ -23,7 +23,7 @@
 
 
     <style>
-            body
+    /*        body
             {
                 @if(isset($settings->background) && $settings->background!="")
 background-image: url('{{asset('logos/'.$settings->background)}}') !important;
@@ -33,9 +33,9 @@ background-image: url('{{asset('logos/backgroungimg.png')}}') !important ;
                 height: 100% ;
                 background-repeat: no-repeat !important;
                 background-size: cover !important;
-                /*background-position: center center !important;*/
+                !*background-position: center center !important;*!
                 background-attachment: fixed !important;
-            }
+            }*/
             @media screen and (max-width: 500px)
             {
                 .product_title h3
@@ -112,15 +112,15 @@ background-image: url('{{asset('logos/backgroungimg.png')}}') !important ;
 {{--        </style>--}}
 {{--    @endif--}}
 <style>
-    div#shopify-section-announcement-bar {
-        display: none;
-    }
-    sticky-header.header-wrapper.color-background-1.gradient.header-wrapper--border-bottom {
-        display: none;
-    }
-    footer.footer.color-background-1.gradient.section-footer-padding {
-        display: none;
-    }
+    /*div#shopify-section-announcement-bar {*/
+    /*    display: none;*/
+    /*}*/
+    /*sticky-header.header-wrapper.color-background-1.gradient.header-wrapper--border-bottom {*/
+    /*    display: none;*/
+    /*}*/
+    /*footer.footer.color-background-1.gradient.section-footer-padding {*/
+    /*    display: none;*/
+    /*}*/
 </style>
     @yield('css')
 
@@ -333,17 +333,24 @@ background-image: url('{{asset('logos/backgroungimg.png')}}') !important ;
 
         $(".back").click(function (e) {
 
-            e.preventDefault();
-            $('.loading').fadeIn();
-            $.ajax({
-            type:"GET",
-             url:$(this).attr("href"),
-             success:function (result) {
-                 $("body").html(result);
 
-             }
+            $('.four_popup').css('display','none');
+            $('.one_popup').css('display','block');
 
-            });
+
+            // e.preventDefault();
+            // $('.loading').fadeIn();
+            // $.ajax({
+            // type:"GET",
+            //  url:$(this).attr("href"),
+            //  success:function (result) {
+            //      $("body").html(result);
+            //
+            //
+            //
+            //  }
+            //
+            // });
 
         })
     $(".back_request").click(function (e) {

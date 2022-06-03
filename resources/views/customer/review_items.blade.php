@@ -26,8 +26,11 @@
 
             <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">
 
-            <a href="https://{{$shop}}" style="text-decoration: none">
-                @if($settings)
+{{--            <a href="https://{{$shop}}" style="text-decoration: none">--}}
+                <a href="https://{{$shop}}/a/return/customer/login?shop={{$shop}}&order_name={{ltrim($order->order_name,'#')}}&email={{$order->email}}" style="text-decoration: none;">
+
+                {{--                @if($settings)--}}
+                @if(isset($settings->logo))
                     <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">
                     <h5 style="color: white">Powered by Rever</h5>
                 @else

@@ -115,6 +115,7 @@ class RequestController extends Controller
     //function used to save Request Policy page data
     public function RequestPolicyUpdate(Request $request)
     {
+
         $r_settings = RequestSetting::where('shop_id', Auth::id())->first();
 
         if ($r_settings === null) {
@@ -128,6 +129,7 @@ class RequestController extends Controller
         } else {
             $r_settings->display_block_product = false;
         }
+
         if ($request->input('special_orders')) {
             $r_settings->special_orders = $request->input('special_orders');
         } else {
@@ -143,6 +145,8 @@ class RequestController extends Controller
         } else {
             $r_settings->exchange_orders = null;
         }
+
+        $r_settings->shop_id=Auth::id();
         $r_settings->save();
         return back();
     }

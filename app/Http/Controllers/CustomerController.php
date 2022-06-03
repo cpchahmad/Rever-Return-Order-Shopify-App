@@ -128,7 +128,8 @@ class CustomerController extends Controller
 
 
 
-        return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+//        return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+        return $html;
     }
 
 //Function when customer login for return
@@ -465,7 +466,8 @@ class CustomerController extends Controller
 
                 ])->render();
 
-                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+//                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+                return $html;
 
                 $result = [];
                 $result['code'] = '200';
@@ -1119,7 +1121,8 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                 'exchange_reason_count'=>$exchange_reasons_count,
                 'return_reason_count'=>$return_reasons_count
             ]);
-            return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+//            return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+            return $html;
 
         } catch (\Exception $exception) {
 

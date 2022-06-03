@@ -2,7 +2,9 @@
 
 @section('css')
     <link rel="stylesheet" href="{{asset('css/popup.css')}}">
-    {{--    <link rel="stylesheet" href="{{asset('css/refund_page.css')}}">--}}
+    <link rel="stylesheet" href="{{asset('css/design-app.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
+
     <style>
         .display_none {
             display: none;
@@ -53,9 +55,53 @@
 
 
         }
+        .popup_main_body {
 
+            padding: unset !important;
+        }
 
+        .popup_text {
 
+            width: unset !important;
+        }
+
+        .header_popup{
+            background: unset !important;
+        }
+
+        .button_radio {
+            float: left;
+            margin: 0 5px 0 0;
+            width: 100px;
+            height: 40px;
+            position: relative;
+        }
+
+        .button_radio label,
+        .button_radio input {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .button_radio input[type="radio"] {
+            opacity: 0.011;
+            z-index: 100;
+        }
+
+        .button_radio input[type="radio"]:checked + label {
+            background: #20b8be;
+            border-radius: 4px;
+        }
+
+        .button_radio label {
+            cursor: pointer;
+            z-index: 90;
+            line-height: 1.8em;
+        }
 
     </style>
 @endsection
@@ -66,362 +112,244 @@
     $order_name = str_replace('#', '', $order->order_name);
     $merge_array = [];
     ?>
+
+
     <form class="container" id="selection_form"
 
           action="https://{{$shop->name}}/a/return/customer/order/{{$order->id}}/lineItem/{{$line_item['id']}}/selected/submit"
           method="POST">
 
         @csrf
+    <div class="container" style="border: none;">
+        <div class="main-card mx-auto pb-5">
+            <div style="display: flex">
+            <h1 style="display: inline-block">Why are you returning this item?</h1>
+            <div class="cross" style="float: right">
+
+                <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
+
+                    <button style="background: none;border: none;" type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
+                    </button>
+                </a>
+            </div>
+
+            </div>
+            <div class="box-1 mx-auto">
+                <div class="row">
 
 
-
-        <div class="header">
-            <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">
-            <a href="https://{{$shop->name}}" style="text-decoration: none">
-                @if($settings)
-                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">
-                    <h5 style="color: white">Powered by Rever</h5>
-                @else
-                    <img src="{{asset('logos/Logo REVER.png')}}" style="width:135px;height: auto;" alt="logo">
-                    <h5 style="color: white">Powered by Rever</h5>
-
-                @endif
-            </a>
-        </div>
-        </div>
-        <div class="main_section_popup main_section">
-            <div class="overlay_section"></div>
-            <div class="popUpmain">
-                <div class="popupBody">
-                    <div class="popup_under">
-                        <div class="popup_img">
-                            <div class="header_popup">
-                                <div class="back">
-
-                                </div>
-
-
-
-
-
-
-                                <div class="cross">
-
-                                    <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
-                                        <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                            <input type="hidden" id="image_value" value="@if(isset($line_item['image'])){{$line_item['image']}}@endif">
-                            <input type="hidden" name="product_id" value="{{$line_item['product_id']}}">
-
+                    <div class="col-md-2">
+                        <div class="img">
+                            <img style="width: 100%;margin-left: 15px" src="@if(isset($line_item['image'])){{$line_item['image']}} @endif" alt="">
                         </div>
+                    </div>
+                    <div class="col-md-10">
+                        <h6 class="pt-1">{{$line_item['title']}}</h6>
+                        <p class="">${{$line_item['price']}}</p>
+                        <div class="radio-buttons d-flex gap-2">
+                            <img class="red-button" src="{{asset('images/red.png')}}" alt="">
+                            @foreach($line_item['options'] as $option)
+                                @if($option!==null)
 
-                        <!-- popup first section text -->
-
-                        <div class="popup_text one_popup">
-                            <div class="header_popup">
-                                <div class="back">
-
-                                </div>
-                                <div class="cross">
-
-                                        <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
-
-                                        <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                            @if($exchange_reason_count==0 || $return_reason_count==0)
-                                <div class="alert"  >
-                                    <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                                    <strong>There are no reasons for Exchange/Return. Please Contact Store Owner</strong>
-                                </div>
-                            @endif
-                            <div class="popup_main_body">
-                                <div class="heading_main">
-
-                                    <span class="title">{{$line_item['title']}}</span>
-                                </div>
-                                <div class="variants_div">
-                                    <ul>
-                                        @foreach($line_item['options'] as $option)
-                                            @if($option!==null)
-                                                <li>{{$option}}</li>@endif
-                                        @endforeach
-                                    </ul>
-                                    <span id="variant_total_price">${{$line_item['price']}}</span>
-                                </div>
-                                <div class="label_checkbox">
-                                    @if(in_array('exchange',$allow_methods))
-                                        <div class="Labels " style="@if($exchange_reason_count==0) pointer-events:none @endif">
-                                            <input type="radio" id="one" name="return_type" value="exchange">
-                                            <label for="one" class="mina_oneeee type_check @if($exchange_reason_count==0) no_reasons  @endif" >
-                                                <div class="label_under">
-                                                    <div class="under_parent">
-                                                        <div class="text_underParent">
-                                                            <span>Exchange for new color / size</span>
-                                                        </div>
-                                                        <div class="icons">
-                                                            <img src="{{asset('images/arrow_right.svg')}}" alt="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    @endif
-                                    @if(in_array('payment_method',$allow_methods) || in_array('store_credit',$allow_methods))
-
-
-
-                                        <div class="Labels" style="@if($return_reason_count==0) pointer-events: none @endif">
-                                            <input type="radio" id="two" name="return_type" value="return">
-                                            <label for="one" class="type_check @if($return_reason_count==0) no_reasons  @endif" data-lable="retuen">
-                                                <div class="label_under">
-                                                    <div class="under_parent">
-                                                        <div class="text_underParent">
-                                                            <span>Return Item</span>
-                                                        </div>
-                                                        <div class="icons">
-                                                            <img src="{{asset('images/arrow_right.svg')}}" alt="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
-
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Second PopUp -->
-                        <div class="popup_text two_popup">
-                            <div class="header_popup">
-                                <div class="back">
-                                    <button type="button" class="back"><img src="{{asset('images/backArrow.svg')}}"
-                                                                            alt=""></button>
-                                </div>
-                                <div class="cross">
-
-                                        <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
-
-                                        <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="popup_main_body">
-                                <div class="heading_main">
-                                    <span class="title">{{$line_item['title']}}</span>
-                                </div>
-                                <div class="variants_div">
-                                    <ul>
-                                        @foreach($line_item['options'] as $option)
-
-                                            @if($option!==null)
-                                                <li>{{$option}}</li>@endif
-                                        @endforeach
-                                    </ul>
-                                    <span id="variant_total_price">${{$line_item['price']}}</span>
-                                </div>
-                            </div>
-
-
-                            @foreach($product_options as $index=>$productOption)
-{{--                                @dump($productOption->name)--}}
-                            @if($productOption->name=='Color')
-                                    <div class="all_images_main">
-                                        <div class="sizes_img_main">
-                                            <div class="size_parent_bg">
-                                                <div class="size_flex p-30">
-                                                    <div class="size_text">
-
-                                                        <span class="custom_span ">{{$productOption->name}}</span>
-                                                    </div>
-                                                    <div class="Medium_text">
-                                                        <span class="custom_span option-image"></span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="main_imae_flex p-30">
-{{--                                            @dump($color_variants)--}}
-                                            @foreach($color_variants as $color_variant)
-
-                                                <div class="img_Size_three">
-                                                    <div class="image_parentt">
-                                                        <input class=" opt-image" name="option{{$index+1}}" type="radio"
-                                                               style="display: none"
-                                                               value="{{$color_variant['color']}}">
-                                                        <img src="{{$color_variant['image']}}" alt=""
-                                                             class="add_option1 img_responsive">
-                                                    </div>
-                                                </div>
-                                            @endforeach
-
-                                        </div>
-                                    </div>
-
-
-                                @else
-                                    <div class="sizes_img_main">
-                                        <div class="size_parent_bg">
-                                            <div class="size_flex p-30">
-                                                <div class="size_text">
-                                                    <span class="custom_span">{{$productOption->name}}</span>
-                                                </div>
-                                                <div class="Medium_text">
-                                                    <span class="custom_span other-option"></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="radios_sizes">
-
-                                            @foreach($productOption->values as $value)
-                                                <div class="size_flex p-30">
-                                                    <div class="size_text">
-                                                        <input class="variant_check opt-2" type="radio" name="option{{$index+1}}"
-                                                               value="{{$value}}">
-                                                        <label for="S">{{$value}}</label>
-                                                    </div>
-                                                    <div class="Medium_text">
-                                                        <span></span>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-
-                                        </div>
-                                    </div>
-
+                            <p class="m">{{$option}}</p>
                                 @endif
                             @endforeach
-
-
-
-
-                            <div class="button_show_onSelect p-30">
-                                <div class="main_continue_btn">
-                                    <button type="button"  id="after_btn_checked" disabled>Continue</button>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- popup third section text -->
-                        <div class="popup_text three_popup">
-                            <div class="header_popup">
-                                <div class="back">
-                                    <button type="button" class="back"><img src="{{asset('images/backArrow.svg')}}"
-                                                                            alt=""></button>
-                                </div>
-                                <div class="cross">
-
-                                        <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
-
-                                        <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="popup_main_body">
-                                <div class="heading_main">
-
-                                    @if(isset($settings) && $settings->exchange_text)
-                                        <span class="title">{{$settings->exchange_text}}</span>
-                                    @else
-                                        <span class="title">Why are you exchanging?</span>
-                                        @endif
-
-
-                                </div>
-                                <div class="variants_div">
-                                    <ul>
-                                        @foreach($line_item['options'] as $option)
-                                            @if($option!==null)
-                                                <li>{{$option}}</li>@endif
-                                        @endforeach
-                                    </ul>
-                                    <span id="variant_total_price">${{$line_item['price']}}</span>
-                                </div>
-                                <div class="label_checkbox">
-                                    @foreach($exchange_reasons as $reason)
-
-                                        <div class="Labels">
-                                            <input type="radio" id="one" name="return_reason" value="{{$reason->id}}">
-                                            <label for="one" class="mina_onee return_reason_check">
-                                                <div class="label_under">
-                                                    <div class="under_parent">
-                                                        <div class="text_underParent">
-                                                            <span>{{$reason->name}}</span>
-                                                        </div>
-                                                        <div class="icons">
-                                                            <img src="{{asset('images/arrow_right.svg')}}" alt="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-                        <!-- popup four section text -->
-                        <div class="popup_text four_popup">
-                            <div class="header_popup">
-                                <div class="back">
-                                    <button type="button" class="back"><img src="{{asset('images/backArrow.svg')}}"
-                                                                            alt=""></button>
-                                </div>
-                                <div class="cross">
-
-                                    <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
-
-                                    <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
-
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="popup_main_body">
-                                <div class="heading_main">
-                                    <span class="title">Why are you returning?</span>
-                                </div>
-                                <div class="variants_div">
-                                    <ul>
-                                        @foreach($line_item['options'] as $option)
-                                            @if($option!==null)
-                                                <li>{{$option}}</li>@endif
-                                        @endforeach
-                                    </ul>
-                                    <span id="variant_total_price">${{$line_item['price']}}</span>
-                                </div>
-
-                                <div class="label_checkbox">
-                                    @foreach($refund_reasons as $reason)
-                                        <div class="Labels">
-                                            <input type="radio" id="one" name="return_reason" value="{{$reason->id}}">
-                                            <label for="one" class="mina_onee return_reason_check_return">
-                                                <div class="label_under">
-                                                    <div class="under_parent">
-                                                        <div class="text_underParent">
-                                                            <span>{{$reason->name}}</span>
-                                                        </div>
-                                                        <div class="icons">
-                                                            <img src="{{asset('images/arrow_right.svg')}}" alt="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </label>
-                                        </div>
-                                    @endforeach
-
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+
+
+            @if(in_array('exchange',$allow_methods))
+            <div class="row">
+                <div class=" input form-group mx-auto mt-4 col-md-9 position-relative one_popup ">
+
+                    <input type="text" name="" class="form-control mina_oneeee" value="Exchange for new color / size" readonly style="@if($exchange_reason_count==0) pointer-events:none @endif ; cursor:pointer;">
+                    <div class="icon position-absolute">
+                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.02001 13.6798L5.23001 10.4698L7.20001 8.50976C8.03001 7.67976 8.03001 6.32976 7.20001 5.49976L2.02001 0.319763C1.34001 -0.360238 0.180012 0.129763 0.180011 1.07976L0.180011 6.68976L0.18001 12.9198C0.18001 13.8798 1.34001 14.3598 2.02001 13.6798Z" fill="#24446D"/>
+                        </svg>
+
+                    </div>
+                </div>
+            </div>
+                @endif
+
+            @if(in_array('payment_method',$allow_methods) || in_array('store_credit',$allow_methods))
+
+            <div class="row">
+                <div class=" input form-group mx-auto mt-4 col-md-9 position-relative one_popup ">
+
+                    <input type="text" name="" class="form-control mina_twoooooo" value="Return Item" readonly style="@if($exchange_reason_count==0) pointer-events:none @endif ; cursor:pointer;">
+                    <div class="icon position-absolute">
+                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2.02001 13.6798L5.23001 10.4698L7.20001 8.50976C8.03001 7.67976 8.03001 6.32976 7.20001 5.49976L2.02001 0.319763C1.34001 -0.360238 0.180012 0.129763 0.180011 1.07976L0.180011 6.68976L0.18001 12.9198C0.18001 13.8798 1.34001 14.3598 2.02001 13.6798Z" fill="#24446D"/>
+                        </svg>
+
+                    </div>
+                </div>
+            </div>
+
+            @endif
+
+
+        <!-- Second PopUp -->
+            <div class="popup_text two_popup">
+
+
+                <h4>Would you like to change the size or color?</h4>
+
+                @foreach($product_options as $index=>$productOption)
+
+                    @if($productOption->name=='Color')
+                        <div class="color">
+                            <p>{{$productOption->name}}</p>
+
+                            <div class="d-flex">
+                            @foreach($color_variants as $color_variant)
+                                <div class="image_parentt" style="width: 100px">
+                                <input class=" opt-image" name="option{{$index+1}}" type="radio"
+                                       style="display: none"
+                                       value="{{$color_variant['color']}}">
+                                <img src="{{$color_variant['image']}}" alt=""
+                                     class="add_option1 img_responsive">
+                                </div>
+
+                            @endforeach
+
+                            </div>
+
+                        </div>
+                    @else
+
+                <p style="margin-left:100px">{{$productOption->name}}</p>
+                <div class="size gap-4">
+                    @foreach($productOption->values as $value)
+
+                        <div class="button_radio">
+                            <input type="radio"   value="{{$value}}" id="{{$value}}-{{$index}}"   class="variant_check opt-2" name="option{{$index+1}}" />
+                            <label class="btn btn-light" for="{{$value}}-{{$index}}" >{{$value}}</label>
+                        </div>
+{{--                        <input class="variant_check opt-2" type="radio" name="option{{$index+1}}"--}}
+{{--                               value="{{$value}}">--}}
+{{--                        <label for="S">{{$value}}</label>--}}
+{{--                    <button class="variant_check" value="{{$value}}">{{$value}}</button>--}}
+                    @endforeach
+
+                </div>
+
+                    @endif
+
+                @endforeach
+
+
+
+
+                <div class="button_show_onSelect p-30">
+                    <div class="main_continue_btn">
+                        <button type="button"  id="after_btn_checked" disabled>Continue</button>
+                    </div>
+                </div>
+            </div>
+            <!-- popup third section text -->
+            <div class="popup_text three_popup">
+                <div class="header_popup">
+                    <div class="back">
+                        <button type="button" class="back"><img src="{{asset('images/backArrow.svg')}}"
+                                                                alt=""></button>
+                    </div>
+                    <div class="cross">
+
+                        <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
+
+                            <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
+                            </button>
+                        </a>
+                    </div>
+                </div>
+                <div class="popup_main_body">
+                    <div class="heading_main">
+
+                        @if(isset($settings) && $settings->exchange_text)
+                            <span class="title">{{$settings->exchange_text}}</span>
+                        @else
+                            <span class="title">Why are you exchanging?</span>
+                        @endif
+
+
+                    </div>
+                    <div class="variants_div">
+                        <ul>
+                            @foreach($line_item['options'] as $option)
+                                @if($option!==null)
+                                    <li>{{$option}}</li>@endif
+                            @endforeach
+                        </ul>
+                        <span id="variant_total_price">${{$line_item['price']}}</span>
+                    </div>
+                    <div class="label_checkbox">
+                        @foreach($exchange_reasons as $reason)
+
+                            <div class="Labels">
+                                <input type="radio" id="one" name="return_reason" value="{{$reason->id}}">
+                                <label for="one" class="mina_onee return_reason_check">
+                                    <div class="label_under">
+                                        <div class="under_parent">
+                                            <div class="text_underParent">
+                                                <span>{{$reason->name}}</span>
+                                            </div>
+                                            <div class="icons">
+                                                <img src="{{asset('images/arrow_right.svg')}}" alt="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="popup_text four_popup">
+                <div class="header_popup">
+                    <div class="back">
+                        <button type="button" class="back"><img src="{{asset('images/backArrow.svg')}}"
+                                                                alt=""></button>
+                    </div>
+
+                </div>
+                <div class="popup_main_body">
+
+
+
+
+                        @foreach($refund_reasons as $reason)
+                        <div class="row">
+                            <div class=" input form-group mx-auto mt-4 col-md-9 position-relative return_reason_check_return  ">
+                                <input type="hidden" name="return_reason" value="{{$reason->id}}">
+                                <input type="text" name="" class="form-control " value="{{$reason->name}}" style="cursor: pointer" readonly >
+                                <div class="icon position-absolute">
+                                    <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M2.02001 13.6798L5.23001 10.4698L7.20001 8.50976C8.03001 7.67976 8.03001 6.32976 7.20001 5.49976L2.02001 0.319763C1.34001 -0.360238 0.180012 0.129763 0.180011 1.07976L0.180011 6.68976L0.18001 12.9198C0.18001 13.8798 1.34001 14.3598 2.02001 13.6798Z" fill="#24446D"/>
+                                    </svg>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        @endforeach
+
+
+                </div>
+            </div>
+
         </div>
+
+
+    </div>
+
         <div class="refund_section"></div>
     </form>
 @endsection
@@ -496,6 +424,7 @@
                 check_exchange_option();
             });
             $('button .back').on('click', function () {
+
 
                 $('.popup_img').css('background', 'url(' + $('#image_value').val() + ')');
             });

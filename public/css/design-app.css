@@ -1,0 +1,493 @@
+
+
+img.nike-image {
+  margin-top: 152px;
+  margin-left: 64px;
+}
+
+h1.heading-main {
+  font-weight: 700;
+  font-size: 36px;
+  color: #FFFFFF;
+  padding: 24px 0px 24px 64px;
+}
+
+.welcome-text P {
+  margin: 0px 0px 64px 64px;
+  font-weight: 500;
+  font-size: 16px;
+  color: #FFFFFF;
+}
+
+.dashboard-form {
+  width: 1074px;
+  left: -276px;
+  top: -116px;
+}
+
+.main-card {
+  width: 753px;
+  height: auto;
+  background: #FFFFFF;
+  border: 1px solid #24446D;
+  box-shadow: 0px 1px 3px 0.5px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  margin-top: 64px;
+  color: #24446D;
+  font-weight: 500;
+font-size: 16px;
+}
+
+.main-card h4,h1 {
+  padding: 34px 95px;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 36px;
+  color: #24446D;
+}
+.main-card h4{
+  font-size: 24px;
+
+}
+.muted-details {
+  width: 561px;
+  margin-top: 25px;
+}
+
+.active-details {
+  width: 561px;
+  margin-top: 30px;
+
+}
+
+.box-1,
+.box-refund {
+  border: 1px solid #24446D;
+  gap: 16px;
+  width: 561px;
+  /*height: 99px;*/
+  border-radius: 5px;
+}
+
+.box-refund {
+  margin-top: 40px;
+}
+.input {
+  width: 561px;
+}
+
+.radio-buttons {
+  gap: 16px !important;
+}
+
+.radio-buttons .red-button {
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  border: 2px solid #24446D;
+}
+
+.radio-buttons .muted-button {
+  width: 20px;
+  height: 20px;
+  padding: 0px;
+  border: 2px solid #44556b;
+}
+
+p.m {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*width: 20px;*/
+  height: 20px;
+  font-size: 8px;
+  border: 2px solid #24446D;
+  border-radius: 8px;
+  padding: 8px;
+
+}
+
+.size {
+  display: flex;
+  padding-left: 100px;
+}
+
+.small,
+.medium,
+.Large,
+.xl {
+  border: 1px solid;
+  width: 25px;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 6px;
+  justify-content: center;
+  background-color: #f1f2f7;
+}
+
+.medium {
+  background-color: #bbbcc0;
+
+}
+
+.dashboard-img {
+  height: 100%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  padding: 100px;
+  color: white;
+}
+
+.dashboard-img {
+  padding-left: 60px;
+}
+
+.welcome-heading {
+  font-family: 'Roobert';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 40px;
+  color: #FFFFFF;
+  margin-top: 30px;
+}
+
+.nike-image {
+  width: 89.97px;
+  height: 32px;
+}
+
+.welcome-text {
+  font-family: 'Roobert';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  padding-top: 20px;
+  color: #FFFFFF;
+}
+
+.form {
+  width: 100%;
+  height: 350px;
+  max-width: 400px;
+  margin-top: 75px;
+  color: #707478;
+}
+
+.lable,
+.email {
+  background-color: #fff;
+  top: -17px;
+  left: 10px;
+  color: #92A2B6;
+  font-family: 'Roobert';
+    font-size: 12px;
+}
+
+.button {
+  font-family: 'Roobert';
+  margin-bottom: 16px;
+  width: 100%;
+  height: 50px;
+  background-color: rgb(36 53 88);
+  color: white;
+  border-radius: 30px;
+  border: none;
+}
+
+.icon a {
+  color: #92A2B6;
+  text-decoration: none;
+}
+
+.icon {
+  top: 8px;
+  left: 550px;
+}
+
+.hover {
+  text-decoration: none;
+  color: #717376;
+  margin-bottom: 10px;
+}
+
+.hover:hover {
+  color: #717376
+}
+
+/*.col-md-2.exchange {*/
+/*  height: 30px;*/
+/*  border: 1px solid;*/
+/*  margin-top: 50px;*/
+/*  margin-left: 50px;*/
+/*}*/
+
+.col-md-3.exchange {
+
+    margin-top: 10%;
+
+}
+
+.top-1 {
+  margin-top: 50px;
+  margin-bottom: 25px;
+}
+
+img {
+  border-radius: 10px;
+  padding: 5px;
+}
+
+.refund-btn,
+.exchange-btn,
+.refund-instead-btn,
+.continue-btn {
+  margin-top: 32px;
+  /* margin-bottom: 16px; */
+  margin-left: 95px;
+  /* margin-right: 150px; */
+  width: 100%;
+  max-width: 561px;
+  height: 50px;
+  background-color: rgb(36 53 88);
+  color: white;
+  border-radius: 25px;
+  border: none;
+  margin-bottom: 20px;
+}
+
+.refund-instead-btn {
+  background-color: #fff;
+  color: #24446D;
+  border: 2px solid #24446D;
+}
+
+/*.col-md-2.expired {*/
+/*  height: 30px;*/
+/*  border: 1px solid;*/
+/*  margin-top: 50px;*/
+/*  margin-left: 50px;*/
+/*  color: orange;*/
+/*  border-color: orange;*/
+/*}*/
+
+.col-md-3.expired {
+
+    margin-top: 10%;
+
+}
+.color {
+  margin-top: 40px;
+  padding-left: 100px;
+}
+
+.red,
+.green,
+.black,
+.white,
+.aqua,
+.yellow {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  padding: 10px;
+  margin: 5px;
+}
+
+.red {
+  background-color: #E21F4E;
+}
+
+.aqua {
+  background-color: #18ACFE;
+}
+
+.green {
+  background-color: #1EBE68;
+}
+
+.yellow {
+  background-color: #DB9021;
+}
+
+.black {
+  background-color: black;
+}
+
+.option-heading {
+  font-family: 'Roobert';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  padding-left: 100px;
+  color: #24446D;
+  padding-top: 15px;
+}
+
+.refund-option-div,
+.return-method {
+  padding-left: 100px;
+}
+
+.col-md-5 div {
+  border: 1px solid;
+  border-radius: 2px;
+  width: 269px;
+
+}
+
+.instant-refund,
+.giftcard,
+.pickup,
+.collection {
+  width: 220px;
+  padding: 8px 8px;
+  margin-top: 20px;
+  color: #24446D;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.instant-refund span {
+  margin-left: 75px;
+}
+
+.giftcard span {
+  margin-left: 90px;
+}
+
+.pickup span {
+  margin-left: 130px;
+}
+
+.collection span {
+  margin-left: 45px;
+}
+
+/* Overview */
+
+.overview-card{
+  padding-left: 85px;
+}
+.heading {
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 36px;
+  color: #24446D;
+  margin-bottom: 64px;
+}
+
+img.overview-png {
+  width: 118px;
+  height: 160px;
+}
+.items-no {
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-size: 14px;
+  line-height: 20px;
+  color: #24446D;
+}
+.overview-text{
+  font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    color: #5B5CF4;
+}
+.overview-rates{
+  padding-top: 72px;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    text-align: center;
+}
+.overview-text p.p-tag{
+  color: #24446D;
+  font-weight: 700;
+  line-height: 16px;
+}
+.overview-rates p.rate{
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: #00B0A6;
+}
+.overview-texture p{
+  color: #24446D;
+  font-weight: 500;
+font-size: 16px;
+line-height: 24px;
+}
+.overview-summary h1{
+  color: #24446D;
+  font-weight: 700;
+font-size: 35px;
+line-height: 20px;
+}
+.overview-summary p{
+  color: #24446D;
+  font-weight: 500;
+font-size: 12px;
+line-height: 16px;
+}
+.iban-label{
+  color: #24446D;
+  font-weight: 500;
+
+  font-size: 15px;
+  line-height: 39px;
+
+}
+.iban-input{
+  width: 350px;
+border-radius: 5px ;
+  border: 1px solid #24446D;
+}
+
+
+
+/* .rates p {
+  margin: 8px 8px;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 16px;
+  color: #5B5CF4;
+}
+
+.bold p {
+  margin: 8px 8px;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: #24446D;
+
+}
+
+.bold p.rate {
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 16px;
+  color: #00B0A6;
+
+} */
+
+.notfulfilled{
+
+    border: 1px solid;
+    padding: 5px;
+}
+
+
+.blockproduct{
+
+    border: 1px solid;
+    padding: 5px;
+    border-color: orange;
+    color: orange;
+}

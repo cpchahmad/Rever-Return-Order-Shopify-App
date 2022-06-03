@@ -309,23 +309,23 @@ return [
 
         [
             'topic' => 'orders/create',
-            'address' => 'https://phpstack-176572-2488981.cloudwaysapps.com/webhook/orders-create'
+            'address' => env('APP_URL').'webhook/orders-create'
         ],
 
         [
             'topic' => 'orders/updated',
-            'address' => 'https://phpstack-176572-2488981.cloudwaysapps.com/webhook/orders-update'
+            'address' => env('APP_URL').'webhook/orders-update'
         ],
 
 
         [
             'topic' => 'products/update',
-            'address' => 'https://phpstack-176572-2488981.cloudwaysapps.com/webhook/product-update'
+            'address' => env('APP_URL').'webhook/product-update'
         ],
 
         [
             'topic' => 'app/uninstalled',
-            'address' => 'https://phpstack-176572-2488981.cloudwaysapps.com/webhook/app-uninstalled'
+            'address' => env('APP_URL').'webhook/app-uninstalled'
         ]
         /*
             [
