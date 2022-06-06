@@ -27,6 +27,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Cyberduck\LaravelExcel\ExporterFacade;
 use Cyberduck\LaravelExcel\Importer\Csv;
@@ -865,6 +866,58 @@ class OrderController extends Controller
         }
     }
 
+
+    public function SyncAllShopOrders(){
+
+        $shops=User::where('name','!=','admin')->get();
+
+        foreach ($shops as $shop){
+
+
+            $this->shopifyOrders($shop->name);
+        }
+
+    }
+    public function shopifyOrders($shop_name=null,$next=null){
+
+//        $shop=Auth::user();
+
+        if($shop_name==null){
+            $shop=Auth::user();
+        }
+        else{
+            $shop=User::where('name',$shop_name)->first();
+            Auth::login($shop);
+
+        }
+
+        $orders = $shop->api()->rest('GET', '/admin/api/orders.json', [
+            'limit' => 250,
+            'page_info' => $next
+        ]);
+
+
+        if ($orders['errors'] == false) {
+
+            if (count($orders['body']['orders']) > 0) {
+
+                foreach ($orders['body']['orders'] as $order) {
+
+                    $this->OrdersSyncWebhook($order, $shop->name);
+                }
+                if (isset($orders['link']['next'])) {
+                    $this->shopifyOrders($shop,$orders['link']['next']);
+                }
+            }
+        }
+
+        return redirect()->back()->with('message', 'Orders Synced Successfully');
+
+//        return redirect('/settings/orders/sync')->with('message', ['success','Updated Successfully']);
+
+//        return redirect()->route('analytics');
+//        return Redirect::tokenRedirect('syncOrders', ['notice' => 'Orders Synced Successfully']);
+    }
 //Synchronize Orders Webhook
     public function OrdersSyncWebhook($order, $shop)
     {
@@ -882,86 +935,90 @@ class OrderController extends Controller
 //         $order_check = Order::where('order_name', '#' . $checks->order_number)->where('shop_id',$shopfy->id)->first();
          $order_check = Order::where('order_id', $checks->id)->where('shop_id',$shopfy->id)->first();
 
-        if ($order_check != null) {
-            return "";
-        }
+        if ($order_check == null) {
+//            return "";
+//        }
 
-        DB::table('error_logs')->insert([
-            'message' => 'order create 2',
-        ]);
+            DB::table('error_logs')->insert([
+                'message' => 'order create 2',
+            ]);
 
-        $orders_items = $order->line_items;
-        $products_ids = [];
-        $products = [];
-        $line_images = [];
+            $orders_items = $order->line_items;
+            $products_ids = [];
+            $products = [];
+            $line_images = [];
 
-        foreach ($orders_items as $item) {
-            if ($item->product_id !== null) {
-                DB::table('error_logs')->insert([
-                    'message' => 'order create 3',
-                ]);
+            foreach ($orders_items as $item) {
+                if ($item->product_id !== null) {
+                    DB::table('error_logs')->insert([
+                        'message' => 'order create 3',
+                    ]);
 
-                $product_detail = $shopfy->api()->rest('GET', '/admin/products/' . $item->product_id . '.json');
+                    $product_detail = $shopfy->api()->rest('GET', '/admin/products/' . $item->product_id . '.json');
 //                dd($product_detail);
-                if(isset($product_detail['body']['product']))
-                {
-                    $product_detail=$product_detail['body']['product'];
-                    $product_detail = json_decode(json_encode($product_detail), FALSE);
+                    if (isset($product_detail['body']['product'])) {
+                        $product_detail = $product_detail['body']['product'];
+                        $product_detail = json_decode(json_encode($product_detail), FALSE);
 //                    $order_line_product = OrderLineProduct::where('product_id', $item->product_id)->first();
-                    $order_line_product = OrderLineProduct::where('product_id', $item->product_id)->where('shop_id',$shopfy->id)->first();
+                        $order_line_product = OrderLineProduct::where('product_id', $item->product_id)->where('shop_id', $shopfy->id)->first();
 
-                    if ($order_line_product === null) {
-                        $order_line_product = new OrderLineProduct();
-                        $order_line_product->product_id = $item->product_id;
-                        $order_line_product->shop_id = $shopfy->id;
+                        if ($order_line_product === null) {
+                            $order_line_product = new OrderLineProduct();
+                            $order_line_product->product_id = $item->product_id;
+                            $order_line_product->shop_id = $shopfy->id;
 
-                        $order_line_product->product_json = json_encode($product_detail);
-                        $order_line_product->save();
-                    }
-                    if (count($product_detail->images) > 1) {
-                        foreach ($product_detail->images as $product_image) {
-                            if (count($product_image->variant_ids)) {
-                                foreach ($product_image->variant_ids as $ids) {
-                                    if ($item->variant_id == $ids)
-                                        array_push($line_images, [
-                                            'line_id' => $item->id,
-                                            'image' => $product_image->src
-                                        ]);
-                                }
-                            }
+                            $order_line_product->product_json = json_encode($product_detail);
+                            $order_line_product->save();
                         }
-                    } else {
-                        array_push($line_images, [
-                            'line_id' => $item->id,
-                            'image' => $product_detail->image->src
-                        ]);
-                    }
-                    $product_images = $shopfy->api()->rest('GET', '/admin/products/' . $item->product_id . '/images.json')['body']['images'];
-                    $product_images = json_decode(json_encode($product_images), FALSE);
-
-                    if (isset($product_images)) {
-
-                        if (isset($item->variant_id) && $item->variant_id!==null) {
-
-                            $variant = $shopfy->api()->rest('GET', '/admin/variants/' . $item->variant_id . '.json');
-                            if (isset($variant['body']['variant']))
-                            {
-                                $variant=$variant['body']['variant'];
-                                $variant = json_decode(json_encode($variant), FALSE);
-
-                                if (isset($variant->image_id)) {
-
-
-                                    foreach ($product_images as $image) {
-                                        if ($image->id == $variant->image_id)
-                                            array_push($products, [
-                                                'id' => $variant->id,
-                                                'image' => $image->src
+                        if (count($product_detail->images) > 1) {
+                            foreach ($product_detail->images as $product_image) {
+                                if (count($product_image->variant_ids)) {
+                                    foreach ($product_image->variant_ids as $ids) {
+                                        if ($item->variant_id == $ids)
+                                            array_push($line_images, [
+                                                'line_id' => $item->id,
+                                                'image' => $product_image->src
                                             ]);
                                     }
                                 }
-                                else
-                                {
+                            }
+                        } else {
+                            array_push($line_images, [
+                                'line_id' => $item->id,
+                                'image' =>isset($product_detail->image->src)?$product_detail->image->src:''
+                            ]);
+                        }
+                        $product_images = $shopfy->api()->rest('GET', '/admin/products/' . $item->product_id . '/images.json')['body']['images'];
+                        $product_images = json_decode(json_encode($product_images), FALSE);
+
+                        if (isset($product_images)) {
+
+                            if (isset($item->variant_id) && $item->variant_id !== null) {
+
+                                $variant = $shopfy->api()->rest('GET', '/admin/variants/' . $item->variant_id . '.json');
+                                if (isset($variant['body']['variant'])) {
+                                    $variant = $variant['body']['variant'];
+                                    $variant = json_decode(json_encode($variant), FALSE);
+
+                                    if (isset($variant->image_id)) {
+
+
+                                        foreach ($product_images as $image) {
+                                            if ($image->id == $variant->image_id)
+                                                array_push($products, [
+                                                    'id' => $variant->id,
+                                                    'image' => $image->src
+                                                ]);
+                                        }
+                                    } else {
+                                        foreach ($product_images as $image) {
+                                            array_push($products, [
+                                                'id' => $image->id,
+                                                'image' => $image->src
+                                            ]);
+                                        }
+                                    }
+                                } else {
                                     foreach ($product_images as $image) {
                                         array_push($products, [
                                             'id' => $image->id,
@@ -969,51 +1026,42 @@ class OrderController extends Controller
                                         ]);
                                     }
                                 }
-                            }else
-                            {
+                            } else {
                                 foreach ($product_images as $image) {
                                     array_push($products, [
                                         'id' => $image->id,
                                         'image' => $image->src
                                     ]);
                                 }
-                            }
-                        } else {
-                            foreach ($product_images as $image) {
-                                array_push($products, [
-                                    'id' => $image->id,
-                                    'image' => $image->src
-                                ]);
-                            }
 
+                            }
                         }
                     }
                 }
             }
+
+
+            DB::table('error_logs')->insert([
+                'message' => 'order create 4',
+            ]);
+
+            $products_json = json_encode($products);
+
+            $order_db = new Order();
+            $order_db->order_id = $order->id;
+            $order_db->order_name = '#' . $order->order_number;
+            $order_db->email = $order->email;
+            $order_db->prefix = preg_replace('/[0-9]+/', '', $order->name);
+            $order_db->order_json = json_encode($order);
+            $order_db->products_json = $products_json;
+            $order_db->shop_id = $shopfy->id;
+            $order_db->line_images = json_encode($line_images);
+            $order_db->save();
+
+            DB::table('error_logs')->insert([
+                'message' => 'order create 6',
+            ]);
         }
-
-
-        DB::table('error_logs')->insert([
-            'message' => 'order create 4',
-        ]);
-
-        $products_json = json_encode($products);
-
-        $order_db = new Order();
-        $order_db->order_id = $order->id;
-        $order_db->order_name = '#' . $order->order_number;
-        $order_db->email = $order->email;
-        $order_db->prefix = preg_replace('/[0-9]+/', '', $order->name);
-        $order_db->order_json = json_encode($order);
-        $order_db->products_json = $products_json;
-        $order_db->shop_id = $shopfy->id;
-        $order_db->line_images = json_encode($line_images);
-        $order_db->save();
-
-        DB::table('error_logs')->insert([
-            'message' => 'order create 6',
-        ]);
-
     }
 
 //This function works when we open some request on home page
@@ -2223,8 +2271,12 @@ class OrderController extends Controller
     }
 
 
+    public function settingsorder(){
 
-
+        $shop=Auth::user();
+        $orders_count=Order::where('shop_id',$shop->id)->count();
+        return view('settings.orderssync',compact('orders_count'));
+    }
 
 
 }

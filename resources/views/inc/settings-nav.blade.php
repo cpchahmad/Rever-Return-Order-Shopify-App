@@ -134,6 +134,15 @@
                             <span class="nav-link-text text-uppercase">Logistics Integration</span>
                         </a>
                     </li>
+
+
+                    <li class="nav-item">
+                        <a class="nav-link {{ (request()->is('settings/orders/sync')) ? 'active' : '' }}" href="{{route('settings.orders.index')}}">
+                            <i class="fa fa-cube text-primary"></i>
+
+                            <span class="nav-link-text text-uppercase">Orders</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div>

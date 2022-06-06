@@ -14,7 +14,11 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
+Route::get('/syncAllShopOrders', [App\Http\Controllers\OrderController::class, 'SyncAllShopOrders']);
 Route::group(['middleware'=>['auth.shopify']], function () {
+
+
+    Route::get('/syncOrders', [App\Http\Controllers\OrderController::class, 'shopifyOrders'])->name('syncOrders');
 
     Route::get('/shop-home', [App\Http\Controllers\OrderController::class, 'Dashboard'])->name('home');
     Route::get('/dashboard', [App\Http\Controllers\OrderController::class, 'Dashboard'])->name('dashboard');
@@ -103,6 +107,10 @@ Route::group(['middleware'=>['auth.shopify']], function () {
     Route::get('/settings/easypost/integration', [App\Http\Controllers\EasyPostController::class, 'index'])->name('easypost.index');
     Route::post('/settings/easypost/integration',  [App\Http\Controllers\EasyPostController::class, 'update'])->name('easypost.update');
 
+
+//setting orders
+    Route::get('/settings/orders/sync', [App\Http\Controllers\OrderController::class, 'settingsorder'])->name('settings.orders.index');
+//    Route::post('/settings/easypost/integration',  [App\Http\Controllers\EasyPostController::class, 'update'])->name('easypost.update');
 
     //synchronize orders
     Route::get('/synchronize/orders', [App\Http\Controllers\OrderController::class, 'synchronization']);

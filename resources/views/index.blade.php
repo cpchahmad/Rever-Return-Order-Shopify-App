@@ -77,10 +77,10 @@
                                             @foreach($requests1 as $key=>$request)
                                                 <tr>
 
-                                                    <td><a href="/requests/{{$request->id}}">{{$request->has_order->order_name}}</a>
+                                                    <td><a href="/requests/{{$request->id}}">@if(isset($request->has_order->order_name)){{$request->has_order->order_name}}@endif</a>
                                                     </td>
-                                                    <td>{{$request->has_order->email}}</td>
-                                                    <td>{{$request->created_at->format('m/d/Y')}}</td>
+                                                    <td>@if(isset($request->has_order->email)){{$request->has_order->email}}@endif</td>
+                                                    <td>@if(isset($request->has_order->created_at)){{$request->created_at->format('m/d/Y')}}@endif</td>
 
 
                                                     <?php $request_products = json_decode($request->product);
@@ -483,10 +483,10 @@
                                             @foreach($requests4 as $key=>$request)
                                                 <tr>
 
-                                                    <td><a href="/requests/{{$request->id}}">{{$request->has_order->order_name}}</a>
+                                                    <td><a href="/requests/{{$request->id}}">@if(isset($request->has_order->order_name)){{$request->has_order->order_name}}@endif</a>
                                                     </td>
-                                                    <td>{{$request->has_order->email}}</td>
-                                                    <td>{{$request->created_at->format('m/d/Y')}}</td>
+                                                    <td>@if(isset($request->has_order->email)){{$request->has_order->email}}@endif</td>
+                                                    <td>@if(isset($request->has_order->created_at)){{$request->created_at->format('m/d/Y')}}@endif</td>
 
 
                                                     <?php $request_products = json_decode($request->product);

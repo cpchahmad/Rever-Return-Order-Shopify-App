@@ -41,6 +41,8 @@
                 <li style="color: white"  class="" ><a class="profile-pic"
                                                        href="{{route('home')}}"> <b
                             class="hidden-xs">RETURN REQUESTS</b></a></li>
+
+
                 <li style="color: white" class="" ><a class="profile-pic"
                                                       href="{{route('settings.home')}}"> <b
                             class="hidden-xs">SETTINGS</b></a></li>
