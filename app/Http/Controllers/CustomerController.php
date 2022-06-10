@@ -1329,25 +1329,126 @@ return $exception->getMessage();
     }
 
 //Function to check if the stock is available for the product
+//    public function checkVariantStock(Request $request)
+//    {
+//
+//
+//
+//        $option1 = $request->option1;
+//        $option2 = $request->option2;
+//        $option3 = $request->option3;
+//
+//        $product_id = $request->product_id;
+//        $quantity = $request->quantity;
+//
+//        $product = OrderLineProduct::where('product_id', $product_id)->first();
+//
+//
+//        $product = json_decode($product->product_json);
+//
+//        foreach ($product->variants as $variant) {
+////            return ($variant);
+//
+//
+//            if ($variant->option1 && ($variant->option2 == null || $variant->option2 == '') && ($variant->option3 == null || $variant->option3 == '')) {
+//                if ($variant->option1 == $option1 ) {
+//
+//                    if ($variant->inventory_quantity >= $quantity) {
+//                        return response()->json([
+//                            'stat' => 'found',
+//                            'variant_id' => $variant->id,
+//                            'stock' => $variant->inventory_quantity
+//                        ]);
+//                    } else {
+//                        return response()->json([
+//                            'stat' => 'out of stock',
+//                            'variant_id' => $variant->id,
+//                            'stock' => $variant->inventory_quantity
+//                        ]);
+//                    }
+//                } else {
+//                    return response()->json([
+//                        'stat' => 'not found',
+//                        'variant_id' => $variant->id
+//                    ]);
+//                }
+//            }
+//
+//            else if ($variant->option1 && $variant->option2 && ($variant->option3 == null || $variant->option3 == '')) {
+//                if ($variant->option1 == $option1 && $variant->option2 == $option2) {
+//
+//                    if ($variant->inventory_quantity >= $quantity) {
+//                        return response()->json([
+//                            'stat' => 'found',
+//                            'variant_id' => $variant->id,
+//                            'stock' => $variant->inventory_quantity
+//                        ]);
+//                    } else {
+//                        return response()->json([
+//                            'stat' => 'out of stock',
+//                            'variant_id' => $variant->id,
+//                            'stock' => $variant->inventory_quantity
+//                        ]);
+//                    }
+//                } else {
+//                    return response()->json([
+//                        'stat' => 'not found',
+//                        'variant_id' => $variant->id
+//                    ]);
+//                }
+//            }
+//            else if ($variant->option1 && $variant->option2 && $variant->option3) {
+//
+//                if ($variant->option1 == $option1 && $variant->option2 == $option2 && $variant->option3 == $option3) {
+//
+//                    if ($variant->inventory_quantity >= $quantity) {
+//                        return response()->json([
+//                            'stat' => 'found',
+//                            'variant_id' => $variant->id,
+//                            'stock' => $variant->inventory_quantity
+//                        ]);
+//                    } else {
+//                        return response()->json([
+//                            'stat' => 'out of stock',
+//                            'variant_id' => $variant->id,
+//                            'stock' => $variant->inventory_quantity
+//                        ]);
+//                    }
+//                } else {
+//                    return response()->json([
+//                        'stat' => 'not found1',
+//                        'variant_id' => $variant->id
+//                    ]);
+//                }
+//            } else {
+//                return response()->json([
+//                    'stat' => 'not found',
+//                    'variant_id' => $variant->id
+//                ]);
+//            }
+//
+//
+//
+//        }
+//    }
+
     public function checkVariantStock(Request $request)
     {
-
-
 
         $option1 = $request->option1;
         $option2 = $request->option2;
         $option3 = $request->option3;
 
         $product_id = $request->product_id;
+//        return $product_id;
         $quantity = $request->quantity;
 
         $product = OrderLineProduct::where('product_id', $product_id)->first();
-
+//return $product;
 
         $product = json_decode($product->product_json);
-
+        $flag=0;
         foreach ($product->variants as $variant) {
-//            return ($variant);
 
 
             if ($variant->option1 && ($variant->option2 == null || $variant->option2 == '') && ($variant->option3 == null || $variant->option3 == '')) {
@@ -1367,14 +1468,12 @@ return $exception->getMessage();
                         ]);
                     }
                 } else {
-                    return response()->json([
-                        'stat' => 'not found',
-                        'variant_id' => $variant->id
-                    ]);
+                    $flag=0;
                 }
             }
 
             else if ($variant->option1 && $variant->option2 && ($variant->option3 == null || $variant->option3 == '')) {
+//return [$variant->option2,$option2];
                 if ($variant->option1 == $option1 && $variant->option2 == $option2) {
 
                     if ($variant->inventory_quantity >= $quantity) {
@@ -1391,10 +1490,12 @@ return $exception->getMessage();
                         ]);
                     }
                 } else {
-                    return response()->json([
-                        'stat' => 'not found',
-                        'variant_id' => $variant->id
-                    ]);
+//                    return response()->json([
+//                        'stat' => 'not found',
+//                        'variant_id' => $variant->id
+//                    ]);
+
+                    $flag=0;
                 }
             }
             else if ($variant->option1 && $variant->option2 && $variant->option3) {
@@ -1408,17 +1509,14 @@ return $exception->getMessage();
                             'stock' => $variant->inventory_quantity
                         ]);
                     } else {
-                        return response()->json([
-                            'stat' => 'out of stock',
-                            'variant_id' => $variant->id,
-                            'stock' => $variant->inventory_quantity
-                        ]);
+                        $flag=0;
                     }
                 } else {
-                    return response()->json([
-                        'stat' => 'not found1',
-                        'variant_id' => $variant->id
-                    ]);
+//                    return response()->json([
+//                        'stat' => 'not found1',
+//                        'variant_id' => $variant->id
+//                    ]);
+                    $flag=0;
                 }
             } else {
                 return response()->json([
@@ -1430,7 +1528,14 @@ return $exception->getMessage();
 
 
         }
+        if($flag==0){
+            return response()->json([
+                'stat' => 'not found',
+
+            ]);
+        }
     }
+
 
     //Function to check if admin block the customer or not
     public function checkCustomerBlock($email, $shop_id)
