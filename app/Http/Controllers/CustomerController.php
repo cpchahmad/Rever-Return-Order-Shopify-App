@@ -1187,6 +1187,7 @@ return $exception->getMessage();
     public function addToSelectionSubmit($order_id, $line_id, Request $request)
     {
         $order = Order::find($order_id);
+
         $shop_name = $request->input('shop');
 
         $settings3=Setting::where('shop_id',$order->shop_id)->first();
@@ -1201,6 +1202,9 @@ return $exception->getMessage();
                 return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
             }
+
+//            return $request->return_reason;
+
             $lines = json_decode($order->order_json);
             $lines = $lines->line_items;
             foreach ($lines as $line) {
@@ -1223,7 +1227,12 @@ return $exception->getMessage();
                         }
                     }
 
+
+
+
                     if ($request->return_type == 'exchange') {
+
+//                        return $this->checkVariantStock($request);
 
                         $data['exchange_variant_id'] = json_decode(json_encode($this->checkVariantStock($request)), true)['original']['variant_id'];
 
@@ -1235,10 +1244,13 @@ return $exception->getMessage();
                             array_push($data['exchange_options'], $request->option3);
 
                     }
+
+
+
+
                     if ($request->input('refund')) {
                         $data['return_type'] = $request->input('refund');
                     }
-
                     $line_product = OrderLineProduct::where('product_id', $line->product_id)->first();
                     $line_product = json_decode($line_product->product_json);
                      $line_product_product_img=$line_product->image->src;
@@ -1265,15 +1277,21 @@ return $exception->getMessage();
                     }
                 }
             }
+
+
             $session = ItemSession::where('order_id', $order->id)->first();
+
 
             if ($session) {
                 Session::put('items', collect(json_decode($session->session, true)));
 
             }
 
+
+
             if ($request->session()->has('items') && count($request->session()->get('items'))) {
                 $cart = $request->session()->get('items', collect([]));
+
                 $customsession=Session::get('items');
 
                 foreach ($cart as $item) {
@@ -1282,10 +1300,18 @@ return $exception->getMessage();
                     }
                 }
                 $cart->push($data);
+
+
             } else {
                 $cart = collect([$data]);
+
+
                 $request->session()->put('items', $cart);
+
+
             }
+
+//            return $request->session()->get('items');
             $itemSession = ItemSession::where('order_id', $order->id)->first();
 
             if ($itemSession === null) {
@@ -1342,10 +1368,11 @@ return $exception->getMessage();
         $option3 = $request->option3;
 
         $product_id = $request->product_id;
+//        return $product_id;
         $quantity = $request->quantity;
 
         $product = OrderLineProduct::where('product_id', $product_id)->first();
-
+//return $product;
 
         $product = json_decode($product->product_json);
 

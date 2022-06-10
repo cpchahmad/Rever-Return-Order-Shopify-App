@@ -47,6 +47,17 @@
             color: black;
         }
 
+
+        .img_main{
+            height: 100px;
+            margin-left: 15px;
+        }
+
+        .row{
+            margin-bottom: 0px !important;
+            padding-bottom: 0px !important;
+        }
+
     </style>
 @endsection
 
@@ -163,8 +174,8 @@
                         </div>
                     @endif
                     <div class="col-md-2">
-                        <div class="img">
-                            <img style="width: 100%;margin-left: 15px" src="@if(isset($line_item['image'])){{$line_item['image']}} @endif" alt="">
+                        <div class="img img_main">
+                            <img style="width: 100%;" src="@if(isset($line_item['image'])){{$line_item['image']}} @endif" alt="">
                         </div>
 
                     </div>
@@ -221,8 +232,8 @@
             <div class="box-1 mx-auto mt-3">
                 <div class="row">
                     <div class="col-md-2">
-                        <div class="img">
-                            <img style="width: 100%;margin-left: 15px" src="@if(isset($request_item['image'])){{$request_item['image']}} @endif" alt="">
+                        <div class="img img_main">
+                            <img style="width: 100%;" src="@if(isset($request_item['image'])){{$request_item['image']}} @endif" alt="">
                         </div>
                     </div>
                     <div class="col-md-7 px-4 py-2">
@@ -439,8 +450,8 @@
             <div class="box-1 mx-auto mt-4 opacity-50">
                 <div class="row">
                     <div class="col-md-2">
-                        <div class="img">
-                            <img style="width: 100%;margin-left: 15px;" src="@if(isset($line_item['image'])){{$line_item['image']}} @endif" alt="">
+                        <div class="img img_main">
+                            <img style="width: 100%;" src="@if(isset($line_item['image'])){{$line_item['image']}} @endif" alt="">
                         </div>
                     </div>
                     <div class="col-md-7 px-4 py-2">

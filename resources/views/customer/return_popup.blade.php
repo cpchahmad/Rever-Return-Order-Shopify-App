@@ -72,7 +72,7 @@
         .button_radio {
             float: left;
             margin: 0 5px 0 0;
-            width: 100px;
+            width: 50px;
             height: 40px;
             position: relative;
         }
@@ -133,6 +133,8 @@
                 </a>
             </div>
 
+                <input type="hidden" id="image_value" value="@if(isset($line_item['image'])){{$line_item['image']}}@endif">
+                <input type="hidden" name="product_id" value="{{$line_item['product_id']}}">
             </div>
             <div class="box-1 mx-auto">
                 <div class="row">
@@ -160,10 +162,13 @@
             </div>
 
 
-
+            <input type="hidden" id="return_type_define" name="return_type" value="">
             @if(in_array('exchange',$allow_methods))
+
+
             <div class="row">
                 <div class=" input form-group mx-auto mt-4 col-md-9 position-relative one_popup ">
+
 
                     <input type="text" name="" class="form-control mina_oneeee" value="Exchange for new color / size" readonly style="@if($exchange_reason_count==0) pointer-events:none @endif ; cursor:pointer;">
                     <div class="icon position-absolute">
@@ -178,8 +183,10 @@
 
             @if(in_array('payment_method',$allow_methods) || in_array('store_credit',$allow_methods))
 
+
             <div class="row">
                 <div class=" input form-group mx-auto mt-4 col-md-9 position-relative one_popup ">
+
 
                     <input type="text" name="" class="form-control mina_twoooooo" value="Return Item" readonly style="@if($exchange_reason_count==0) pointer-events:none @endif ; cursor:pointer;">
                     <div class="icon position-absolute">
@@ -196,7 +203,13 @@
 
         <!-- Second PopUp -->
             <div class="popup_text two_popup">
+                <div class="header_popup">
+                    <div class="back">
+                        <button type="button" class="back"><img src="{{asset('images/backArrow.svg')}}"
+                                                                alt=""></button>
+                    </div>
 
+                </div>
 
                 <h4>Would you like to change the size or color?</h4>
 
@@ -255,57 +268,78 @@
             <!-- popup third section text -->
             <div class="popup_text three_popup">
                 <div class="header_popup">
-                    <div class="back">
-                        <button type="button" class="back"><img src="{{asset('images/backArrow.svg')}}"
+                    <div class="back_exchange">
+                        <button type="button" class="back_exchange"><img src="{{asset('images/backArrow.svg')}}"
                                                                 alt=""></button>
                     </div>
-                    <div class="cross">
+{{--                    <div class="cross">--}}
 
-                        <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
+{{--                        <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">--}}
 
-                            <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">
-                            </button>
-                        </a>
-                    </div>
+{{--                            <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">--}}
+{{--                            </button>--}}
+{{--                        </a>--}}
+{{--                    </div>--}}
                 </div>
+
+
+
+
+
+
                 <div class="popup_main_body">
                     <div class="heading_main">
 
-                        @if(isset($settings) && $settings->exchange_text)
-                            <span class="title">{{$settings->exchange_text}}</span>
-                        @else
-                            <span class="title">Why are you exchanging?</span>
-                        @endif
+{{--                        @if(isset($settings) && $settings->exchange_text)--}}
+{{--                            <span class="title">{{$settings->exchange_text}}</span>--}}
+{{--                        @else--}}
+{{--                            <span class="title">Why are you exchanging?</span>--}}
+{{--                        @endif--}}
 
 
                     </div>
-                    <div class="variants_div">
-                        <ul>
-                            @foreach($line_item['options'] as $option)
-                                @if($option!==null)
-                                    <li>{{$option}}</li>@endif
-                            @endforeach
-                        </ul>
-                        <span id="variant_total_price">${{$line_item['price']}}</span>
-                    </div>
+{{--                    <div class="variants_div">--}}
+{{--                        <ul>--}}
+{{--                            @foreach($line_item['options'] as $option)--}}
+{{--                                @if($option!==null)--}}
+{{--                                    <li>{{$option}}</li>@endif--}}
+{{--                            @endforeach--}}
+{{--                        </ul>--}}
+{{--                        <span id="variant_total_price">${{$line_item['price']}}</span>--}}
+{{--                    </div>--}}
+
+                    <input type="radio" name="return_reason" id="exchange_reason_id" value="" style="display: none">
                     <div class="label_checkbox">
                         @foreach($exchange_reasons as $reason)
 
-                            <div class="Labels">
-                                <input type="radio" id="one" name="return_reason" value="{{$reason->id}}">
-                                <label for="one" class="mina_onee return_reason_check">
-                                    <div class="label_under">
-                                        <div class="under_parent">
-                                            <div class="text_underParent">
-                                                <span>{{$reason->name}}</span>
-                                            </div>
-                                            <div class="icons">
-                                                <img src="{{asset('images/arrow_right.svg')}}" alt="">
-                                            </div>
-                                        </div>
+                            <div class="row">
+                                <div class=" input form-group mx-auto mt-4 col-md-9 position-relative return_reason_check" data-id="{{$reason->id}}">
+
+                                    <input type="text" name="" class="form-control " value="{{$reason->name}}" style="cursor: pointer" readonly >
+                                    <div class="icon position-absolute">
+                                        <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M2.02001 13.6798L5.23001 10.4698L7.20001 8.50976C8.03001 7.67976 8.03001 6.32976 7.20001 5.49976L2.02001 0.319763C1.34001 -0.360238 0.180012 0.129763 0.180011 1.07976L0.180011 6.68976L0.18001 12.9198C0.18001 13.8798 1.34001 14.3598 2.02001 13.6798Z" fill="#24446D"/>
+                                        </svg>
+
                                     </div>
-                                </label>
+                                </div>
                             </div>
+
+{{--                            <div class="Labels">--}}
+{{--                                <input type="radio" id="one" name="return_reason" value="{{$reason->id}}">--}}
+{{--                                <label for="one" class="mina_onee return_reason_check">--}}
+{{--                                    <div class="label_under">--}}
+{{--                                        <div class="under_parent">--}}
+{{--                                            <div class="text_underParent">--}}
+{{--                                                <span>{{$reason->name}}</span>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="icons">--}}
+{{--                                                <img src="{{asset('images/arrow_right.svg')}}" alt="">--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </label>--}}
+{{--                            </div>--}}
                         @endforeach
                     </div>
                 </div>
@@ -322,13 +356,11 @@
                 </div>
                 <div class="popup_main_body">
 
-
-
-
+                    <input type="radio" id="return_reason_id" style="display: none" name="return_reason" value="">
                         @foreach($refund_reasons as $reason)
                         <div class="row">
-                            <div class=" input form-group mx-auto mt-4 col-md-9 position-relative return_reason_check_return  ">
-                                <input type="hidden" name="return_reason" value="{{$reason->id}}">
+                            <div class=" input form-group mx-auto mt-4 col-md-9 position-relative return_reason_check_return" data-id="{{$reason->id}}">
+
                                 <input type="text" name="" class="form-control " value="{{$reason->name}}" style="cursor: pointer" readonly >
                                 <div class="icon position-absolute">
                                     <svg width="8" height="14" viewBox="0 0 8 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -344,13 +376,13 @@
 
                 </div>
             </div>
-
+            <div class="refund_section"></div>
         </div>
 
 
     </div>
 
-        <div class="refund_section"></div>
+
     </form>
 @endsection
 
@@ -376,11 +408,18 @@
 
             $('.return_reason_check').on('click', function (event) {
                 if ($(this).prev('input').attr('checked', true))
+                    var id=$(this).data('id');
+                $('#exchange_reason_id').val(id);
+                $('#exchange_reason_id').prop('checked','true');
                     $('#selection_form').submit();
             });
 
 
             $('.return_reason_check_return').on('click', function (event) {
+
+                var id=$(this).data('id');
+                $('#return_reason_id').val(id);
+                $('#return_reason_id').prop('checked','true');
                 $(this).prev('input').attr('checked', true);
                 $.ajax({
                     method: "GET",
@@ -389,7 +428,11 @@
                         allow_methods:allowed_methods
                     },
                     success: function (response) {
-                        $('.main_section').addClass('display_none');
+                        // $('.main_section').addClass('display_none');
+                        $('.four_popup').css('display','none');
+                        $('.two_popup').css('display','none');
+                        $('.three_popup').css('display','none');
+                        $('.one_popup').css('display','none');
                         $('.refund_section').html(response);
                     }
                 });

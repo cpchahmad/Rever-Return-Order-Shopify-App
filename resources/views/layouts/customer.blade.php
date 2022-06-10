@@ -335,7 +335,10 @@ background-image: url('{{asset('logos/backgroungimg.png')}}') !important ;
 
 
             $('.four_popup').css('display','none');
+            $('.two_popup').css('display','none');
+
             $('.one_popup').css('display','block');
+
 
 
             // e.preventDefault();
@@ -352,7 +355,16 @@ background-image: url('{{asset('logos/backgroungimg.png')}}') !important ;
             //
             // });
 
-        })
+        });
+
+
+    $(".back_exchange").click(function (e) {
+
+        $('.three_popup').css('display','none');
+        $('.two_popup').css('display','block');
+
+
+    });
     $(".back_request").click(function (e) {
 
         e.preventDefault();

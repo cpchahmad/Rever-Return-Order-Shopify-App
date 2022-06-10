@@ -19,9 +19,11 @@ $( document ).ready(function() {
         $(this).parents().find(a)
     });
     $('.mina_oneeee').click(function (e){
+
         $('.two_popup').css("display", "block")
         $('.two_popup').css("opacity", "1")
         $(".one_popup").addClass('d__none');
+        $("#return_type_define").val('exchange');
 
     });
 
@@ -55,7 +57,10 @@ $( document ).ready(function() {
     $('.mina_twoooooo').click(function (e){
         $(this).parents().find('.one_popup').css("display","none");
         $('.four_popup').css("display","block");
-    }) ;
+        $("#return_type_define").val('return');
+
+
+    });
 
 });
 

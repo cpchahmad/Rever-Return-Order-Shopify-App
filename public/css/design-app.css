@@ -346,12 +346,13 @@ img {
 .giftcard,
 .pickup,
 .collection {
-  width: 220px;
-  padding: 8px 8px;
+  /*width: 220px;*/
+  /*padding: 8px 8px;*/
+  padding: 0px 8px;
   margin-top: 20px;
-  color: #24446D;
+  /*color: #24446D;*/
   font-size: 14px;
-  font-weight: 500;
+  /*font-weight: 500;*/
 }
 
 .instant-refund span {
