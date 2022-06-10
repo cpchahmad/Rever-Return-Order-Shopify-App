@@ -137,13 +137,21 @@
                         <p class="">${{$line_item['price']}}</p>
                         <div class="radio-buttons d-flex gap-2">
                             <img class="red-button" src="{{asset('images/red.png')}}" alt="">
-                            <p class="m">@if(isset($line_item['options']))
+{{--                            <p class="m">@if(isset($line_item['options']))--}}
+{{--                                @foreach($line_item['options'] as $option)--}}
+{{--                                    @if($option)--}}
+{{--                                        {{$option}}@endif--}}
+{{--                                        @endforeach--}}
+
+{{--                                        @endif</p>--}}
+                            @if(isset($line_item['options']))
                                 @foreach($line_item['options'] as $option)
                                     @if($option)
-                                        {{$option}}@endif
-                                        @endforeach
-
-                                        @endif</p>
+                                        <p class="m">
+                                            {{$option}}</p>
+                                    @endif
+                                @endforeach
+                            @endif
                         </div>
                     </div>
                 </div>

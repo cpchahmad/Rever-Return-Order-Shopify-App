@@ -1361,8 +1361,6 @@ return $exception->getMessage();
     public function checkVariantStock(Request $request)
     {
 
-
-
         $option1 = $request->option1;
         $option2 = $request->option2;
         $option3 = $request->option3;
@@ -1375,9 +1373,8 @@ return $exception->getMessage();
 //return $product;
 
         $product = json_decode($product->product_json);
-
+        $flag=0;
         foreach ($product->variants as $variant) {
-//            return ($variant);
 
 
             if ($variant->option1 && ($variant->option2 == null || $variant->option2 == '') && ($variant->option3 == null || $variant->option3 == '')) {
@@ -1397,14 +1394,12 @@ return $exception->getMessage();
                         ]);
                     }
                 } else {
-                    return response()->json([
-                        'stat' => 'not found',
-                        'variant_id' => $variant->id
-                    ]);
+                    $flag=0;
                 }
             }
 
             else if ($variant->option1 && $variant->option2 && ($variant->option3 == null || $variant->option3 == '')) {
+//return [$variant->option2,$option2];
                 if ($variant->option1 == $option1 && $variant->option2 == $option2) {
 
                     if ($variant->inventory_quantity >= $quantity) {
@@ -1421,10 +1416,12 @@ return $exception->getMessage();
                         ]);
                     }
                 } else {
-                    return response()->json([
-                        'stat' => 'not found',
-                        'variant_id' => $variant->id
-                    ]);
+//                    return response()->json([
+//                        'stat' => 'not found',
+//                        'variant_id' => $variant->id
+//                    ]);
+
+                    $flag=0;
                 }
             }
             else if ($variant->option1 && $variant->option2 && $variant->option3) {
@@ -1438,17 +1435,14 @@ return $exception->getMessage();
                             'stock' => $variant->inventory_quantity
                         ]);
                     } else {
-                        return response()->json([
-                            'stat' => 'out of stock',
-                            'variant_id' => $variant->id,
-                            'stock' => $variant->inventory_quantity
-                        ]);
+                       $flag=0;
                     }
                 } else {
-                    return response()->json([
-                        'stat' => 'not found1',
-                        'variant_id' => $variant->id
-                    ]);
+//                    return response()->json([
+//                        'stat' => 'not found1',
+//                        'variant_id' => $variant->id
+//                    ]);
+                    $flag=0;
                 }
             } else {
                 return response()->json([
@@ -1459,6 +1453,12 @@ return $exception->getMessage();
 
 
 
+        }
+        if($flag==0){
+            return response()->json([
+                'stat' => 'not found',
+
+            ]);
         }
     }
 
