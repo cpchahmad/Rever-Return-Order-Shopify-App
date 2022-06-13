@@ -1184,6 +1184,7 @@ return $exception->getMessage();
     public function addToSelectionSubmit($order_id, $line_id, Request $request)
     {
         $order = Order::find($order_id);
+
         $shop_name = $request->input('shop');
 
         $settings3=Setting::where('shop_id',$order->shop_id)->first();
@@ -1199,6 +1200,7 @@ return $exception->getMessage();
 
             }
             $lines = json_decode($order->order_json);
+
             $lines = $lines->line_items;
             foreach ($lines as $line) {
                 if ($line_id == $line->id) {
@@ -1220,7 +1222,8 @@ return $exception->getMessage();
                         }
                     }
 
-                    if ($request->return_type == 'exchange') {
+
+                    if ( $request->input('refund')=='' && $request->return_type == 'exchange') {
 
                         $data['exchange_variant_id'] = json_decode(json_encode($this->checkVariantStock($request)), true)['original']['variant_id'];
 
@@ -1235,6 +1238,7 @@ return $exception->getMessage();
                     if ($request->input('refund')) {
                         $data['return_type'] = $request->input('refund');
                     }
+
 
                     $line_product = OrderLineProduct::where('product_id', $line->product_id)->first();
                     $line_product = json_decode($line_product->product_json);
@@ -1262,6 +1266,8 @@ return $exception->getMessage();
                     }
                 }
             }
+
+
             $session = ItemSession::where('order_id', $order->id)->first();
 
             if ($session) {
@@ -1563,6 +1569,8 @@ return $exception->getMessage();
             'email' => $request->email,
             'shop_id'=>$shop->id
         ])->first();
+
+
 
 
         $settings=Setting::where('shop_id',$shop->id)->first();
