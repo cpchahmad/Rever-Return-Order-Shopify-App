@@ -8,29 +8,30 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
 
 
-    <style>
-        div#shopify-section-announcement-bar {
-            display: none;
-        }
-        sticky-header.header-wrapper.color-background-1.gradient.header-wrapper--border-bottom {
-            display: none;
-        }
-        footer.footer.color-background-1.gradient.section-footer-padding {
-            display: none;
-        }
-    </style>
 
-{{--<style>--}}
-{{--    body {--}}
-{{--        @if(isset($settings->background))--}}
-{{--background-image: url('{{asset('logos/'.$settings->background)}}') !important;--}}
-{{--        @else--}}
-{{--background-image: url('{{asset('logos/backgroungimg.png')}}') !important;--}}
-{{--        @endif--}}
-{{--background-repeat: no-repeat !important ;--}}
-{{--        background-size: cover !important;--}}
-{{--    }--}}
-{{--</style>--}}
+<style>
+    .items-no{
+
+        padding: 0px !important;
+        line-height:26px !important;
+    }
+    .main-card{
+
+        padding: 34px 60px;
+    }
+    .overview-rates {
+        padding-top: 104px;
+    }
+    .img.overview-png {
+
+        height: 130px;
+    }
+    .heading {
+
+        margin-bottom: 40px;
+    }
+</style>
+
 @endsection
 
 
@@ -38,7 +39,7 @@
     <div class="container">
 
 
-        <div class="overview-card">
+        <div class="main-card mx-auto">
             <div class="row mx-auto">
                 <h1 class="heading">Overview</h1>
 
@@ -56,17 +57,19 @@
 
                     ?>
 
-                <div class="col-md-6">
+                <div class="col-md-6 col-12">
 
 
 
                     <div class="row">
-                        <div class="col-md-3">
-                            <img class="overview-png" src="@if(isset($item['image'])){{$item['image']}} @endif" alt="">
+
+                        <h6>Return Item</h6>
+                        <div class="col-md-4 col-3">
+                            <img class="overview-png" style="width: 100%" src="@if(isset($item['image'])){{$item['image']}} @endif" alt="">
                         </div>
 
 
-                        <div class="col-md-4 pt-2">
+                        <div class="col-md-6 col-8 pt-2">
                             <h4 class="items-no" style="font-size: 12px">{{$item['title']}}</h4>
                             <div class="radio-buttons d-flex">
                                 <img src="{{asset('images/red.png')}}" alt="" class="red-button">
@@ -80,16 +83,17 @@
                                                  @endif
 
                             </div>
-                            <div class="overview-text">
-                                <p class="p-tag">Return Item Cost</p>
+                            <div class="overview-text d-flex">
+                                <p class="p-tag">Return Item Cost:</p>
+                                <p style="color:black;margin-left: 20px">{{$item['price']}}€</p>
 {{--                                <p>Shipping</p>--}}
 {{--                                <p class="p-tag">Refund</p>--}}
                             </div>
 
                         </div>
-                        <div class="col-md-3 mt-3">
+                        <div class="col-md-2 ">
                             <div class="overview-rates">
-                                <p>{{$item['price']}}€</p>
+
 {{--                                <p>3.00€</p>--}}
 {{--                                <p class="rate">+25.00€</p>--}}
                             </div>
@@ -107,12 +111,13 @@
                         ?>
 
 
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-12">
                         <div class="row">
-                            <div class="col-md-3">
-                                <img class="overview-png" src="{{$ex_item['image']}}" alt="">
+                            <h6>New Item</h6>
+                            <div class="col-md-4 col-3">
+                                <img style="width: 100%" class="overview-png" src="{{$ex_item['image']}}" alt="">
                             </div>
-                            <div class="col-md-4 pt-2">
+                            <div class="col-md-6 col-8 pt-2">
                                 <h4 class="items-no" style="font-size: 12px">{{$ex_item['title']}}</h4>
                                 <div class="radio-buttons d-flex">
                                     <img src="{{asset('images/red.png')}}" alt="" class="red-button">
@@ -123,10 +128,11 @@
                                             @endforeach
 
                                 </div>
-                                <div class="overview-text">
+                                <div class="overview-text d-flex">
 {{--                                    <p>Size change</p>--}}
 {{--                                    <p>Shipping</p>--}}
                                     <p class="p-tag">New Item Cost</p>
+                                    <p style="color: black;margin-left: 20px" class="">{{$ex_item['price']}}€</p>
                                 </div>
 
                             </div>
@@ -134,7 +140,7 @@
                                 <div class="overview-rates">
 {{--                                    <p>0.00€</p>--}}
 {{--                                    <p>3.00€</p>--}}
-                                    <p class="">{{$ex_item['price']}}€</p>
+
                                 </div>
 
                             </div>
@@ -145,62 +151,7 @@
                 @endif
 
             </div>
-{{--            <div class="row mx-auto p-5">--}}
-{{--                <div class="col-md-6">--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="col-md-2">--}}
-{{--                            <img src="img/chevron-down.svg" alt="">--}}
-{{--                        </div>--}}
-{{--                        <div class="overview-texture col-md-6">--}}
-{{--                            <p>Home Pick Up</p>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-2">--}}
-{{--                            <img src="img/Vector(3).png" alt="">--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="col-md-6">--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="col-md-2">--}}
-{{--                            <img src="img/chevron-down.svg" alt="">--}}
-{{--                        </div>--}}
-{{--                        <div class="overview-texture col-md-7">--}}
-{{--                            <p>Home Pick Up</p>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-2">--}}
-{{--                            <img src="img/Vector(3).png" alt="">--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="row mx-auto p-5">--}}
-{{--                <div class="col-md-6">--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="col-md-2">--}}
-{{--                            <img src="img/chevron-down.svg" alt="">--}}
-{{--                        </div>--}}
-{{--                        <div class="overview-texture col-md-6">--}}
-{{--                            <p>Instant refund</p>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-2">--}}
-{{--                            <img src="img/Vector(1).png" alt="">--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--                <div class="col-md-6">--}}
-{{--                    <div class="row">--}}
-{{--                        <div class="col-md-2">--}}
-{{--                            <img src="img/chevron-down.svg" alt="">--}}
-{{--                        </div>--}}
-{{--                        <div class="overview-texture col-md-7">--}}
-{{--                            <p>Instant refund</p>--}}
-{{--                        </div>--}}
-{{--                        <div class="col-md-2">--}}
-{{--                            <img src="img/Vector(1).png" alt="">--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+
             <hr>
 
             <div class="overview-summary row mb-5">
@@ -208,7 +159,7 @@
 
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-8">
                             @if($ex_sum>0)
                                 <p>New Items:</p>
                                 <p>Subtotal:</p>
@@ -231,7 +182,7 @@
 
 
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-6 col-4">
                             @if($ex_sum>0)
                                 <p>{{number_format($ex_sum,2)}}€</p>
                                 <p>{{number_format($ex_sum,2)}}€</p>
@@ -273,11 +224,9 @@
                 <input type="hidden" name="email" value="{{$order->email}}">
                 <input type="hidden" name="sessiondata" value="{{json_encode($customsession)}}">
             <div class="row">
-                <div class="col-md-3">
 
-                </div>
 
-                <div class="col-md-6">
+                <div class="col-md-10 offset-md-1">
                     <button style="margin-left: unset"   type="submit" class="refund-btn"><strong>Complete </strong></button>
                 </div>
 

@@ -195,6 +195,9 @@ Route::middleware(['customer'])->prefix('return')->group(function (){
 
     Route::post('/customer/address/{id}/update',[App\Http\Controllers\CustomerController::class, 'updateAddress'])->name('address.update');
 
+
+    Route::get('/customer/check',[App\Http\Controllers\CustomerController::class, 'checking']);
+
 });
 
 

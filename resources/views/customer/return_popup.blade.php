@@ -102,7 +102,215 @@
             z-index: 90;
             line-height: 1.8em;
         }
+        #heading_popup{
+            font-weight: 700;
+        }
 
+        .four_popup{
+
+         max-width: unset;
+
+        }
+
+        @media screen and (max-width: 916px) {
+            .popup_text > .header_popup {
+                display: block ;
+            }
+        }
+        .button_show_onSelect {
+
+            background: white;
+        }
+        .color{
+            margin-top: 20px;
+        }
+
+        @media (max-width: 906px){
+            .popup_text {
+
+                max-width: unset;
+            }
+        }
+
+
+        .plans {
+
+            padding: 1px 82px;
+
+        }
+
+        .plans .plan input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .plans .plan {
+            cursor: pointer;
+            /*width: 48.5%;*/
+            /*width: 50%;*/
+        }
+
+        .plans .plan .plan-content {
+            /*display: -webkit-box;*/
+            /*display: -ms-flexbox;*/
+            /*display: flex;*/
+            padding: 5px;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            border: 2px solid #e1e2e7;
+            border-radius: 10px;
+            -webkit-transition: -webkit-box-shadow 0.4s;
+            transition: -webkit-box-shadow 0.4s;
+            -o-transition: box-shadow 0.4s;
+            transition: box-shadow 0.4s;
+            transition: box-shadow 0.4s, -webkit-box-shadow 0.4s;
+            /*position: relative;*/
+        }
+
+        .plans .plan .plan-content img {
+            /*margin-right: 30px;*/
+            /*height: 72px;*/
+        }
+
+        .plans .plan .plan-details span {
+            margin-bottom: 10px;
+            display: block;
+            font-size: 20px;
+            line-height: 24px;
+            color: #252f42;
+        }
+
+        .container .title {
+            font-size: 16px;
+            font-weight: 500;
+            -ms-flex-preferred-size: 100%;
+            flex-basis: 100%;
+            color: #252f42;
+            margin-bottom: 20px;
+        }
+
+        .plans .plan .plan-details p {
+            color: #646a79;
+            font-size: 14px;
+            line-height: 18px;
+        }
+
+        .plans .plan .plan-content:hover {
+            -webkit-box-shadow: 0px 3px 5px 0px #e8e8e8;
+            box-shadow: 0px 3px 5px 0px #e8e8e8;
+        }
+
+        .plans .plan input[type="radio"]:checked + .plan-content:after {
+            /*content: "";*/
+            position: absolute;
+            height: 8px;
+            width: 8px;
+            background: #216fe0;
+            right: 20px;
+            top: 20px;
+            border-radius: 100%;
+            border: 3px solid #fff;
+            -webkit-box-shadow: 0px 0px 0px 2px #0066ff;
+            box-shadow: 0px 0px 0px 2px #0066ff;
+        }
+
+        .plans .plan input[type="radio"]:checked + .plan-content {
+            border: 2px solid #216ee0;
+            background: #eaf1fe;
+            -webkit-transition: ease-in 0.3s;
+            -o-transition: ease-in 0.3s;
+            transition: ease-in 0.3s;
+        }
+
+        @media screen and (max-width: 991px) {
+            .plans {
+                margin: 0 40px;
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                -webkit-box-align: start;
+                -ms-flex-align: start;
+                align-items: flex-start;
+                padding: 0px 30px;
+            }
+
+            .plans .plan {
+                /*width: 100%;*/
+            }
+
+            .plan.complete-plan {
+                margin-top: 20px;
+            }
+
+            .plans .plan .plan-content .plan-details {
+                width: 70%;
+                display: inline-block;
+            }
+
+            .plans .plan input[type="radio"]:checked + .plan-content:after {
+                top: 45%;
+                -webkit-transform: translate(-50%);
+                -ms-transform: translate(-50%);
+                transform: translate(-50%);
+            }
+        }
+
+        @media screen and (max-width: 767px) {
+            .plans .plan .plan-content .plan-details {
+                width: 60%;
+                display: inline-block;
+            }
+        }
+
+        @media screen and (max-width: 540px) {
+            .plans .plan .plan-content img {
+                /*margin-bottom: 20px;*/
+                /*height: 56px;*/
+                -webkit-transition: height 0.4s;
+                -o-transition: height 0.4s;
+                transition: height 0.4s;
+            }
+
+            .plans .plan input[type="radio"]:checked + .plan-content:after {
+                top: 20px;
+                right: 10px;
+            }
+
+            .plans .plan .plan-content .plan-details {
+                width: 100%;
+            }
+
+            .plans .plan .plan-content {
+                /*padding: 20px;*/
+                -webkit-box-orient: vertical;
+                -webkit-box-direction: normal;
+                -ms-flex-direction: column;
+                flex-direction: column;
+                -webkit-box-align: baseline;
+                -ms-flex-align: baseline;
+                align-items: baseline;
+            }
+        }
+
+        /* inspiration */
+        .inspiration {
+            font-size: 12px;
+            margin-top: 50px;
+            position: absolute;
+            bottom: 10px;
+            font-weight: 300;
+        }
+
+        .inspiration a {
+            color: #666;
+        }
+        @media screen and (max-width: 767px) {
+            /* inspiration */
+            .inspiration {
+                display: none;
+            }
+        }
     </style>
 @endsection
 
@@ -122,9 +330,12 @@
         @csrf
     <div class="container" style="border: none;">
         <div class="main-card mx-auto pb-5">
-            <div style="display: flex">
-            <h1 style="display: inline-block">Why are you returning this item?</h1>
-            <div class="cross" style="float: right">
+            <div class="row">
+                <div class="col-md-10 col-10">
+            <h1 id="heading_popup">Why are you returning this item?</h1>
+                </div>
+                <div class="col-2 col-md-2" style="text-align: right">
+            <div class="cross">
 
                 <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">
 
@@ -132,6 +343,7 @@
                     </button>
                 </a>
             </div>
+                </div>
 
                 <input type="hidden" id="image_value" value="@if(isset($line_item['image'])){{$line_item['image']}}@endif">
                 <input type="hidden" name="product_id" value="{{$line_item['product_id']}}">
@@ -140,12 +352,12 @@
                 <div class="row">
 
 
-                    <div class="col-md-2">
+                    <div class="col-md-2 col-2">
                         <div class="img">
                             <img style="width: 100%;margin-left: 15px" src="@if(isset($line_item['image'])){{$line_item['image']}} @endif" alt="">
                         </div>
                     </div>
-                    <div class="col-md-10">
+                    <div class="col-md-10 col-10">
                         <h6 class="pt-1">{{$line_item['title']}}</h6>
                         <p class="">${{$line_item['price']}}</p>
                         <div class="radio-buttons d-flex gap-2">
@@ -167,7 +379,7 @@
 
 
             <div class="row">
-                <div class=" input form-group mx-auto mt-4 col-md-9 position-relative one_popup ">
+                <div class=" input form-group mx-auto mt-4 col-9 col-md-9 position-relative one_popup ">
 
 
                     <input type="text" name="" class="form-control mina_oneeee" value="Exchange for new color / size" readonly style="@if($exchange_reason_count==0) pointer-events:none @endif ; cursor:pointer;">
@@ -181,11 +393,12 @@
             </div>
                 @endif
 
+
             @if(in_array('payment_method',$allow_methods) || in_array('store_credit',$allow_methods))
 
 
             <div class="row">
-                <div class=" input form-group mx-auto mt-4 col-md-9 position-relative one_popup ">
+                <div class=" input form-group mx-auto mt-4 col-9 col-md-9 position-relative one_popup ">
 
 
                     <input type="text" name="" class="form-control mina_twoooooo" value="Return Item" readonly style="@if($exchange_reason_count==0) pointer-events:none @endif ; cursor:pointer;">
@@ -211,8 +424,9 @@
 
                 </div>
 
+                <div class="col-md-12">
                 <h4>Would you like to change the size or color?</h4>
-
+                </div>
                 @foreach($product_options as $index=>$productOption)
 
                     @if($productOption->name=='Color')
@@ -236,7 +450,7 @@
                         </div>
                     @else
 
-                <p style="margin-left:100px">{{$productOption->name}}</p>
+                <p class="mt-2" style="margin-left:100px">{{$productOption->name}}</p>
                 <div class="size gap-4">
                     @foreach($productOption->values as $value)
 
@@ -244,10 +458,7 @@
                             <input type="radio"   value="{{$value}}" id="{{$value}}-{{$index}}"   class="variant_check opt-2" name="option{{$index+1}}" />
                             <label class="btn btn-light" for="{{$value}}-{{$index}}" >{{$value}}</label>
                         </div>
-{{--                        <input class="variant_check opt-2" type="radio" name="option{{$index+1}}"--}}
-{{--                               value="{{$value}}">--}}
-{{--                        <label for="S">{{$value}}</label>--}}
-{{--                    <button class="variant_check" value="{{$value}}">{{$value}}</button>--}}
+
                     @endforeach
 
                 </div>
@@ -261,7 +472,7 @@
 
                 <div class="button_show_onSelect p-30">
                     <div class="main_continue_btn">
-                        <button type="button"  id="after_btn_checked" disabled>Continue</button>
+                        <button type="button"  style="background: rgb(36 53 88) !important;" id="after_btn_checked" disabled>Confirm Exchange</button>
                     </div>
                 </div>
             </div>
@@ -272,14 +483,7 @@
                         <button type="button" class="back_exchange"><img src="{{asset('images/backArrow.svg')}}"
                                                                 alt=""></button>
                     </div>
-{{--                    <div class="cross">--}}
 
-{{--                        <a href="https://{{$shop->name}}/a/return/customer/login?shop={{$shop->name}}&order_name={{$order_name}}&email={{$order->email}}">--}}
-
-{{--                            <button type="button"><img src="{{asset('images/cross.svg')}}" alt="cross">--}}
-{{--                            </button>--}}
-{{--                        </a>--}}
-{{--                    </div>--}}
                 </div>
 
 
@@ -290,30 +494,15 @@
                 <div class="popup_main_body">
                     <div class="heading_main">
 
-{{--                        @if(isset($settings) && $settings->exchange_text)--}}
-{{--                            <span class="title">{{$settings->exchange_text}}</span>--}}
-{{--                        @else--}}
-{{--                            <span class="title">Why are you exchanging?</span>--}}
-{{--                        @endif--}}
-
-
                     </div>
-{{--                    <div class="variants_div">--}}
-{{--                        <ul>--}}
-{{--                            @foreach($line_item['options'] as $option)--}}
-{{--                                @if($option!==null)--}}
-{{--                                    <li>{{$option}}</li>@endif--}}
-{{--                            @endforeach--}}
-{{--                        </ul>--}}
-{{--                        <span id="variant_total_price">${{$line_item['price']}}</span>--}}
-{{--                    </div>--}}
+
 
                     <input type="radio" name="return_reason" id="exchange_reason_id" value="" style="display: none">
                     <div class="label_checkbox">
-                        @foreach($exchange_reasons as $reason)
 
                             <div class="row">
-                                <div class=" input form-group mx-auto mt-4 col-md-9 position-relative return_reason_check" data-id="{{$reason->id}}">
+                                @foreach($exchange_reasons as $reason)
+                                <div class=" input form-group mx-auto mt-4 col-9 col-md-9 position-relative return_reason_check" data-id="{{$reason->id}}">
 
                                     <input type="text" name="" class="form-control " value="{{$reason->name}}" style="cursor: pointer" readonly >
                                     <div class="icon position-absolute">
@@ -323,43 +512,33 @@
 
                                     </div>
                                 </div>
+                                @endforeach
                             </div>
 
-{{--                            <div class="Labels">--}}
-{{--                                <input type="radio" id="one" name="return_reason" value="{{$reason->id}}">--}}
-{{--                                <label for="one" class="mina_onee return_reason_check">--}}
-{{--                                    <div class="label_under">--}}
-{{--                                        <div class="under_parent">--}}
-{{--                                            <div class="text_underParent">--}}
-{{--                                                <span>{{$reason->name}}</span>--}}
-{{--                                            </div>--}}
-{{--                                            <div class="icons">--}}
-{{--                                                <img src="{{asset('images/arrow_right.svg')}}" alt="">--}}
-{{--                                            </div>--}}
-{{--                                        </div>--}}
-{{--                                    </div>--}}
-{{--                                </label>--}}
-{{--                            </div>--}}
-                        @endforeach
+
                     </div>
                 </div>
             </div>
 
 
             <div class="popup_text four_popup">
-                <div class="header_popup">
-                    <div class="back">
+
+
+                <div class="header_popup ">
+                    <div class="back ">
                         <button type="button" class="back"><img src="{{asset('images/backArrow.svg')}}"
                                                                 alt=""></button>
                     </div>
 
                 </div>
+
                 <div class="popup_main_body">
 
                     <input type="radio" id="return_reason_id" style="display: none" name="return_reason" value="">
-                        @foreach($refund_reasons as $reason)
+
                         <div class="row">
-                            <div class=" input form-group mx-auto mt-4 col-md-9 position-relative return_reason_check_return" data-id="{{$reason->id}}">
+                            @foreach($refund_reasons as $reason)
+                            <div class=" input form-group mx-auto mt-4 col-md-9 col-9 position-relative return_reason_check_return" data-id="{{$reason->id}}">
 
                                 <input type="text" name="" class="form-control " value="{{$reason->name}}" style="cursor: pointer" readonly >
                                 <div class="icon position-absolute">
@@ -369,14 +548,59 @@
 
                                 </div>
                             </div>
+                            @endforeach
                         </div>
 
-                        @endforeach
+
 
 
                 </div>
             </div>
-            <div class="refund_section"></div>
+            <div class="refund_section" style="display: none">
+
+
+                <div class="option-heading row mt-2">
+                    <h3 style="font-weight: 700">Select a refund option</h3>
+                </div>
+
+                @if(in_array('payment_method',$allow_methods))
+
+                    <div class="container mt-4">
+                        <div class="plans row">
+
+                            <div class="col-md-6 col-12">
+                            <label style="display: block" class="plan basic-plan" for="basic">
+                                <input  type="radio" name="refund" value="payment_method" disabled id="basic" />
+                                <div class="plan-content">
+
+                                    <div class="instant-refund">
+                                        <div class="row">
+                                            <div class="col-md-10 col-10">
+                                            <p><strong>Get an instant refund</strong></p>
+                                            </div>
+                                            <div class="col-md-2 col-2" style="text-align: right">
+                                         <img style="padding: unset" src="{{asset('images/Vector(1).png')}}" alt="">
+                                            </div>
+                                            </div>
+                                        <p><small>Description</small></p>
+                                    </div>
+
+
+
+                                </div>
+
+                            </label>
+                            </div>
+                        </div>
+                    </div>
+
+                @endif
+
+                <button type="submit" class="continue-btn"><strong>continue</strong></button>
+
+
+
+            </div>
         </div>
 
 
@@ -421,21 +645,29 @@
                 $('#return_reason_id').val(id);
                 $('#return_reason_id').prop('checked','true');
                 $(this).prev('input').attr('checked', true);
-                $.ajax({
-                    method: "GET",
-                    url: "{{(route('add_refund_method'))}}?amount={{$line_item['price']}}",
-                    data:{
-                        allow_methods:allowed_methods
-                    },
-                    success: function (response) {
-                        // $('.main_section').addClass('display_none');
-                        $('.four_popup').css('display','none');
-                        $('.two_popup').css('display','none');
-                        $('.three_popup').css('display','none');
-                        $('.one_popup').css('display','none');
-                        $('.refund_section').html(response);
-                    }
-                });
+
+                $('.four_popup').css('display','none');
+                $('.two_popup').css('display','none');
+                $('.three_popup').css('display','none');
+                $('.one_popup').css('display','none');
+                $('.refund_section').css('display','block');
+                $('#basic').removeAttr('disabled');
+                $('#basic').attr('checked','true');
+                {{--$.ajax({--}}
+                {{--    method: "GET",--}}
+                {{--    url: "{{(route('add_refund_method'))}}?amount={{$line_item['price']}}",--}}
+                {{--    data:{--}}
+                {{--        allow_methods:allowed_methods--}}
+                {{--    },--}}
+                {{--    success: function (response) {--}}
+                {{--        // $('.main_section').addClass('display_none');--}}
+                {{--        $('.four_popup').css('display','none');--}}
+                {{--        $('.two_popup').css('display','none');--}}
+                {{--        $('.three_popup').css('display','none');--}}
+                {{--        $('.one_popup').css('display','none');--}}
+                {{--        $('.refund_section').html(response);--}}
+                {{--    }--}}
+                {{--});--}}
 
 
             })
@@ -474,13 +706,7 @@
 
 
         });
-        // $('.variant_check').on('input',function(){
-        //     check_exchange_option();
-        // });
 
-        // function check_exchange_option1() {
-        //     console.log($('input[name=option3]').val());
-        // }
 
         function check_exchange_option() {
             $('#after_btn_checked').attr('disabled', true);
@@ -552,7 +778,7 @@
                     console.log(response);
                     if (response.stat == 'found') {
                         $('#after_btn_checked').removeAttr('disabled');
-                        $('#after_btn_checked').html('Continue');
+                        $('#after_btn_checked').html('Confirm Exchange');
                         return true;
                     } else if (response.stat == 'out of stock') {
                         $('#after_btn_checked').html('Out of Stock');

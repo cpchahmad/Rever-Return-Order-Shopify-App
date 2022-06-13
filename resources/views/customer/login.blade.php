@@ -34,7 +34,13 @@ background-image: url('{{asset('images/dashbord.svg')}}') !important ;
 
         .form-control{
 
-            padding: 1.375rem 0.75rem !important;
+            /*padding: 1.375rem 0.75rem !important;*/
+            padding: 1rem 0.75rem !important;
+        }
+
+
+        .row{
+            display: block !important;
         }
 
         .button:after, .shopify-challenge__button:after, .customer button:after, .shopify-payment-button__button--unbranded:after {
@@ -50,27 +56,10 @@ background-image: url('{{asset('images/dashbord.svg')}}') !important ;
 
 @section('content')
 
-{{--    <div class="container">--}}
-
-{{--        <div class="header">--}}
-
-
-{{--            <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">--}}
-{{--            <a href="https://{{$domain}}" id="policy" style="text-decoration: none;">--}}
-{{--                @if(isset($settings->logo))--}}
-{{--                <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto;" alt="logo">--}}
-
-{{--                    <h5 style="color: white">Powered by Rever</h5>--}}
-{{--                    @else--}}
-{{--                                    <img src="{{asset('logos/Logo REVER.png')}}" style="width:135px;height: auto;" alt="logo">--}}
-{{--                    <h5 style="color: white">Powered by Rever</h5>--}}
-
-{{--                @endif--}}
-{{--            </a>--}}
-{{--        </div>--}}
-{{--    </div>--}}
 
         <div class="background-main">
+
+
             <img src="{{asset('images/Vector.png')}}" alt="vector" class="nike-image">
             <div class="welcome-heading">
                 <h1 class="heading-main">Welcome to your order <br> return journy</h1>
@@ -87,59 +76,9 @@ background-image: url('{{asset('images/dashbord.svg')}}') !important ;
         </div>
 
 
-{{--        <form role="form" action="https://{{(($domain.'/a/return/customer/login'))}}?shop={{$domain}}" method="get" id="loginform">--}}
-{{--            <input type="hidden" name="shop" value="{{$domain}}">--}}
-{{--            <div class="main_section_login">--}}
-{{--                <div class="login_section">--}}
-{{--                    <div class="heading_parent">--}}
-{{--                        <h2>Returns & Exchanges</h2>--}}
-{{--                    </div>--}}
-{{--                    <div class="heading_parent">--}}
-{{--                        <div class="field_text">--}}
-
-
-{{--                            @if(isset($settings->login_page_text))--}}
-
-{{--                                <p>{{$settings->login_page_text}}</p>--}}
-{{--                                 @else--}}
-{{--                                <p>We offer a hassle-free 30-day exchange/ return policy. To be eligible for an exchange/ a refund, all returned items must be unworn, unwashed, and undamaged with tags still attached. " then in another line "To find your order number, check your order confirmation email or login to your account. Sample order number format: US1001</p>--}}
-
-{{--                            @endif--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-
-
-{{--                    @if(isset($error))--}}
 
 
 
-{{--                        <h4 class="incorrect">{{$error}}</h4>--}}
-{{--                    @endif--}}
-
-{{--                    @if(isset($error1))--}}
-
-{{--                        <h4 class="incorrect">{{$error1}}</h4>--}}
-{{--                    @endif--}}
-{{--                    <div class="field_parent">--}}
-{{--                        <input type="text" name="order_name" class="input_field" placeholder="Order Number">--}}
-{{--                    </div>--}}
-{{--                    <div class="field_parent">--}}
-{{--                        <input type="text" name="email" class="input_field" placeholder="Email">--}}
-{{--                    </div>--}}
-{{--                    <div class="field_parent">--}}
-{{--                        <input type="submit" style="cursor: pointer;" class="input_field formsubmit" id="formsubmit" value="START RETURN" placeholder="Order Number">--}}
-{{--                    </div>--}}
-{{--                    @if(isset($msg))--}}
-{{--                        <div class="field_parent msg_class">--}}
-{{--                            <p class="text-danger">{{$msg}}</p>--}}
-{{--                        </div>--}}
-{{--                    @endif--}}
-{{--                    <div class="field_policy">--}}
-
-{{--                    </div>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </form>--}}
 
 <div class="dashboard-form"></div>
 <div class="form mx-auto">
@@ -157,37 +96,46 @@ background-image: url('{{asset('images/dashbord.svg')}}') !important ;
 
                                 <h4 class="incorrect">{{$error1}}</h4>
                             @endif
-        <div class="input-order-number">
-            <div class="mb-3 position-relative">
+        <div class="input-order-number row">
+            <div class="mb-3 position-relative offset-md-0 col-10 offset-1 col-md-12">
                 <input type="text" name="order_name" class="form-control" placeholder="Order Number" id="inputOrder" style="font-size: 13px">
                 <div class="position-absolute lable">Order Number</div>
             </div>
         </div>
-        <div class="input-email">
-            <div class=" position-relative">
+        <div class="input-email row">
+            <div class=" position-relative offset-md-0 col-10 offset-1 col-md-12">
                 <input type="email" name="email" class="form-control" id="inputEmail" placeholder="Email" style="font-size: 13px">
                 <div class="position-absolute email">E-mail</div>
             </div>
         </div>
-        <div class="my-3 icon text-center">
-            <a href="#">
-                @if(isset($settings->logo))
-                    <img src="{{asset('logos/'.$settings->logo)}}" style="width: 100px;height: auto" alt="">Powered by Rever</a>
 
-                    @else
-                <img src="{{asset('images/erro.png')}}" alt="">Powered by Rever</a>
-
-            @endif
-        </div>
         <!-- <button type="submit" class="btn rounded-pill"><strong>Get Started</strong></button> -->
+        <div class="my-3 row">
+            <div class="col-1"></div>
+            <div class="col-md-12 offset-md-0 offset-1 col-10">
         <button type="submit"  value="START RETURN" class="button"><strong>Get Started</strong></button>
+        </div>
+
+        </div>
     </form>
+    <div class="row">
+        <div class="col-md-12 offset-md-0 offset-1 col-11">
     <a href="#" style="font-size: 14px" class="hover">By continuing, you agree to the Terms and Privacy Policy</a>
+    </div>
+    </div>
+        <div class="my-3 icon text-center">
+        <a href="#">
+            @if(isset($settings->logo))
+                <img src="{{asset('logos/'.$settings->logo)}}" style="width: 100px;height: auto" alt="">Powered by Rever</a>
+
+        @else
+            <img src="{{asset('images/erro.png')}}" alt="">Powered by Rever</a>
+
+        @endif
+    </div>
 </div>
 
 
-
-{{--    </div>--}}
 
 @endsection
 

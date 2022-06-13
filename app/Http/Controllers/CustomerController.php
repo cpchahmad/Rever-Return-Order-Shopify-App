@@ -846,18 +846,32 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
             $label_date = Carbon::createFromTimeString($label_date->created_at)->addDays(30)->toFormattedDateString();
         }
 
-        $html= view('customer.confirm_request')->with([
-            'items' => $items,
-            'exchange_items' => $exchange_items,
-            'shop' => $r_request->shop_id,
-            'order' => $order,
-            'date' => $label_date,
-            'user' => User::find($order->shop_id),
-            'request' => $r_request,
+
+//        $html= view('customer.confirm_request')->with([
+//            'items' => $items,
+//            'exchange_items' => $exchange_items,
+//            'shop' => $r_request->shop_id,
+//            'order' => $order,
+//            'date' => $label_date,
+//            'user' => User::find($order->shop_id),
+//            'request' => $r_request,
+//            'domain'=>$shop->name,
+//            'settings'=>$settings
+//        ]);
+
+        $html= view('customer.mission')->with([
+//            'items' => $items,
+//            'exchange_items' => $exchange_items,
+//            'shop' => $r_request->shop_id,
+//            'order' => $order,
+//            'date' => $label_date,
+//            'user' => User::find($order->shop_id),
+//            'request' => $r_request,
             'domain'=>$shop->name,
             'settings'=>$settings
         ]);
-        return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+        return $html;
+//        return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
     }
 
@@ -865,6 +879,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
     public function addToSelection($order_id, $line_id, Request $request)
     {
 
+//        return $request->all();
         try {
 
             $order = Order::find($order_id);
@@ -941,6 +956,9 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
                         $allow_methods = ['exchange', 'payment_method', 'store_credit'];
                     }
+
+
+
 
                     $product_options = $line_product->options;
 //                    return $product_options;
@@ -1349,12 +1367,15 @@ return $exception->getMessage();
     public function appendRefund(Request $request)
     {
         $amount = $request->amount;
+
         $allowed_methods = explode(',', $request->allow_methods);
+
         $html= view('customer.append_refund_method')->with([
             'amount' => $amount,
             'allowed_methods' => $allowed_methods
         ])->render();
-        return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+        return $html;
+//        return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
     }
 
 //Function to check if the stock is available for the product
@@ -1512,6 +1533,7 @@ return $exception->getMessage();
 
             foreach ($items as $item) {
 
+
                 if ($item['return_type'] == "exchange") {
                     $product = OrderLineProduct::where('product_id', $item['product_id'])->where('shop_id',$shop->id)->first();
                     $product = json_decode($product->product_json);
@@ -1562,8 +1584,9 @@ return $exception->getMessage();
                 'user' => User::find($shop->id),
                 'settings'=>$settings
             ]);
+            return $html;
 
-            return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+//            return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
         } catch (\Exception $exception) {
 
 
@@ -1576,5 +1599,23 @@ return $exception->getMessage();
         }
     }
 
+
+    public function checking(Request $request){
+
+
+
+        $settings=null;
+        $html= view('customer.mission')->with([
+
+            'settings'=>$settings,
+            'shop' => $request->shop,
+
+        ]);
+        return $html;
+//        $html= view('customer.mission');
+//        return $html;
+
+
+    }
 
 }

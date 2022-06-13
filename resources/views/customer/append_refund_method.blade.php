@@ -11,7 +11,7 @@
     }
 
     body {
-        background: #ecf2fe;
+        /*background: #ecf2fe;*/
         height: 100vh;
         display: -webkit-box;
         display: -ms-flexbox;
@@ -97,7 +97,7 @@
     }
 
     .plans .plan input[type="radio"]:checked + .plan-content:after {
-        content: "";
+        /*content: "";*/
         position: absolute;
         height: 8px;
         width: 8px;
@@ -209,70 +209,4 @@
     }
 
 </style>
-        <div class="option-heading row mt-4">
-            <h3>select a refund option</h3>
-        </div>
-{{--        <div class="refund-option-div row gap-1">--}}
-{{--            <div class="col-md-5">--}}
-                @if(in_array('payment_method',$allowed_methods))
 
-                        <div class="container">
-                            <div class="plans">
-
-                                <label class="plan basic-plan" for="basic">
-                                    <input checked type="radio" name="refund" value="payment_method" id="basic" />
-                                    <div class="plan-content">
-
-                                        <div class="instant-refund">
-                                            <div style="display: flex">
-                                            <p><strong>Get an instant refund</strong></p>
-
-                                               <span><img style="padding: unset" src="{{asset('images/Vector(1).png')}}" alt=""></span>
-                                            </div>
-                                            <p><small>Description</small></p>
-                                                     </div>
-
-
-
-                                        </div>
-
-                                </label>
-
-                            </div>
-                        </div>
-
-{{--                <div class="instant-refund">--}}
-{{--                    <p><strong>Get an instant refund</strong>--}}
-{{--                        <span><img src="img/Vector(1).png" alt=""></span></p>--}}
-{{--                    <p><small>Description</small></p>--}}
-{{--                </div>--}}
-
-                    @endif
-{{--            </div>--}}
-{{--            <div class="col-md-5">--}}
-{{--                <div class="giftcard">--}}
-{{--                    <p><strong> Refund to a giftcard</strong><span><img src="img/Vector(2).png" alt=""></span></p>--}}
-{{--                    <p><small>Description</small></p>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--        <div class="option-heading row">--}}
-{{--            <h3>select a return method</h3>--}}
-{{--        </div>--}}
-{{--        <div class="return-method row gap-1">--}}
-{{--            <div class="col-md-5">--}}
-{{--                <div class="pickup">--}}
-{{--                    <p><strong>Home pickup</strong><span><img src="img/Vector(3).png" alt=""></span></p>--}}
-{{--                    <p><small>Description</small></p>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--            <div class="col-md-5">--}}
-{{--                <div class="collection">--}}
-{{--                    <p><strong>Deliver to collection point</strong>--}}
-{{--                        <span><img src="img/Vector(3).png" alt=""></span>--}}
-{{--                    </p>--}}
-{{--                    <p><small>Description</small></p>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-        <button type="submit" class="continue-btn"><strong>continue</strong></button>
