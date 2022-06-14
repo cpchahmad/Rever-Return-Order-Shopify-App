@@ -253,8 +253,10 @@
 
                                                     <div class="col-md-12 mt-2 font-weight-bold">
 
+                                                            @if(\App\Models\Reason::find($item_json['return_reason']))
                                                         Reason:
                                                         {{\App\Models\Reason::find($item_json['return_reason'])->name}}
+                                                                @endif
                                                     </div>
                                                     <div class="col-md-12 mt-2 font-weight-bold">
                                                         <br/>

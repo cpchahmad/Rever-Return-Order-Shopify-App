@@ -897,6 +897,7 @@ class OrderController extends Controller
         ]);
 
 
+
         if ($orders['errors'] == false) {
 
             if (count($orders['body']['orders']) > 0) {
@@ -934,6 +935,7 @@ class OrderController extends Controller
 //        $order_check = Order::where('order_name', '#' . $checks->order_number)->first();
 //         $order_check = Order::where('order_name', '#' . $checks->order_number)->where('shop_id',$shopfy->id)->first();
          $order_check = Order::where('order_id', $checks->id)->where('shop_id',$shopfy->id)->first();
+//dd($order_check);
 
         if ($order_check == null) {
 //            return "";

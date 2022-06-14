@@ -189,12 +189,14 @@ class CustomerController extends Controller
 
 
             if($r_settings!=null) {
+
                 $special_orders = explode(',', $r_settings->special_orders);
                 $exclude_orders = explode(',', $r_settings->exclude_orders);
                 $exchange_orders = explode(',', $r_settings->exchange_orders);
             }
             else{
                 $exclude_orders=array();
+                $special_orders=array();
             }
 
             if ($login_check !== null ) {
