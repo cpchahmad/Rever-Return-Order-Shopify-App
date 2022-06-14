@@ -20,11 +20,11 @@
 
 
         .background-main {
-            @if(isset($settings->background) && $settings->background!="")
-            background-image: url('{{asset('logos/'.$settings->background)}}') !important;
-            @else
-background-image: url('{{asset('images/dashbord.svg')}}') !important ;
-            @endif
+{{--            @if(isset($settings->background) && $settings->background!="")--}}
+{{--            background-image: url('{{asset('logos/'.$settings->background)}}') !important;--}}
+{{--            @else--}}
+{{--background-image: url('{{asset('images/dashbord.svg')}}') !important ;--}}
+{{--            @endif--}}
             background-repeat: no-repeat;
             background-size: cover;
             background-position: center;
@@ -59,7 +59,7 @@ background-image: url('{{asset('images/dashbord.svg')}}') !important ;
 
         <div class="background-main">
 
-
+            <img src="{{asset('images/dashbord.svg')}}" alt="vector" class="">
             <img src="{{asset('images/Vector.png')}}" alt="vector" class="nike-image">
             <div class="welcome-heading">
                 <h1 class="heading-main">Welcome to your order <br> return journy</h1>
