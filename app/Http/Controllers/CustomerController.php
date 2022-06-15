@@ -161,12 +161,14 @@ class CustomerController extends Controller
 
                 ]);
 
-                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+//                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+                return $html;
             }
 
             $order_email = $request->input('email');
 
             if ($this->checkCustomerBlock($order_email, $shop->id)) {
+
 
 
                 $html= view('customer.block')->with([
@@ -175,7 +177,8 @@ class CustomerController extends Controller
 
                 ]);
 
-                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+//                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+                return $html;
             }
 
             $settings = Setting::where('shop_id', $shop->id)->first();
@@ -384,8 +387,9 @@ class CustomerController extends Controller
                             'email' => $order->email
                         ))
                     ])->render();
-                    return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+//                    return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
+                    return $html;
                 }
 
 
@@ -519,8 +523,9 @@ class CustomerController extends Controller
                     'shop' => $request->shop,
 
                 ]);
-                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+//                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
+                return $html;
             }
             $lines = collect(json_decode($order->order_json)->line_items);
 
@@ -898,8 +903,9 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                     'shop' => $request->shop,
 
                 ]);
-                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+//                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
 
+                return $html;
             }
             $r_settings = RequestSetting::where('shop_id', $order->shop_id)->first();
 
@@ -958,10 +964,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                     }
 
 
-
-
                     $product_options = $line_product->options;
-//                    return $product_options;
 
                     $variants = [];
                     $color_variants = [];
@@ -970,7 +973,6 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
 
                         foreach ($product_options as $productget_option) {
-//                            return $productget_option;
                             if($productget_option->name=='Color'){
 
                                 $color_position=$productget_option->position;
@@ -981,8 +983,9 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                         }
                     }
 
-//                    return $color_options;
-//                    return $line_product->variants;
+                    $colors_array = array('white', 'green', 'red','charcoal','lime','black','yellow','silver','blue','purple','brown','lightgreen','aqua','grey','beige','navy','gray','carbon');
+
+                    $new_color_array=array();
 
                     foreach ($line_product->variants as $variant) {
                         if ($variant->id == $line->variant_id) {
@@ -997,24 +1000,28 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
                         }
 
-
-
                         if (count($color_options)) {
-//                            return $color_options;
+
                             foreach ($color_options as $color_option) {
-//                                return ['image_id'=>$variant,'line_image'=>$color_options];
-//                                return $variant;
+
                                 $variant_opt='option'.$color_position;
 
-
                                 if ($variant->$variant_opt == $color_option ) {
-//                                    return $variant->$variant_opt;
-//                                    return ['image_id'=>$color_option,'line_image'=>$line_product->images];
+
+                                    $color_lowercase=strtolower($color_option);
+
+                                    foreach ($colors_array as $getcolor){
+                                        if(str_contains($color_lowercase,$getcolor)){
+                                            $get_data['color_options']=$color_option;
+                                            $get_data['color']=$getcolor;
+                                                array_push($new_color_array, $get_data);
+                                        }
+                                    }
+
 
                                     foreach ($line_product->images as $Image) {
 
 
-//                                            return ['image_id'=>$variant->image_id,'line_image'=>$Image->id];
                                         if ($variant->image_id == $Image->id) {
 
                                             array_push($color_variants, [
@@ -1036,28 +1043,58 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
                                         }
                                     }
-//                                    return ($color_variants);
 
                                 }
 
 
 
                             }
+
+
                         }
+
                     }
+
 
 //                    return $color_variants;
                     $temp = [];
                     $datas = [];
-                    foreach ($color_variants as $col_v) {
+//                    foreach ($color_variants as $col_v) {
+//
+//                        if (count($datas) > 0) {
+//                            if (!in_array($col_v['color'], $datas)) {
+//                                array_push($temp, $col_v);
+//                                array_push($datas, $col_v['color']);
+//
+//                            }
+//
+//                            else{
+//                                foreach($temp as $key => $value)
+//                                {
+//                                    if($col_v['color']==$value['color']) {
+////                                        return $value['color'];
+//                                        $temp[$key] = $col_v;
+//                                    }
+////                                    $temp[$key]['values'] = date('d/m/Y',$value['transaction_date']);
+//                                }
+//                            }
+//                        } else {
+//                            array_push($temp, $col_v);
+//                            array_push($datas, $col_v['color']);
+//
+//                        }
+//
+//                    }
 
-//                        return $col_v;
+                    foreach ($new_color_array as $col_v) {
+
                         if (count($datas) > 0) {
                             if (!in_array($col_v['color'], $datas)) {
                                 array_push($temp, $col_v);
                                 array_push($datas, $col_v['color']);
 
                             }
+
                             else{
                                 foreach($temp as $key => $value)
                                 {
@@ -1073,11 +1110,13 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                             array_push($datas, $col_v['color']);
 
                         }
+
                     }
 
                     $color_variants = $temp;
 
-//                    return $color_variants;
+
+
                     $image_id = null;
                     foreach ($line_product->variants as $single_variant) {
                         if ($single_variant->id == $data['variant_id'])
@@ -1091,9 +1130,8 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                     }
                 }
             }
-
             $color_variants = array_unique($color_variants, SORT_REGULAR);
-
+//return $color_variants;
             label:
             $temp = [];
             foreach ($color_variants as $color) {
@@ -1108,6 +1146,8 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                     }
                 }
             }
+//            return $color_variants;
+
 //            $exchange_reasons = RequestCategory::whereHas('reasons')('name', 'Exchange')->first();
             $exchange_reasons = RequestCategory::where('name', 'Exchange')->first();
 //return $exchange_reasons->reasons;
@@ -1217,7 +1257,8 @@ return $exception->getMessage();
                     'settings' => $settings3,
                     'shop' => $shop_name,
                 ]);
-                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+//                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+return $html;
 
             }
 
@@ -1381,7 +1422,7 @@ return $exception->getMessage();
 //Function to check if the stock is available for the product
     public function checkVariantStock(Request $request)
     {
-
+//return $request->all();
         $option1 = $request->option1;
         $option2 = $request->option2;
         $option3 = $request->option3;
@@ -1391,6 +1432,7 @@ return $exception->getMessage();
         $quantity = $request->quantity;
 
         $product = OrderLineProduct::where('product_id', $product_id)->first();
+
 //return $product;
 
         $product = json_decode($product->product_json);
@@ -1522,7 +1564,8 @@ return $exception->getMessage();
                     'shop' => $request->shop,
 
                 ]);
-                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+//                return response($html)->withHeaders(['Content-Type' => 'application/liquid']);
+                return $html;
             }
 
             $items = json_decode($request->sessiondata,'false');

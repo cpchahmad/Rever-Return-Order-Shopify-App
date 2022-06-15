@@ -2,9 +2,7 @@
 
 @section('css')
 {{--    <link rel="stylesheet" href="{{asset('css/login.css')}}">--}}
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{asset('css/design-app.css')}}">
     <style>
         .text-danger
         {
@@ -51,6 +49,80 @@
 
             margin-top: 13%;
         }
+        .login_background{
+            width: 100%;
+            border-radius:unset ;
+            padding: unset;
+            max-height: 455px;
+
+        }
+        img.nike-image {
+        margin-top: -530px;
+            height: auto;
+        }
+
+        .welcome-heading{
+
+            margin-top: -250px;
+        }
+        .welcome-text P {
+            margin: -10px 0px 61px 64px;
+        }
+
+        @media only screen and (max-width: 450px) and (min-width: 320px)  {
+            .background-main {
+
+                height: unset;
+            }
+            .main_div{
+                height: 200px;
+            }
+            .login_background {
+                width: 104%;
+                height: 100%;
+            }
+
+            img.nike-image {
+                margin-top: -324px;
+                width: 70.97px;
+                margin-left: 30px;
+            }
+            .welcome-heading {
+                margin-top: -180px;
+            }
+            .heading-main{
+                font-size: 16px !important;
+                padding: 24px 0px 24px 35px !important;
+                line-height: 26px;
+            }
+
+            .welcome-text{
+                padding-top: 0px;
+            }
+            .welcome-text P {
+                margin: -22px 0px 61px 32px;
+            font-size: 12px;
+            }
+
+        }
+
+
+        @media only screen and (max-width: 768px) and (min-width: 500px)  {
+            .background-main{
+
+                height: 270px !important;
+            }
+            .welcome-heading{
+                margin-top: -215px !important;
+            }
+
+            img.nike-image {
+
+                margin-top: -460px !important;
+            }
+
+        }
+
     </style>
 @endsection
 
@@ -58,8 +130,14 @@
 
 
         <div class="background-main">
+            <div class="main_div">
+                @if(isset($settings->background) && $settings->background!="")
+            <img src="{{asset('logos/'.$settings->background)}}" alt="vector" class="login_background">
 
-            <img src="{{asset('images/dashbord.svg')}}" alt="vector" class="">
+                    @else
+                    <img src="{{asset('images/dashbord.svg')}}" alt="vector" class="login_background">
+                @endif
+            </div>
             <img src="{{asset('images/Vector.png')}}" alt="vector" class="nike-image">
             <div class="welcome-heading">
                 <h1 class="heading-main">Welcome to your order <br> return journy</h1>

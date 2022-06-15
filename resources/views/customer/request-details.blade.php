@@ -1,9 +1,8 @@
 @extends('layouts.customer')
 
 @section('css')
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="{{asset('css/design-app.css')}}">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css"/>
     <link rel="stylesheet" href="{{asset('css/modal.css')}}"/>
     <style>
@@ -56,6 +55,16 @@
         .row{
             margin-bottom: 0px !important;
             padding-bottom: 0px !important;
+        }
+
+        @media only screen and (max-width: 450px) and (min-width: 320px)  {
+
+            .model_height{
+                height: 400px;
+            }
+            .model_size{
+                font-size: 13px;
+            }
         }
 
     </style>
@@ -268,7 +277,7 @@
 
                             </a>
 
-                            <div id="request_{{$request_item['request_id']}}" class="modal">
+                            <div id="request_{{$request_item['request_id']}}" class="modal model_height">
                                 <?php
                                 $getuser_id=\App\Models\User::where('name',$domain)->first();
                                 $request = \App\Models\Request::where('id',$request_item['request_id'])->where('shop_id',$getuser_id->id)->first();
@@ -336,18 +345,18 @@
 
                                             </div>
                                             <div class="col-md-4 align-middle">
-                                                <b> {{$item_json['title'].'-'.implode(' / ',array_filter($item_json['options']))}} </b>
+                                                <b class="model_size"> {{$item_json['title'].'-'.implode(' / ',array_filter($item_json['options']))}} </b>
                                                 x {{$item_json['quantity']}}
                                                 <div class="row">
 
 
                                                     <div
-                                                        class="col-md-12 mt-2 font-weight-bold">
+                                                        class="col-md-12 mt-2 font-weight-bold model_size">
                                                         Price:
                                                         {{'$'.$item_json['price']}}
                                                     </div>
                                                     <div
-                                                        class="col-md-12 mt-2 font-weight-bold">
+                                                        class="col-md-12 mt-2 font-weight-bold model_size">
                                                         Reason:
                                                         <!--                                                                                --><?php //$reason=\App\Models\ReasonsDataSet::find($item_json['return_reason'])?>
                                                         <?php $reason=\App\Models\Reason::find($item_json['return_reason'])?>
@@ -390,7 +399,7 @@
 
                                                 <div class="col-md-4 align-middle">
 
-                                                    <b> {{$item_json['title'].'-'.$sel_variant->title}}</b>
+                                                    <b class="model_size"> {{$item_json['title'].'-'.$sel_variant->title}}</b>
                                                     x {{$item_json['quantity']}}
                                                     <div class="row">
 

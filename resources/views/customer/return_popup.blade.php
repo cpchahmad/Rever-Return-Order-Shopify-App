@@ -2,7 +2,7 @@
 
 @section('css')
     <link rel="stylesheet" href="{{asset('css/popup.css')}}">
-    <link rel="stylesheet" href="{{asset('css/design-app.css')}}">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
@@ -72,7 +72,7 @@
         .button_radio {
             float: left;
             margin: 0 5px 0 0;
-            width: 50px;
+            width: 85px;
             height: 40px;
             position: relative;
         }
@@ -311,6 +311,53 @@
                 display: none;
             }
         }
+
+        .btn-circle {
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            padding: 6px 0;
+            font-size: 12px;
+            line-height: 1.428571429;
+            border-radius: 15px;
+        }
+        .btn-circle.btn-lg {
+            width: 50px;
+            height: 50px;
+            padding: 13px 13px;
+            font-size: 18px;
+            line-height: 1.33;
+            border-radius: 25px;
+        }
+
+        .colored-radio {
+            vertical-align: bottom;
+            -webkit-appearance:none;
+            width:30px;
+            height:30px;
+            border:1px solid darkgray;
+            border-radius:50%;
+            outline:none;
+            box-shadow:0 0 5px 0px gray inset;
+            /*margin-right : 30px;*/
+        }
+
+        .Custom_border {
+            border: 2px solid black;
+            border-radius: 50%;
+        }
+        .colorflex {
+            display: flex!important;
+            /* justify-content: space-evenly; */
+            flex-wrap: nowrap;
+            flex-direction: row;
+            column-gap: 20px;
+            align-items: center;}
+
+        .colors_get{
+
+            padding:2px;
+        }
     </style>
 @endsection
 
@@ -433,14 +480,28 @@
                         <div class="color">
                             <p>{{$productOption->name}}</p>
 
-                            <div class="d-flex">
-                            @foreach($color_variants as $color_variant)
-                                <div class="image_parentt" style="width: 100px">
-                                <input class=" opt-image" name="option{{$index+1}}" type="radio"
-                                       style="display: none"
-                                       value="{{$color_variant['color']}}">
-                                <img src="{{$color_variant['image']}}" alt=""
-                                     class="add_option1 img_responsive">
+                            <div class="d-flex gap-4">
+                            @foreach($color_variants as $loopindex=>$color_variant)
+                                <div class="" >
+{{--                                <input class=" opt-image" name="option{{$index+1}}" type="radio"--}}
+{{--                                       style="display: none"--}}
+{{--                                       value="{{$color_variant['color']}}">--}}
+{{--                                <img src="{{$color_variant['image']}}" alt=""--}}
+{{--                                     class="add_option1 img_responsive">--}}
+
+{{--                                    <div class="button_radio">--}}
+{{--                                        <input type="radio" style="background: {{$color_variant['color']}}"   value="{{$color_variant['color_options']}}" id="color-{{$loopindex}}"   class="add_option1 image_parentt opt-2" name="option{{$index+1}}" />--}}
+{{--                                        <label class="btn " style="background: {{$color_variant['color']}}" for="color-{{$loopindex}}" ></label>--}}
+{{--                                    </div>--}}
+
+
+
+                                    <div id="content" class="image_parentt">
+                                        <label for="dark"  class="colors_get" >
+                                            <input type="radio" name="option{{$index+1}}" id="dark" class="colored-radio " value="{{$color_variant['color_options']}}"  style="background: {{$color_variant['color']}}">
+                                        </label>
+                                    </div>
+
                                 </div>
 
                             @endforeach
@@ -680,6 +741,7 @@
             //
             // });
             $('.variant_check').on('change', function () {
+                // alert(1);
                 // $('.variant_check').removeAttr('checked');
                 $(this).parents('.sizes_img_main').find('.variant_check').removeAttr('checked');
                 $(this).attr('checked', 'checked');
@@ -690,9 +752,13 @@
 
 
             $('.image_parentt').on('click', function (event) {
+
+
                 $('.opt-image').removeAttr('checked');
                 $('.image_parentt').removeClass('Custom_border');
                 $(this).addClass('Custom_border');
+                // $('.colored-radio').css('margin-right','0px');
+
                 $('.popup_img').css('background', 'url(' + $(this).children('img').attr('src') + ')');
                 $(this).children('input').attr('checked', 'checked');
                 $('.option-image').html($(this).children('input').val());

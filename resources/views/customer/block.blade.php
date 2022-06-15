@@ -21,6 +21,16 @@
         {
             padding: 3rem 0rem;
         }
+        .refund-btn, .exchange-btn, .refund-instead-btn, .continue-btn {
+
+            padding-top: 10px;
+        }
+
+        .btn:hover {
+
+            background-color: rgb(36 53 88);
+            color: white;
+        }
 
 {{--        body {--}}
 {{--            @if(isset($settings->background))--}}
@@ -38,21 +48,21 @@
     <div class="container">
 
 
-        <div class="header">
+{{--        <div class="header">--}}
 
-            <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">
-            <a href="https://{{$shop}}" style="text-decoration: none">
-                @if($settings)
-                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto" alt="logo">
-                    <h5 style="color: white">Powered by Rever</h5>
-                @else
-                    <img src="{{asset('logos/Logo REVER.png')}}" style="width:135px;height: auto;" alt="logo">
-                    <h5 style="color: white">Powered by Rever</h5>
+{{--            <div id="over" style="position:absolute;left: 50%;transform: translateX(-50%) ">--}}
+{{--            <a href="https://{{$shop}}" style="text-decoration: none">--}}
+{{--                @if($settings)--}}
+{{--                    <img class="logo-img" src="{{asset('logos/'.$settings->logo)}}" style="width:135px;height: auto" alt="logo">--}}
+{{--                    <h5 style="color: white">Powered by Rever</h5>--}}
+{{--                @else--}}
+{{--                    <img src="{{asset('logos/Logo REVER.png')}}" style="width:135px;height: auto;" alt="logo">--}}
+{{--                    <h5 style="color: white">Powered by Rever</h5>--}}
 
-                @endif
-            </a>
-        </div>
-        </div>
+{{--                @endif--}}
+{{--            </a>--}}
+{{--        </div>--}}
+{{--        </div>--}}
         <div class="main_products_all_section">
             <div class="heading_section">
                 <h2>You are not allowed to Use the Process!</h2>
@@ -62,6 +72,10 @@
                     <div class="info__shoping_items_print">
                         <h3 class="text-danger"><i class="far fa-frown"></i> Your Account has been Blocked!</h3>
                         <h4>You can Contact to Store for Further Details</h4>
+
+
+                            <a href="https://{{$shop}}/a/return/order" style="margin-left: unset;"   type="button" class="btn refund-btn"><strong style="color: white">Close</strong></a>
+
                     </div>
                 </div>
             </div>
