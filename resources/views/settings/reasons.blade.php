@@ -44,10 +44,12 @@
                                             {{$reason->name}}
                                         </td>
                                         <td>
+                                            @if($reason->category)
                                             @if(strtolower($reason->category->name)=='refund')
                                             <span class="badge badge-primary">{{$reason->category->name}}</span>
                                             @else
                                                 <span class="badge badge-success">{{$reason->category->name}}</span>
+                                            @endif
                                             @endif
                                         </td>
                                         <td class="table-actions">
