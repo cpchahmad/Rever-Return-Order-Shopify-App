@@ -1641,7 +1641,7 @@ return $exception->getMessage();
                 return back();
             $html= view('customer.review_items')->with([
                 'items' => $items,
-                'exchange_items' => $exchange_items,
+//                'exchange_items' => $exchange_items,
                 'shop' => $request->shop,
                 'order' => $order,
                 'customsession' => $request->sessiondata,
