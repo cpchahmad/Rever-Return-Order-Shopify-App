@@ -45,7 +45,7 @@
             </div>
         </div>
         <?php $ex_sum = 0?>
-        @if(count($exchange_items))
+        {{--@if(count($exchange_items))
             <div class="main_prodduct_parent">
                 <div class="product_detail product_one_detail">
                     <div class="header_product">
@@ -85,7 +85,7 @@
                     @endforeach
                 </div>
             </div>
-        @endif
+        @endif--}}
         <div class="main_prodduct_parent main_prodduct_parent_one">
             <div class="product_detail">
                 <div class="header_product">
