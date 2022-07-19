@@ -939,7 +939,8 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 
                     if (count($allow_methods) == 0) {
 
-                        $allow_methods = ['exchange', 'payment_method', 'store_credit'];
+//                        $allow_methods = ['exchange', 'payment_method', 'store_credit'];
+                        $allow_methods = [ 'payment_method', 'store_credit'];
                     }
 
                     $product_options = $line_product->options;
