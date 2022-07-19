@@ -134,10 +134,10 @@
                                     </a>
                                 </div>
                             </div>
-                            @if($exchange_reason_count==0 || $return_reason_count==0)
+                            @if( $return_reason_count==0)
                                 <div class="alert"  >
                                     <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-                                    <strong>There are no reasons for Exchange/Return. Please Contact Store Owner</strong>
+                                    <strong>There are no reasons for Return. Please Contact Store Owner</strong>
                                 </div>
                             @endif
                             <div class="popup_main_body">
@@ -155,7 +155,7 @@
                                     <span id="variant_total_price">${{$line_item['price']}}</span>
                                 </div>
                                 <div class="label_checkbox">
-                                    @if(in_array('exchange',$allow_methods))
+                                    {{--@if(in_array('exchange',$allow_methods))
                                         <div class="Labels " style="@if($exchange_reason_count==0) pointer-events:none @endif">
                                             <input type="radio" id="one" name="return_type" value="exchange">
                                             <label for="one" class="mina_oneeee type_check @if($exchange_reason_count==0) no_reasons  @endif" >
@@ -171,7 +171,7 @@
                                                 </div>
                                             </label>
                                         </div>
-                                    @endif
+                                    @endif--}}
                                     @if(in_array('payment_method',$allow_methods) || in_array('store_credit',$allow_methods))
 
 
