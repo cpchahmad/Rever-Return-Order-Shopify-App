@@ -1578,6 +1578,7 @@ return $exception->getMessage();
 
         $settings=Setting::where('shop_id',$shop->id)->first();
 
+//        return($request->all());
 
         try {
             if ($this->checkCustomerBlock($order->email,$shop->id)) {
@@ -1592,6 +1593,7 @@ return $exception->getMessage();
 
             $items = json_decode($request->sessiondata,'false');
 
+//            return($items);
 
             $exchange_items = [];
             $lines = collect(json_decode($order->order_json)->line_items);
