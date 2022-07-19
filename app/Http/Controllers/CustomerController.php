@@ -1091,7 +1091,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                 }
             }
 //            $exchange_reasons = RequestCategory::whereHas('reasons')('name', 'Exchange')->first();
-            $exchange_reasons = RequestCategory::where('name', 'Exchange')->first();
+//            $exchange_reasons = RequestCategory::where('name', 'Exchange')->first();
 //return $exchange_reasons->reasons;
 
 //                $shop_ID=$order->shop_id;
@@ -1102,7 +1102,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
 //                $query->where('shop_id',$shop_ID);
 //            })->first();
 
-            $exchange_reasons= $exchange_reasons->reasons->where('shop_id',$order->shop_id);
+//            $exchange_reasons= $exchange_reasons->reasons->where('shop_id',$order->shop_id);
             $refund_reasons = RequestCategory::where('name', 'Refund')->first();
 
             $refund_reasons= $refund_reasons->reasons->where('shop_id',$order->shop_id);
@@ -1112,7 +1112,7 @@ $settings=Setting::where('shop_id',$r_request->shop_id)->first();
                 'shop' => $order->has_shop,
                 'order' => $order,
                 'line_item' => $data,
-                'exchange_reasons' => $exchange_reasons,
+//                'exchange_reasons' => $exchange_reasons,
                 'refund_reasons' => $refund_reasons,
                 'product_options' => $product_options,
                 'color_variants' => $color_variants,

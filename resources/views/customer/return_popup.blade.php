@@ -343,7 +343,7 @@
                                     </ul>
                                     <span id="variant_total_price">${{$line_item['price']}}</span>
                                 </div>
-                                <div class="label_checkbox">
+                                {{--<div class="label_checkbox">
                                     @foreach($exchange_reasons as $reason)
 
                                         <div class="Labels">
@@ -362,7 +362,7 @@
                                             </label>
                                         </div>
                                     @endforeach
-                                </div>
+                                </div>--}}
                             </div>
                         </div>
                         <!-- popup four section text -->
