@@ -1596,7 +1596,7 @@ return $exception->getMessage();
             $exchange_items = [];
             $lines = collect(json_decode($order->order_json)->line_items);
 
-            foreach ($items as $item) {
+            /*foreach ($items as $item) {
 
                 if ($item['return_type'] == "exchange") {
                     $product = OrderLineProduct::where('product_id', $item['product_id'])->where('shop_id',$shop->id)->first();
@@ -1635,7 +1635,7 @@ return $exception->getMessage();
                     $it['exchange_options'] = $item['exchange_options'];
                     array_push($exchange_items, $it);
                 }
-            }
+            }*/
 
             if (count($items) == 0)
                 return back();
